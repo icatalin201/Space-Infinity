@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Space Infinity - All About Space</string>
+
+    <string name="open">Open</string>
+    <string name="close">Close</string>
+
+    <string name="apod">APOD - Astronomy Picture of the Day</string>
+    <string name="epic">EPIC - Earth Polychromatic Imaging Camera</string>
+    <string name="images">Image Gallery</string>
+    <string name="rover">Mars Rover Images</string>
+    <string name="iss">ISS Now</string>
+    <string name="news">News</string>
+    <string name="wiki">Wiki</string>
+
+</resources>
