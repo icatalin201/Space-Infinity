@@ -1,99 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="space.infinity.app.activities.MainActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="@drawable/start">
 
-    <LinearLayout
+    <include layout="@layout/main_toolbar"/>
+
+    <ProgressBar
+        android:layout_weight="1"
+        android:layout_gravity="center"
+        android:id="@+id/progress_bar"
+        style="?android:attr/progressBarStyle"
+        android:indeterminate="true"
+        android:indeterminateTintMode="src_atop"
+        android:indeterminateTint="@color/primaryTextColor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <ScrollView
+        android:layout_weight="1"
         android:id="@+id/main_layout"
-        android:padding="10dp"
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="4dp"
-            android:clickable="true"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:focusable="true">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="200dp">
-
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <ImageView
-                        android:id="@+id/apod_image"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:scaleType="centerCrop"
-                        android:background="@drawable/start"/>
-
-                </FrameLayout>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:padding="10dp"
-                    android:singleLine="true"
-                    android:ellipsize="marquee"
-                    android:marqueeRepeatLimit ="marquee_forever"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
-                    android:scrollHorizontally="true"
-                    android:background="@color/transparentBlack"
-                    android:textColor="@color/primaryTextColor"
-                    android:text="@string/apod" />
-            </RelativeLayout>
-
-        </android.support.v7.widget.CardView>
+        android:layout_height="match_parent"
+        android:visibility="gone">
 
         <LinearLayout
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal"
+            android:padding="10dp"
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+
             <android.support.v7.widget.CardView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginEnd="5dp"
+                app:cardCornerRadius="4dp"
+                android:onClick="showApodInfo"
                 android:clickable="true"
                 android:foreground="?android:attr/selectableItemBackground"
                 android:focusable="true">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="150dp">
+                    android:layout_height="200dp">
 
                     <FrameLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
 
                         <ImageView
+                            android:id="@+id/apod_image"
                             android:layout_width="match_parent"
-                            android:layout_height="150dp"
-                            android:scaleType="centerCrop"
-                            android:background="@drawable/rover"/>
+                            android:layout_height="match_parent"/>
 
                     </FrameLayout>
 
                     <TextView
-                        android:layout_alignParentBottom="true"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
                         android:padding="10dp"
                         android:singleLine="true"
                         android:ellipsize="marquee"
@@ -103,23 +73,119 @@
                         android:scrollHorizontally="true"
                         android:background="@color/transparentBlack"
                         android:textColor="@color/primaryTextColor"
-                        android:text="@string/rover" />
+                        android:text="@string/apod" />
                 </RelativeLayout>
 
             </android.support.v7.widget.CardView>
 
+            <LinearLayout
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="5dp"
+                    android:onClick="showRoverImages"
+                    android:clickable="true"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:focusable="true">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="160dp">
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="160dp"
+                                android:id="@+id/rover_image"/>
+
+                        </FrameLayout>
+
+                        <TextView
+                            android:layout_alignParentBottom="true"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="10dp"
+                            android:singleLine="true"
+                            android:ellipsize="marquee"
+                            android:marqueeRepeatLimit ="marquee_forever"
+                            android:focusable="true"
+                            android:focusableInTouchMode="true"
+                            android:scrollHorizontally="true"
+                            android:background="@color/transparentBlack"
+                            android:textColor="@color/primaryTextColor"
+                            android:text="@string/rover" />
+                    </RelativeLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="5dp"
+                    android:onClick="showImageGallery"
+                    android:clickable="true"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:focusable="true">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="160dp">
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="160dp"
+                                android:id="@+id/gallery_image"/>
+
+                        </FrameLayout>
+
+                        <TextView
+                            android:layout_alignParentBottom="true"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="10dp"
+                            android:singleLine="true"
+                            android:ellipsize="marquee"
+                            android:marqueeRepeatLimit ="marquee_forever"
+                            android:focusable="true"
+                            android:focusableInTouchMode="true"
+                            android:scrollHorizontally="true"
+                            android:background="@color/transparentBlack"
+                            android:textColor="@color/primaryTextColor"
+                            android:text="@string/images" />
+                    </RelativeLayout>
+
+                </android.support.v7.widget.CardView>
+
+
+            </LinearLayout>
+
             <android.support.v7.widget.CardView
-                android:layout_width="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginStart="5dp"
+                app:cardCornerRadius="4dp"
+                android:onClick="showEpicImages"
                 android:clickable="true"
                 android:foreground="?android:attr/selectableItemBackground"
                 android:focusable="true">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="150dp">
+                    android:layout_height="200dp">
 
                     <FrameLayout
                         android:layout_width="match_parent"
@@ -127,16 +193,15 @@
 
                         <ImageView
                             android:layout_width="match_parent"
-                            android:layout_height="150dp"
-                            android:scaleType="centerCrop"
-                            android:background="@drawable/gallery"/>
+                            android:layout_height="match_parent"
+                            android:id="@+id/epic_image"/>
 
                     </FrameLayout>
 
                     <TextView
-                        android:layout_alignParentBottom="true"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
                         android:padding="10dp"
                         android:singleLine="true"
                         android:ellipsize="marquee"
@@ -146,195 +211,151 @@
                         android:scrollHorizontally="true"
                         android:background="@color/transparentBlack"
                         android:textColor="@color/primaryTextColor"
-                        android:text="@string/images" />
+                        android:text="@string/epic" />
                 </RelativeLayout>
 
             </android.support.v7.widget.CardView>
 
+            <LinearLayout
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="5dp"
+                    android:clickable="true"
+                    android:onClick="showIssInfos"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:focusable="true">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="160dp">
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="160dp"
+                                android:id="@+id/iss_image"/>
+
+                        </FrameLayout>
+
+                        <TextView
+                            android:layout_alignParentBottom="true"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="10dp"
+                            android:singleLine="true"
+                            android:ellipsize="marquee"
+                            android:marqueeRepeatLimit ="marquee_forever"
+                            android:focusable="true"
+                            android:focusableInTouchMode="true"
+                            android:scrollHorizontally="true"
+                            android:background="@color/transparentBlack"
+                            android:textColor="@color/primaryTextColor"
+                            android:text="@string/iss" />
+                    </RelativeLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="5dp"
+                    android:clickable="true"
+                    android:onClick="showNews"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:focusable="true">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="160dp">
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="160dp"
+                                android:id="@+id/news_image"/>
+
+                        </FrameLayout>
+
+                        <TextView
+                            android:layout_alignParentBottom="true"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="10dp"
+                            android:singleLine="true"
+                            android:ellipsize="marquee"
+                            android:marqueeRepeatLimit ="marquee_forever"
+                            android:focusable="true"
+                            android:focusableInTouchMode="true"
+                            android:scrollHorizontally="true"
+                            android:background="@color/transparentBlack"
+                            android:textColor="@color/primaryTextColor"
+                            android:text="@string/news" />
+                    </RelativeLayout>
+
+                </android.support.v7.widget.CardView>
+
+
+            </LinearLayout>
+
+            <android.support.v7.widget.CardView
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="4dp"
+                android:clickable="true"
+                android:onClick="showWiki"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:focusable="true">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <ImageView
+                            android:id="@+id/wiki_image"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"/>
+
+                    </FrameLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:padding="10dp"
+                        android:singleLine="true"
+                        android:ellipsize="marquee"
+                        android:marqueeRepeatLimit ="marquee_forever"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:scrollHorizontally="true"
+                        android:background="@color/transparentBlack"
+                        android:textColor="@color/primaryTextColor"
+                        android:text="@string/wiki" />
+                </RelativeLayout>
+
+            </android.support.v7.widget.CardView>
 
         </LinearLayout>
 
-        <android.support.v7.widget.CardView
-            android:layout_marginTop="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="4dp"
-            android:clickable="true"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:focusable="true">
+    </ScrollView>
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="200dp">
-
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:scaleType="centerCrop"
-                        android:background="@drawable/epic"/>
-
-                </FrameLayout>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:padding="10dp"
-                    android:singleLine="true"
-                    android:ellipsize="marquee"
-                    android:marqueeRepeatLimit ="marquee_forever"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
-                    android:scrollHorizontally="true"
-                    android:background="@color/transparentBlack"
-                    android:textColor="@color/primaryTextColor"
-                    android:text="@string/epic" />
-            </RelativeLayout>
-
-        </android.support.v7.widget.CardView>
-
-        <LinearLayout
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <android.support.v7.widget.CardView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginEnd="5dp"
-                android:clickable="true"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:focusable="true">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="150dp">
-
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="150dp"
-                            android:scaleType="centerCrop"
-                            android:background="@drawable/iss"/>
-
-                    </FrameLayout>
-
-                    <TextView
-                        android:layout_alignParentBottom="true"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="10dp"
-                        android:singleLine="true"
-                        android:ellipsize="marquee"
-                        android:marqueeRepeatLimit ="marquee_forever"
-                        android:focusable="true"
-                        android:focusableInTouchMode="true"
-                        android:scrollHorizontally="true"
-                        android:background="@color/transparentBlack"
-                        android:textColor="@color/primaryTextColor"
-                        android:text="@string/iss" />
-                </RelativeLayout>
-
-            </android.support.v7.widget.CardView>
-
-            <android.support.v7.widget.CardView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginStart="5dp"
-                android:clickable="true"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:focusable="true">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="150dp">
-
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="150dp"
-                            android:scaleType="centerCrop"
-                            android:background="@drawable/news"/>
-
-                    </FrameLayout>
-
-                    <TextView
-                        android:layout_alignParentBottom="true"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="10dp"
-                        android:singleLine="true"
-                        android:ellipsize="marquee"
-                        android:marqueeRepeatLimit ="marquee_forever"
-                        android:focusable="true"
-                        android:focusableInTouchMode="true"
-                        android:scrollHorizontally="true"
-                        android:background="@color/transparentBlack"
-                        android:textColor="@color/primaryTextColor"
-                        android:text="@string/news" />
-                </RelativeLayout>
-
-            </android.support.v7.widget.CardView>
-
-
-        </LinearLayout>
-
-        <android.support.v7.widget.CardView
-            android:layout_marginTop="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="4dp"
-            android:clickable="true"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:focusable="true">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="200dp">
-
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:scaleType="centerCrop"
-                        android:background="@drawable/wiki"/>
-
-                </FrameLayout>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:padding="10dp"
-                    android:singleLine="true"
-                    android:ellipsize="marquee"
-                    android:marqueeRepeatLimit ="marquee_forever"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
-                    android:scrollHorizontally="true"
-                    android:background="@color/transparentBlack"
-                    android:textColor="@color/primaryTextColor"
-                    android:text="@string/wiki" />
-            </RelativeLayout>
-
-        </android.support.v7.widget.CardView>
-
-    </LinearLayout>
-
-</ScrollView>
+</LinearLayout>
