@@ -22,7 +22,7 @@
         android:id="@+id/main_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <LinearLayout
             android:orientation="vertical"
@@ -31,7 +31,19 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="300dp">
+                android:layout_height="350dp">
+
+                <ImageButton
+                    android:onClick="downloadImg"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_margin="10dp"
+                    android:translationZ="5dp"
+                    android:src="@drawable/ic_file_download_white_18dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:tint="@color/primaryTextColor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
 
                 <FrameLayout
                     android:layout_width="match_parent"
@@ -39,7 +51,9 @@
 
                     <ImageView
                         android:contentDescription="@string/loading"
-                        android:id="@+id/apod_image"                        android:layout_width="match_parent"
+                        android:id="@+id/apod_image"
+                        android:background="@color/colorPrimaryDark"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"/>
 
                 </FrameLayout>

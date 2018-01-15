@@ -1,11 +1,13 @@
 package space.infinity.app.activities;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,6 +30,7 @@ import space.infinity.app.models.APOD;
 import space.infinity.app.network.Client;
 import space.infinity.app.network.Service;
 import space.infinity.app.utils.Constants;
+import space.infinity.app.utils.Helper;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -57,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
         toolbar.setTitle(null);
 
         pressed = false;
+
         mainLayout = findViewById(R.id.main_layout);
         mProgressBar = findViewById(R.id.progress_bar);
         apodImage = findViewById(R.id.apod_image);
@@ -73,6 +77,9 @@ public class MainActivity extends AppCompatActivity {
         images.put(issImage, getDrawable(R.drawable.iss));
         images.put(newsImage, getDrawable(R.drawable.news));
         images.put(wikiImage, getDrawable(R.drawable.wiki));
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 123);
+        }
         loadData();
     }
 
@@ -147,10 +154,11 @@ public class MainActivity extends AppCompatActivity {
         }
         mProgressBar.setVisibility(View.GONE);
         mainLayout.setVisibility(View.VISIBLE);
+        Helper.setAnimationForAll(this, mainLayout);
     }
 
     public void showApodInfo(View view){
-        Intent intent = new Intent(MainActivity.this, ApodActivity.class);
+        Intent intent = new Intent(this, ApodActivity.class);
         if (apod != null) {
             intent.putExtra("apod", apod);
         }
@@ -158,7 +166,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void showRoverImages(View view){
-
+        Intent intent = new Intent(this, MarsRoverActivity.class);
+        startActivity(intent);
     }
 
     public void showImageGallery(View view){
