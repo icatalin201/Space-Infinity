@@ -24,7 +24,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.ApodActivity" />
-        <activity android:name=".activities.MarsRoverActivity"></activity>
+        <activity android:name=".activities.MarsRoverActivity" />
+        <activity android:name=".activities.MarsActivity" />
+        <activity android:name=".activities.IssActivity" />
     </application>
 
 </manifest>

@@ -15,4 +15,8 @@
     <string name="date">Date:</string>
     <string name="author">Author:</string>
     <string name="download">Downloading Image...</string>
+
+    <string name="curiosity">Curiosity Rover</string>
+    <string name="opportunity">Opportunity Rover</string>
+    <string name="spirit">Spirit Rover</string>
 </resources>

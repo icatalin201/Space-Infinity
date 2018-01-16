@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -46,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView newsImage;
     private ImageView wikiImage;
     private APOD apod;
+    private Intent intent;
 
     private HashMap<ImageView, Drawable> images;
 
@@ -158,7 +160,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void showApodInfo(View view){
-        Intent intent = new Intent(this, ApodActivity.class);
+        intent = new Intent(this, ApodActivity.class);
         if (apod != null) {
             intent.putExtra("apod", apod);
         }
@@ -166,7 +168,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void showRoverImages(View view){
-        Intent intent = new Intent(this, MarsRoverActivity.class);
+        intent = new Intent(this, MarsActivity.class);
         startActivity(intent);
     }
 
@@ -179,7 +181,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void showIssInfos(View view){
-
+        intent = new Intent(this, IssActivity.class);
+        startActivity(intent);
     }
 
     public void showNews(View view){

@@ -74,7 +74,7 @@ public class ApodActivity extends AppCompatActivity {
 
     private boolean setContent(APOD apod){
         toolbar_title.setText(R.string.apod);
-        Glide.with(this).load(apod.getHdurl())
+        Glide.with(this).load(apod.getUrl())
                 .asBitmap().centerCrop().into(apodImage);
         apodTitle.setText(apod.getTitle());
         apodExplanation.setText(apod.getExplanation());

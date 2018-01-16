@@ -33,8 +33,11 @@ public class MarsRoverActivity extends AppCompatActivity {
     private RoverCardAdapter roverCardAdapter;
     private List<RoverImages> roverImagesList;
 
+    private String rover;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mars_rover);
         toolbar_title = findViewById(R.id.toolbar_title);
@@ -43,14 +46,17 @@ public class MarsRoverActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.images_recycler);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar_title.setText(R.string.rover);
 
         roverImagesList = new ArrayList<>();
         roverCardAdapter = new RoverCardAdapter(this, roverImagesList);
         recyclerView.setAdapter(roverCardAdapter);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
         recyclerView.setLayoutManager(gridLayoutManager);
-        loadImages();
+
+        rover = getIntent().getStringExtra("rover");
+        toolbar_title.setText(rover);
+
+        loadImages(rover);
     }
 
     @Override
@@ -59,9 +65,20 @@ public class MarsRoverActivity extends AppCompatActivity {
         return true;
     }
 
-    private void loadImages(){
+    private void loadImages(String rover){
         Service service = Client.getRetrofitClient(Constants.NASA_URL).create(Service.class);
-        roversCall = service.getRoverImages(1000, Constants.API_KEY);
+
+        switch (rover){
+            case "Curiosity":
+                roversCall = service.getCuriosityImages(1000, Constants.API_KEY);
+                break;
+            case "Opportunity":
+                roversCall = service.getOpportunityImages(900, Constants.API_KEY);
+                break;
+            case "Spirit":
+                roversCall = service.getSpiritImages(100, Constants.API_KEY);
+                break;
+        }
         roversCall.enqueue(new Callback<MarsRovers>() {
             @Override
             public void onResponse(Call<MarsRovers> call, Response<MarsRovers> response) {

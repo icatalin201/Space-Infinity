@@ -17,9 +17,15 @@ public interface Service {
     Call<APOD> getAstronomyPictureOfTheDay(@Query("api_key") String apiKey);
 
     @GET("mars-photos/api/v1/rovers/curiosity/photos")
-    Call<MarsRovers> getRoverImages(@Query("sol") int sol, @Query("api_key") String apiKey);
+    Call<MarsRovers> getCuriosityImages(@Query("sol") int sol, @Query("api_key") String apiKey);
 
-    @GET("iss-now.json")
+    @GET("mars-photos/api/v1/rovers/opportunity/photos")
+    Call<MarsRovers> getOpportunityImages(@Query("sol") int sol, @Query("api_key") String apiKey);
+
+    @GET("mars-photos/api/v1/rovers/spirit/photos")
+    Call<MarsRovers> getSpiritImages(@Query("sol") int sol, @Query("api_key") String apiKey);
+
+    @GET("v1/satellites/25544")
     Call<ISS> getISSNow();
 
 }
