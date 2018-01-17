@@ -4,7 +4,6 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 import space.infinity.app.models.APOD;
-import space.infinity.app.models.ISS;
 import space.infinity.app.models.MarsRovers;
 
 /**
@@ -24,8 +23,5 @@ public interface Service {
 
     @GET("mars-photos/api/v1/rovers/spirit/photos")
     Call<MarsRovers> getSpiritImages(@Query("sol") int sol, @Query("api_key") String apiKey);
-
-    @GET("v1/satellites/25544")
-    Call<ISS> getISSNow();
 
 }

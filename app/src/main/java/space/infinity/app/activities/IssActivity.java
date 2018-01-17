@@ -7,26 +7,22 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.TextView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.concurrent.ExecutionException;
 
 import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import space.infinity.app.R;
-import space.infinity.app.models.ISS;
-import space.infinity.app.network.Client;
-import space.infinity.app.network.Service;
 import space.infinity.app.utils.Constants;
 
 public class IssActivity extends AppCompatActivity {
 
-    private Call<ISS> issCall;
     private TextView toolbar_title;
     private Toolbar toolbar;
 
@@ -40,7 +36,9 @@ public class IssActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar_title.setText("ISS");
-        loadIss();
+
+        GetData getData = new GetData();
+        getData.execute(Constants.ISS_NOW);
     }
 
     @Override
@@ -49,28 +47,47 @@ public class IssActivity extends AppCompatActivity {
         return true;
     }
 
-    private void loadIss(){
-        Service service = Client.getRetrofitClient(Constants.OPEN_NOTIFY_URL).create(Service.class);
-        issCall = service.getISSNow();
-        issCall.enqueue(new Callback<ISS>() {
-            @Override
-            public void onResponse(Call<ISS> call, Response<ISS> response) {
-                if (!response.isSuccessful()){
-                    issCall = call.clone();
-                    Log.i("unsucces", "no");
-                    issCall.enqueue(this);
-                    return;
+    private class GetData extends AsyncTask<String, Void, JSONObject>{
+
+        @Override
+        protected JSONObject doInBackground(String... strings) {
+            
+            String urlString = null;
+            switch (strings.length){
+                case 1:
+                    urlString = strings[0];
+                    break;
+            }
+            StringBuilder stringBuilder = new StringBuilder();
+            HttpURLConnection httpURLConnection;
+            URL url;
+            JSONObject json = null;
+            BufferedReader reader = null;
+            try {
+                url = new URL(urlString);
+                httpURLConnection = (HttpURLConnection) url.openConnection();
+                reader = new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream(), "iso-8859-1"), 8);
+                String line;
+                while ((line = reader.readLine()) != null){
+                    stringBuilder.append(line + "n");
                 }
-                if (response.body() == null) return;
-
-                Log.i("response", response.body().getAltitude());
+                reader.close();
+                httpURLConnection.disconnect();
+                json = new JSONObject(stringBuilder.toString());
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
+            return json;
+        }
 
-            @Override
-            public void onFailure(Call<ISS> call, Throwable t) {
-
-            }
-        });
+        @Override
+        protected void onPostExecute(JSONObject json) {
+            Log.i("Result", json.toString());
+        }
     }
 
 }
