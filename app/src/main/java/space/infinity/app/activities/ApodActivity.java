@@ -78,10 +78,14 @@ public class ApodActivity extends AppCompatActivity {
                 .asBitmap().centerCrop().into(apodImage);
         apodTitle.setText(apod.getTitle());
         apodExplanation.setText(apod.getExplanation());
-        String date = getResources().getString(R.string.date).concat(" ").concat(apod.getDate());
-        apodDate.setText(date);
-        String copyright = getResources().getString(R.string.author).concat(" ").concat(apod.getCopyright());
-        apodAuthor.setText(copyright);
+        if (apod.getDate() != null) {
+            String date = getResources().getString(R.string.date).concat(" ").concat(apod.getDate());
+            apodDate.setText(date);
+        }
+        if (apod.getCopyright() != null) {
+            String copyright = getResources().getString(R.string.author).concat(" ").concat(apod.getCopyright());
+            apodAuthor.setText(copyright);
+        }
         return true;
     }
 
