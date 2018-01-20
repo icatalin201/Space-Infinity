@@ -19,4 +19,9 @@
     <string name="curiosity">Curiosity Rover</string>
     <string name="opportunity">Opportunity Rover</string>
     <string name="spirit">Spirit Rover</string>
+
+    <string name="iss_pass">When will be ISS passing near me?</string>
+
+    <string name="velocity">Velocity</string>
+    <string name="altitude">Altitude</string>
 </resources>

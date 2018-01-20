@@ -13,6 +13,7 @@
     <ProgressBar
         android:layout_weight="1"
         android:layout_gravity="center"
+        android:visibility="gone"
         android:id="@+id/progress_bar"
         style="?android:attr/progressBarStyle"
         android:indeterminate="true"
@@ -22,15 +23,16 @@
         android:layout_height="0dp" />
 
     <LinearLayout
+        android:layout_weight="1"
         android:id="@+id/main_layout"
         android:orientation="vertical"
-        android:visibility="gone"
+        android:visibility="visible"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="350dp"
+            android:layout_height="match_parent"
             android:id="@+id/mapWrapper"
             app:elevation="4dp">
 
@@ -40,7 +42,52 @@
                 android:id="@+id/map_view"
                 android:name="com.google.android.gms.maps.SupportMapFragment" />
 
+            <LinearLayout
+                android:background="@color/transparentBlack"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/altitude"
+                    android:layout_weight="1"
+                    android:padding="10dp"
+                    android:textColor="@color/primaryTextColor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/velocity"
+                    android:layout_weight="1"
+                    android:padding="10dp"
+                    android:textColor="@color/primaryTextColor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
         </android.support.v7.widget.CardView>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/iss_pass"
+            android:layout_width="match_parent"
+            android:padding="10dp"
+            android:background="@color/primaryTextColor"
+            android:visibility="gone"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:text="@string/iss_pass"
+            android:onClick="whenIsPassing"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 

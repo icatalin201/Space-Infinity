@@ -1,8 +1,9 @@
 package space.infinity.app.activities;
 
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -12,9 +13,9 @@ import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -27,11 +28,12 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.concurrent.ExecutionException;
 
-import retrofit2.Call;
 import space.infinity.app.R;
 import space.infinity.app.utils.Constants;
+import space.infinity.app.utils.Helper;
 
 public class IssActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -39,6 +41,10 @@ public class IssActivity extends AppCompatActivity implements OnMapReadyCallback
     private Toolbar toolbar;
     private ProgressBar progressBar;
     private LinearLayout linearLayout;
+    private SupportMapFragment mapFragment;
+    private TextView iss_pass;
+    private TextView velocity;
+    private TextView altitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,21 +55,49 @@ public class IssActivity extends AppCompatActivity implements OnMapReadyCallback
         toolbar = findViewById(R.id.my_awesome_toolbar);
         progressBar = findViewById(R.id.progress_bar);
         linearLayout = findViewById(R.id.main_layout);
+        iss_pass = findViewById(R.id.iss_pass);
+        velocity = findViewById(R.id.velocity);
+        altitude = findViewById(R.id.altitude);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar_title.setText(R.string.iss);
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+        mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map_view);
-        mapFragment.getMapAsync(this);
+        loadAfterTime();
+    }
+
+    private void loadAfterTime(){
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mapFragment.getMapAsync(IssActivity.this);
+            }
+        }, 300);
     }
 
     private void launchTaskAndGetData(GoogleMap googleMap) throws ExecutionException, InterruptedException, JSONException {
         GetData getData = new GetData();
         JSONObject jsonObject = getData.execute(Constants.ISS_NOW).get();
+        DecimalFormat numberFormat = new DecimalFormat("#.00");
+        String velo = getResources().getString(R.string.velocity).concat(": ")
+                .concat(numberFormat.format(jsonObject.getDouble("velocity")));
+        String alti = getResources().getString(R.string.altitude).concat(": ")
+                .concat(numberFormat.format(jsonObject.getDouble("altitude")));
+        velocity.setText(velo);
+        altitude.setText(alti);
         LatLng location = new LatLng(jsonObject.getDouble("latitude"), jsonObject.getDouble("longitude"));
-        googleMap.addMarker(new MarkerOptions().position(location));
+        googleMap.addMarker(new MarkerOptions().position(location)
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.iss_map))
+                .zIndex(3.0f).title("International Space Station"));
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(location));
-        googleMap.getUiSettings().setAllGesturesEnabled(false);
+        googleMap.getUiSettings().setZoomGesturesEnabled(false);
+        progressBar.setVisibility(View.GONE);
+        linearLayout.setVisibility(View.VISIBLE);
+        velocity.setVisibility(View.VISIBLE);
+        altitude.setVisibility(View.VISIBLE);
+        Helper.setAnimationForAll(IssActivity.this, velocity);
+        Helper.setAnimationForAll(IssActivity.this, altitude);
     }
 
     @Override
@@ -76,9 +110,9 @@ public class IssActivity extends AppCompatActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         try {
             launchTaskAndGetData(googleMap);
-        } catch (ExecutionException e) {
-            e.printStackTrace();
         } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (JSONException e) {
             e.printStackTrace();
@@ -125,9 +159,12 @@ public class IssActivity extends AppCompatActivity implements OnMapReadyCallback
         @Override
         protected void onPostExecute(JSONObject json) {
             Log.i("Result", json.toString());
-            progressBar.setVisibility(View.GONE);
-            linearLayout.setVisibility(View.VISIBLE);
         }
+    }
+
+    public void whenIsPassing(View view){
+        iss_pass.setVisibility(View.VISIBLE);
+        Helper.setAnimationForAll(this, iss_pass);
     }
 
 }
