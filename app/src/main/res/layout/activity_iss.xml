@@ -70,25 +70,4 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:id="@+id/iss_pass"
-            android:layout_width="match_parent"
-            android:padding="10dp"
-            android:background="@color/primaryTextColor"
-            android:visibility="gone"
-            android:layout_height="wrap_content" />
-
-        <Button
-            android:text="@string/iss_pass"
-            android:onClick="whenIsPassing"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-    </LinearLayout>
-
 </LinearLayout>

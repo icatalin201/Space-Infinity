@@ -42,7 +42,6 @@ public class IssActivity extends AppCompatActivity implements OnMapReadyCallback
     private ProgressBar progressBar;
     private LinearLayout linearLayout;
     private SupportMapFragment mapFragment;
-    private TextView iss_pass;
     private TextView velocity;
     private TextView altitude;
 
@@ -55,7 +54,6 @@ public class IssActivity extends AppCompatActivity implements OnMapReadyCallback
         toolbar = findViewById(R.id.my_awesome_toolbar);
         progressBar = findViewById(R.id.progress_bar);
         linearLayout = findViewById(R.id.main_layout);
-        iss_pass = findViewById(R.id.iss_pass);
         velocity = findViewById(R.id.velocity);
         altitude = findViewById(R.id.altitude);
         setSupportActionBar(toolbar);
@@ -66,7 +64,7 @@ public class IssActivity extends AppCompatActivity implements OnMapReadyCallback
         loadAfterTime();
     }
 
-    private void loadAfterTime(){
+    private void loadAfterTime() {
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -81,17 +79,19 @@ public class IssActivity extends AppCompatActivity implements OnMapReadyCallback
         JSONObject jsonObject = getData.execute(Constants.ISS_NOW).get();
         DecimalFormat numberFormat = new DecimalFormat("#.00");
         String velo = getResources().getString(R.string.velocity).concat(": ")
-                .concat(numberFormat.format(jsonObject.getDouble("velocity")));
+                .concat(numberFormat.format(jsonObject.getDouble("velocity")).concat(" km/h"));
         String alti = getResources().getString(R.string.altitude).concat(": ")
-                .concat(numberFormat.format(jsonObject.getDouble("altitude")));
+                .concat(numberFormat.format(jsonObject.getDouble("altitude")).concat(" km"));
         velocity.setText(velo);
         altitude.setText(alti);
+
         LatLng location = new LatLng(jsonObject.getDouble("latitude"), jsonObject.getDouble("longitude"));
         googleMap.addMarker(new MarkerOptions().position(location)
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.iss_map))
                 .zIndex(3.0f).title("International Space Station"));
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(location));
         googleMap.getUiSettings().setZoomGesturesEnabled(false);
+
         progressBar.setVisibility(View.GONE);
         linearLayout.setVisibility(View.VISIBLE);
         velocity.setVisibility(View.VISIBLE);
@@ -101,7 +101,7 @@ public class IssActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     @Override
-    public boolean onSupportNavigateUp(){
+    public boolean onSupportNavigateUp() {
         finish();
         return true;
     }
@@ -119,13 +119,13 @@ public class IssActivity extends AppCompatActivity implements OnMapReadyCallback
         }
     }
 
-    private class GetData extends AsyncTask<String, Void, JSONObject>{
+    private class GetData extends AsyncTask<String, Void, JSONObject> {
 
         @Override
         protected JSONObject doInBackground(String... strings) {
-            
+
             String urlString = null;
-            switch (strings.length){
+            switch (strings.length) {
                 case 1:
                     urlString = strings[0];
                     break;
@@ -140,7 +140,7 @@ public class IssActivity extends AppCompatActivity implements OnMapReadyCallback
                 httpURLConnection = (HttpURLConnection) url.openConnection();
                 reader = new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream(), "iso-8859-1"), 8);
                 String line;
-                while ((line = reader.readLine()) != null){
+                while ((line = reader.readLine()) != null) {
                     stringBuilder.append(line + "n");
                 }
                 reader.close();
@@ -162,9 +162,5 @@ public class IssActivity extends AppCompatActivity implements OnMapReadyCallback
         }
     }
 
-    public void whenIsPassing(View view){
-        iss_pass.setVisibility(View.VISIBLE);
-        Helper.setAnimationForAll(this, iss_pass);
-    }
 
 }

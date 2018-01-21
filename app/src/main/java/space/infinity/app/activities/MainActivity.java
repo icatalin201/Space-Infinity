@@ -21,6 +21,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Timer;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -48,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
     private APOD apod;
     private Intent intent;
 
-    private HashMap<ImageView, Drawable> images;
+    private HashMap<ImageView, Integer> images;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,12 +73,12 @@ public class MainActivity extends AppCompatActivity {
         newsImage = findViewById(R.id.news_image);
         wikiImage = findViewById(R.id.wiki_image);
         images = new HashMap<>();
-        images.put(roverImage, getDrawable(R.drawable.rover));
-        images.put(galleryImage, getDrawable(R.drawable.gallery));
-        images.put(epicImage, getDrawable(R.drawable.epic));
-        images.put(issImage, getDrawable(R.drawable.iss));
-        images.put(newsImage, getDrawable(R.drawable.news));
-        images.put(wikiImage, getDrawable(R.drawable.wiki));
+        images.put(roverImage, R.drawable.rover);
+        images.put(galleryImage, R.drawable.gallery);
+        images.put(epicImage, R.drawable.epic);
+        images.put(issImage, R.drawable.iss);
+        images.put(newsImage, R.drawable.news);
+        images.put(wikiImage, R.drawable.wiki);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 123);
         }
@@ -149,9 +150,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void settingLayout(){
-        for (Map.Entry<ImageView, Drawable> entry : images.entrySet()){
-            entry.getKey().setImageDrawable(entry.getValue());
-            entry.getKey().setScaleType(ImageView.ScaleType.CENTER_CROP);
+        for (Map.Entry<ImageView, Integer> entry : images.entrySet()){
+            Glide.with(MainActivity.this).load(entry.getValue())
+                    .asBitmap().centerCrop().diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(entry.getKey());
         }
         mProgressBar.setVisibility(View.GONE);
         mainLayout.setVisibility(View.VISIBLE);
