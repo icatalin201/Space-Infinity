@@ -1,7 +1,6 @@
 <resources>
     <string name="app_name">Space Infinity - All About Space</string>
     <string name="apod">APOD - Astronomy Picture of the Day</string>
-    <string name="epic">EPIC - Earth Polychromatic Imaging Camera</string>
     <string name="images">Image Gallery</string>
     <string name="rover">Mars Rover Images</string>
     <string name="iss">ISS Now</string>
@@ -11,17 +10,16 @@
     <string name="exit">Press again to exit</string>
     <string name="info">Info</string>
     <string name="title_activity_demo">Demo</string>
-
     <string name="date">Date:</string>
     <string name="author">Author:</string>
     <string name="download">Downloading Image...</string>
-
     <string name="curiosity">Curiosity Rover</string>
     <string name="opportunity">Opportunity Rover</string>
     <string name="spirit">Spirit Rover</string>
-
     <string name="iss_pass">When will be ISS passing near me?</string>
-
     <string name="velocity">Velocity</string>
     <string name="altitude">Altitude</string>
+    <string name="spacex_flaunches">Upcoming Rocket Launches</string>
+    <string name="rocket_info">Rocket Info</string>
+    <string name="payload_info">Payload Info</string>
 </resources>

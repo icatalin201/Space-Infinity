@@ -16,8 +16,10 @@
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/SplashTheme">
-        <meta-data android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyC6Q7OhqamuUw_pJo8rsEXP-xuKR3CwQlo"/>
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyC6Q7OhqamuUw_pJo8rsEXP-xuKR3CwQlo" />
+
         <activity android:name=".activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -29,6 +31,7 @@
         <activity android:name=".activities.MarsRoverActivity" />
         <activity android:name=".activities.MarsActivity" />
         <activity android:name=".activities.IssActivity" />
+        <activity android:name=".activities.UpcomingLaunches"></activity>
     </application>
 
 </manifest>

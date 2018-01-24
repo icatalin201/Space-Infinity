@@ -42,10 +42,10 @@ public class MainActivity extends AppCompatActivity {
     private ImageView apodImage;
     private ImageView roverImage;
     private ImageView galleryImage;
-    private ImageView epicImage;
     private ImageView issImage;
     private ImageView newsImage;
     private ImageView wikiImage;
+    private ImageView flaunches;
     private APOD apod;
     private Intent intent;
 
@@ -68,17 +68,17 @@ public class MainActivity extends AppCompatActivity {
         apodImage = findViewById(R.id.apod_image);
         roverImage = findViewById(R.id.rover_image);
         galleryImage = findViewById(R.id.gallery_image);
-        epicImage = findViewById(R.id.epic_image);
         issImage = findViewById(R.id.iss_image);
         newsImage = findViewById(R.id.news_image);
         wikiImage = findViewById(R.id.wiki_image);
+        flaunches = findViewById(R.id.future_launches);
         images = new HashMap<>();
         images.put(roverImage, R.drawable.rover);
         images.put(galleryImage, R.drawable.gallery);
-        images.put(epicImage, R.drawable.epic);
         images.put(issImage, R.drawable.iss);
         images.put(newsImage, R.drawable.news);
         images.put(wikiImage, R.drawable.wiki);
+        images.put(flaunches, R.drawable.ulaunches);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 123);
         }
@@ -177,9 +177,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void showEpicImages(View view){
-
-    }
 
     public void showIssInfos(View view){
         intent = new Intent(this, IssActivity.class);
@@ -192,5 +189,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void showWiki(View view){
 
+    }
+
+    public void futureLaunches(View view){
+        intent = new Intent(this, UpcomingLaunches.class);
+        startActivity(intent);
     }
 }

@@ -83,24 +83,39 @@ public class IssActivity extends AppCompatActivity implements OnMapReadyCallback
         }, 300);
     }
 
-    private LatLng getLocationIss() throws ExecutionException, InterruptedException, JSONException {
+    private LatLng getLocationIss() {
         GetData getData = new GetData();
-        JSONObject jsonObject = getData.execute(Constants.ISS_NOW).get();
-        DecimalFormat numberFormat = new DecimalFormat("#.00");
-        String velo = getResources().getString(R.string.velocity).concat(": ")
-                .concat(numberFormat.format(jsonObject.getDouble("velocity")).concat(" km/h"));
-        String alti = getResources().getString(R.string.altitude).concat(": ")
-                .concat(numberFormat.format(jsonObject.getDouble("altitude")).concat(" km"));
-        velocity.setText(velo);
-        altitude.setText(alti);
+        JSONObject jsonObject = null;
+        LatLng location = null;
 
-        LatLng location = new LatLng(jsonObject.getDouble("latitude"), jsonObject.getDouble("longitude"));
-        progressBar.setVisibility(View.GONE);
-        linearLayout.setVisibility(View.VISIBLE);
-        velocity.setVisibility(View.VISIBLE);
-        altitude.setVisibility(View.VISIBLE);
-        Helper.setAnimationForAll(IssActivity.this, velocity);
-        Helper.setAnimationForAll(IssActivity.this, altitude);
+        try {
+            jsonObject = getData.execute(Constants.ISS_NOW).get();
+            DecimalFormat numberFormat = new DecimalFormat("#.00");
+            final String velo = getResources().getString(R.string.velocity).concat(": ")
+                    .concat(numberFormat.format(jsonObject.getDouble("velocity")).concat(" km/h"));
+            final String alti = getResources().getString(R.string.altitude).concat(": ")
+                    .concat(numberFormat.format(jsonObject.getDouble("altitude")).concat(" km"));
+            location = new LatLng(jsonObject.getDouble("latitude"), jsonObject.getDouble("longitude"));
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    velocity.setText(velo);
+                    altitude.setText(alti);
+                    progressBar.setVisibility(View.GONE);
+                    linearLayout.setVisibility(View.VISIBLE);
+                    velocity.setVisibility(View.VISIBLE);
+                    altitude.setVisibility(View.VISIBLE);
+                    Helper.setAnimationForAll(IssActivity.this, velocity);
+                    Helper.setAnimationForAll(IssActivity.this, altitude);
+                }
+            });
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         return location;
     }
@@ -112,6 +127,11 @@ public class IssActivity extends AppCompatActivity implements OnMapReadyCallback
         return true;
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        executorService.shutdown();
+    }
 
     @Override
     public void onMapReady(final GoogleMap googleMap) {
@@ -121,22 +141,15 @@ public class IssActivity extends AppCompatActivity implements OnMapReadyCallback
         executorService.scheduleAtFixedRate(new Runnable() {
             @Override
             public void run() {
-                try {
-                    final LatLng location = getLocationIss();
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Log.i("map", "updated");
-                            updateLocation(location, googleMap);
-                        }
-                    });
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                Log.i("location", "updated");
+                final LatLng location = getLocationIss();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.i("map", "updated");
+                        updateLocation(location, googleMap);
+                    }
+                });
             }
         }, 0, 5, TimeUnit.SECONDS);
     }
@@ -153,9 +166,7 @@ public class IssActivity extends AppCompatActivity implements OnMapReadyCallback
         }
         marker.setVisible(true);
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLng(location);
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(location));
         googleMap.animateCamera(cameraUpdate);
-
     }
 
     private class GetData extends AsyncTask<String, Void, JSONObject> {

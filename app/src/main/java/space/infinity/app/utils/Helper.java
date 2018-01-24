@@ -5,6 +5,8 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
+import java.util.Date;
+
 /**
  * Created by Catalin on 12/28/2017.
  */
@@ -23,5 +25,9 @@ public class Helper {
     public static void setAnimationForAll(Context mContext, View viewToAnimate){
         Animation animation = AnimationUtils.loadAnimation(mContext, android.R.anim.fade_in);
         viewToAnimate.startAnimation(animation);
+    }
+
+    public static Date unixToDate(Long unix_date){
+        return new Date(unix_date*1000);
     }
 }
