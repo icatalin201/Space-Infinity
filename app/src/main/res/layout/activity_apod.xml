@@ -35,9 +35,9 @@
 
                 <ImageButton
                     android:onClick="downloadImg"
-                    android:layout_alignParentTop="true"
+                    android:layout_alignParentBottom="true"
                     android:layout_alignParentEnd="true"
-                    android:layout_margin="10dp"
+                    android:layout_margin="5dp"
                     android:translationZ="5dp"
                     android:src="@drawable/ic_file_download_white_18dp"
                     android:background="?attr/selectableItemBackgroundBorderless"

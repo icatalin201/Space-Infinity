@@ -1,7 +1,5 @@
 package space.infinity.app.models;
 
-import java.util.List;
-
 /**
  * Created by icatalin on 24.01.2018.
  */
@@ -10,11 +8,11 @@ public class Payloads {
 
     private String payload_id;
     private Boolean reused;
-    private List<String> customers;
+    private String customers;
     private String payload_type;
     private String payload_mass;
 
-    public Payloads(String payload_id, Boolean reused, List<String> customers, String payload_type, String payload_mass) {
+    public Payloads(String payload_id, Boolean reused, String customers, String payload_type, String payload_mass) {
         this.payload_id = payload_id;
         this.reused = reused;
         this.customers = customers;
@@ -38,11 +36,11 @@ public class Payloads {
         this.reused = reused;
     }
 
-    public List<String> getCustomers() {
+    public String getCustomers() {
         return customers;
     }
 
-    public void setCustomers(List<String> customers) {
+    public void setCustomers(String customers) {
         this.customers = customers;
     }
 

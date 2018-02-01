@@ -2,8 +2,14 @@
 <android.support.v7.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:map="http://schemas.android.com/tools"
     app:contentPadding="10dp"
-    android:layout_margin="10dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginEnd="10dp"
+    android:layout_marginStart="10dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginBottom="5dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -27,7 +33,8 @@
 
         <LinearLayout
             android:orientation="horizontal"
-            android:padding="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -60,45 +67,68 @@
             android:layout_height="1dp">
         </View>
 
-        <TextView
-            android:padding="5dp"
-            android:id="@+id/payload_id"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:padding="5dp"
-            android:id="@+id/payload_type"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:padding="5dp"
-            android:id="@+id/payload_customer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
         <LinearLayout
+            android:layout_marginTop="5dp"
             android:orientation="horizontal"
-            android:padding="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/launch_date"
-                android:layout_weight="1"
                 android:padding="5dp"
+                android:id="@+id/payload_id"
+                android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
             <TextView
-                android:id="@+id/launch_site"
-                android:layout_weight="1"
                 android:padding="5dp"
+                android:layout_weight="1"
+                android:id="@+id/payload_type"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
         </LinearLayout>
+
+        <TextView
+            android:padding="5dp"
+            android:id="@+id/payload_customer"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:textStyle="bold"
+            android:padding="5dp"
+            android:text="@string/launch_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <View
+            android:background="@color/colorPrimaryDark"
+            android:layout_width="match_parent"
+            android:layout_height="1dp">
+        </View>
+
+        <TextView
+            android:id="@+id/launch_date"
+            android:padding="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/launch_site"
+            android:padding="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <com.google.android.gms.maps.MapView
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            map:liteMode="true"
+            map:mapType="normal"
+            map:cameraZoom="15"
+            android:id="@+id/map_view_launch" />
 
     </LinearLayout>
 

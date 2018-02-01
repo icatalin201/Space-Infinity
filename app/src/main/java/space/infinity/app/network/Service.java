@@ -1,12 +1,9 @@
 package space.infinity.app.network;
 
-import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 import space.infinity.app.models.APOD;
-import space.infinity.app.models.Launch;
 import space.infinity.app.models.MarsRovers;
 
 /**

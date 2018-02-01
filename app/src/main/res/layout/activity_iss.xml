@@ -13,7 +13,7 @@
     <ProgressBar
         android:layout_weight="1"
         android:layout_gravity="center"
-        android:visibility="visible"
+        android:visibility="gone"
         android:id="@+id/progress_bar"
         style="?android:attr/progressBarStyle"
         android:indeterminate="true"
@@ -26,13 +26,14 @@
         android:layout_weight="1"
         android:id="@+id/main_layout"
         android:orientation="vertical"
-        android:visibility="gone"
+        android:visibility="visible"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:id="@+id/mapWrapper"
             app:elevation="4dp">
 
@@ -67,6 +68,24 @@
             </LinearLayout>
 
         </android.support.v7.widget.CardView>
+
+        <Button
+            android:background="@color/transparentBlack"
+            android:onClick="issPass"
+            android:textSize="12sp"
+            android:textColor="@color/primaryTextColor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/iss_pass"/>
+
+        <TextView
+            android:id="@+id/iss_pass"
+            android:padding="10dp"
+            android:visibility="gone"
+            android:background="@color/primaryTextColor"
+            android:layout_width="match_parent"
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 

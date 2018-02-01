@@ -8,12 +8,15 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -47,7 +50,7 @@ public class ApodActivity extends AppCompatActivity {
     private TextView apodExplanation;
     private ProgressBar progressBar;
     private ScrollView scrollView;
-
+    private Bitmap mBitmap;
     private APOD apod;
 
     @Override
@@ -74,8 +77,10 @@ public class ApodActivity extends AppCompatActivity {
 
     private boolean setContent(APOD apod){
         toolbar_title.setText(R.string.apod);
-        Glide.with(this).load(apod.getUrl())
-                .asBitmap().centerCrop().into(apodImage);
+        if (apod.getMedia_type().equals("image")){
+            Glide.with(this).load(apod.getHdurl())
+                    .asBitmap().centerCrop().into(apodImage);
+        }
         apodTitle.setText(apod.getTitle());
         apodExplanation.setText(apod.getExplanation());
         if (apod.getDate() != null) {
@@ -90,6 +95,22 @@ public class ApodActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.info:
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
     public boolean onSupportNavigateUp(){
         finish();
         return true;
@@ -97,7 +118,10 @@ public class ApodActivity extends AppCompatActivity {
 
     public void downloadImg(View view){
         Toast.makeText(this, R.string.download, Toast.LENGTH_SHORT).show();
-        new DownloadImage().execute(apod.getHdurl());
+        if (apod.getMedia_type().equals("image")){
+            new DownloadImage().execute(apod.getHdurl());
+        }
+
     }
 
     private class DownloadImage extends AsyncTask<String, Void, Bitmap>{
@@ -135,37 +159,54 @@ public class ApodActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Bitmap bitmap) {
-            FileOutputStream outStream = null;;
-            if (ActivityCompat.checkSelfPermission(ApodActivity.this,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                File picturesDir = new File(Environment.getExternalStorageDirectory() + File.separator + "Pictures");
-                File dir = new File(picturesDir.getAbsolutePath() + File.separator + "Space Infinity");
-                boolean succes = false;
-                if (!dir.exists()) {
-                    succes = dir.mkdir();
-                    if (succes) {
-                        Log.i("Directory", "Created");
-                    }
-                }
-                Random r = new Random();
-                String name = apodTitle.getText().toString()
-                        .replace(" ", "")
-                        .concat(Integer.toString(r.nextInt()));
-
-                String fileName = String.format("%s.jpg", name);
-                File outFile = new File(dir, fileName);
-                try {
-                    outStream = new FileOutputStream(outFile);
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
-                    outStream.flush();
-                    outStream.close();
-                } catch (IOException e ) {
-                    e.printStackTrace();
-                }
-                Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-                intent.setData(Uri.fromFile(outFile));
-                sendBroadcast(intent);
+            mBitmap = bitmap;
+            if (Build.VERSION.SDK_INT < 23){
+                saveImageToGallery(mBitmap);
             }
+            else {
+                if (ActivityCompat.checkSelfPermission(ApodActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(ApodActivity.this,
+                            new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 123);
+                } else {
+                    saveImageToGallery(mBitmap);
+                }
+            }
+        }
+    }
+
+    private void saveImageToGallery(Bitmap bitmap){
+        FileOutputStream outStream = null;;
+        if (ActivityCompat.checkSelfPermission(ApodActivity.this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            File picturesDir = new File(Environment.getExternalStorageDirectory() + File.separator + "Pictures");
+            File dir = new File(picturesDir.getAbsolutePath() + File.separator + "Space Infinity");
+            boolean succes = false;
+            if (!dir.exists()) {
+                succes = dir.mkdir();
+                if (succes) {
+                    Log.i("Directory", "Created");
+                }
+            }
+            Random r = new Random();
+            String name = apodTitle.getText().toString()
+                    .replace(" ", "")
+                    .concat(Integer.toString(r.nextInt()));
+
+            String fileName = String.format("%s.jpg", name);
+            File outFile = new File(dir, fileName);
+            try {
+                outStream = new FileOutputStream(outFile);
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
+                outStream.flush();
+                outStream.close();
+            } catch (IOException e ) {
+                e.printStackTrace();
+            }
+            Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+            intent.setData(Uri.fromFile(outFile));
+            sendBroadcast(intent);
+            Toast.makeText(this, R.string.download_complete, Toast.LENGTH_SHORT).show();
         }
     }
 }

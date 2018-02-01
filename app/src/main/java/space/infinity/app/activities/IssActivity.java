@@ -1,12 +1,23 @@
 package space.infinity.app.activities;
 
+import android.Manifest;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -22,6 +33,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -52,6 +64,9 @@ public class IssActivity extends AppCompatActivity implements OnMapReadyCallback
     private TextView altitude;
     private ScheduledExecutorService executorService;
     private Marker marker;
+    private LocationManager locationManager;
+    private LocationListener locationListener;
+    private TextView issPass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +79,7 @@ public class IssActivity extends AppCompatActivity implements OnMapReadyCallback
         linearLayout = findViewById(R.id.main_layout);
         velocity = findViewById(R.id.velocity);
         altitude = findViewById(R.id.altitude);
+        issPass = findViewById(R.id.iss_pass);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar_title.setText(R.string.iss);
@@ -71,6 +87,70 @@ public class IssActivity extends AppCompatActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map_view);
         marker = null;
         loadAfterTime();
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{ Manifest.permission.ACCESS_COARSE_LOCATION }, 1);
+        }
+        locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+        locationListener = new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+                Log.i("location", location.toString());
+                SharedPreferences preferences = getPreferences(Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putString("lat", Double.toString(location.getLatitude()));
+                editor.putString("lon", Double.toString(location.getLongitude()));
+                editor.apply();
+            }
+
+            @Override
+            public void onStatusChanged(String s, int i, Bundle bundle) {}
+
+            @Override
+            public void onProviderEnabled(String s) {}
+
+            @Override
+            public void onProviderDisabled(String s) {}
+        };
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                    == PackageManager.PERMISSION_GRANTED) {
+                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+                Log.i("location", "granted");
+            }
+        }
+    }
+
+    public void issPass(View view) {
+
+        String lat = getPreferences(Context.MODE_PRIVATE).getString("lat", "");
+        String lon = getPreferences(Context.MODE_PRIVATE).getString("lon", "");
+
+        String params = "lat=".concat(lat).concat("&lon=").concat(lon).concat("&n=1");
+
+        try {
+            JSONObject jsonObject = new GetData().execute(Constants.ISS_PASS.concat(params)).get();
+            JSONArray jsonArray = jsonObject.getJSONArray("response");
+            JSONObject object = (JSONObject) jsonArray.get(0);
+            String date = Helper.unixToDate(object.getLong("risetime")).toString();
+
+            issPass.setText(getResources().getString(R.string.iss_pass_result).concat(":\n").concat(date));
+            issPass.setVisibility(View.VISIBLE);
+            Helper.setAnimationForAll(this, issPass);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     private void loadAfterTime() {
@@ -121,6 +201,22 @@ public class IssActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.info:
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
     public boolean onSupportNavigateUp() {
         finish();
         executorService.shutdown();
@@ -156,6 +252,8 @@ public class IssActivity extends AppCompatActivity implements OnMapReadyCallback
 
     void updateLocation(LatLng location, GoogleMap googleMap) {
 
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLng(location);
+        googleMap.animateCamera(cameraUpdate);
         if(marker == null) {
             marker = googleMap.addMarker(new MarkerOptions().position(location)
                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.iss_map))
@@ -165,8 +263,6 @@ public class IssActivity extends AppCompatActivity implements OnMapReadyCallback
             marker.setPosition(location);
         }
         marker.setVisible(true);
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLng(location);
-        googleMap.animateCamera(cameraUpdate);
     }
 
     private class GetData extends AsyncTask<String, Void, JSONObject> {
@@ -191,7 +287,7 @@ public class IssActivity extends AppCompatActivity implements OnMapReadyCallback
                 reader = new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream(), "iso-8859-1"), 8);
                 String line;
                 while ((line = reader.readLine()) != null) {
-                    stringBuilder.append(line + "n");
+                    stringBuilder.append(line);
                 }
                 reader.close();
                 httpURLConnection.disconnect();
