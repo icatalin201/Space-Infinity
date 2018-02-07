@@ -42,19 +42,29 @@
                     android:src="@drawable/ic_file_download_white_18dp"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:tint="@color/primaryTextColor"
-                    android:layout_width="wrap_content"
+                    android:layout_width="40dp"
                     android:layout_height="wrap_content" />
 
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                    <ImageView
-                        android:contentDescription="@string/loading"
-                        android:id="@+id/apod_image"
-                        android:background="@color/colorPrimaryDark"
+                    <android.support.v7.widget.CardView
+                        android:onClick="goFullscreen"
+                        android:clickable="true"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        android:focusable="true"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"/>
+                        android:layout_height="match_parent">
+
+                        <ImageView
+                            android:contentDescription="@string/loading"
+                            android:id="@+id/apod_image"
+                            android:background="@color/colorPrimaryDark"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"/>
+
+                    </android.support.v7.widget.CardView>
 
                 </FrameLayout>
 

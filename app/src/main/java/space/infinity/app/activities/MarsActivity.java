@@ -19,7 +19,6 @@ public class MarsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mars);
         toolbar_title = findViewById(R.id.toolbar_title);

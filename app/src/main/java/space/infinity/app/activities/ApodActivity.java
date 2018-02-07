@@ -73,12 +73,19 @@ public class ApodActivity extends AppCompatActivity {
             progressBar.setVisibility(View.GONE);
             scrollView.setVisibility(View.VISIBLE);
         }
+
+    }
+
+    public void goFullscreen(View view) {
+        Intent intent = new Intent(this, FullscreenActivity.class);
+        intent.putExtra("apodObject", apod);
+        startActivity(intent);
     }
 
     private boolean setContent(APOD apod){
         toolbar_title.setText(R.string.apod);
         if (apod.getMedia_type().equals("image")){
-            Glide.with(this).load(apod.getHdurl())
+            Glide.with(this).load(apod.getUrl())
                     .asBitmap().centerCrop().into(apodImage);
         }
         apodTitle.setText(apod.getTitle());

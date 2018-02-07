@@ -1,6 +1,7 @@
 package space.infinity.app.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 import space.infinity.app.R;
+import space.infinity.app.activities.FullscreenActivity;
 import space.infinity.app.models.RoverImages;
 import space.infinity.app.utils.Helper;
 
@@ -63,6 +65,15 @@ public class RoverCardAdapter extends RecyclerView.Adapter<RoverCardAdapter.Rove
             roverCard = itemView.findViewById(R.id.rover_card);
             roverImage = itemView.findViewById(R.id.rover_image);
             roverImageDate = itemView.findViewById(R.id.rover_image_date);
+
+            roverCard.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(mContext, FullscreenActivity.class);
+                    intent.putExtra("imagePath", roverImages.get(getAdapterPosition()).getImg_src());
+                    mContext.startActivity(intent);
+                }
+            });
         }
     }
 

@@ -112,6 +112,7 @@
                             android:layout_height="match_parent">
 
                             <ImageView
+                                android:background="@color/colorPrimaryDark"
                                 android:layout_width="match_parent"
                                 android:layout_height="160dp"
                                 android:id="@+id/iss_image"/>
@@ -155,6 +156,7 @@
                             android:layout_height="match_parent">
 
                             <ImageView
+                                android:background="@color/colorPrimaryDark"
                                 android:layout_width="match_parent"
                                 android:layout_height="160dp"
                                 android:id="@+id/news_image"/>
@@ -200,6 +202,7 @@
                         android:layout_height="match_parent">
 
                         <ImageView
+                            android:background="@color/colorPrimaryDark"
                             android:id="@+id/wiki_image"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"/>
@@ -249,6 +252,7 @@
                             android:layout_height="match_parent">
 
                             <ImageView
+                                android:background="@color/colorPrimaryDark"
                                 android:layout_width="match_parent"
                                 android:layout_height="160dp"
                                 android:id="@+id/rover_image"/>
@@ -292,6 +296,7 @@
                             android:layout_height="match_parent">
 
                             <ImageView
+                                android:background="@color/colorPrimaryDark"
                                 android:layout_width="match_parent"
                                 android:layout_height="160dp"
                                 android:id="@+id/gallery_image"/>
@@ -336,6 +341,7 @@
                         android:layout_height="match_parent">
 
                         <ImageView
+                            android:background="@color/colorPrimaryDark"
                             android:layout_width="match_parent"
                             android:layout_height="160dp"
                             android:id="@+id/future_launches"/>

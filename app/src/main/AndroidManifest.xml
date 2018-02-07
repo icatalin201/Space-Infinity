@@ -16,23 +16,25 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:screenOrientation="portrait"
         android:supportsRtl="true"
-        android:theme="@style/SplashTheme">
+        android:theme="@style/AppTheme">
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyC6Q7OhqamuUw_pJo8rsEXP-xuKR3CwQlo" />
 
-        <activity android:name=".activities.MainActivity">
+        <activity android:name=".activities.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".activities.MainActivity" />
         <activity android:name=".activities.ApodActivity" />
         <activity android:name=".activities.MarsRoverActivity" />
         <activity android:name=".activities.MarsActivity" />
         <activity android:name=".activities.IssActivity" />
         <activity android:name=".activities.UpcomingLaunches" />
+        <activity android:name=".activities.FullscreenActivity" />
     </application>
 
 </manifest>

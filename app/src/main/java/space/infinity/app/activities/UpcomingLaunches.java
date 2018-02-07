@@ -48,7 +48,6 @@ public class UpcomingLaunches extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upcoming_launches);
         toolbar_title = findViewById(R.id.toolbar_title);

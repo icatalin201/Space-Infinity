@@ -70,7 +70,6 @@ public class IssActivity extends AppCompatActivity implements OnMapReadyCallback
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_iss);
         toolbar_title = findViewById(R.id.toolbar_title);
