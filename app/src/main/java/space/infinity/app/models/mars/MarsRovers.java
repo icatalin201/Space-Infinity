@@ -1,4 +1,4 @@
-package space.infinity.app.models;
+package space.infinity.app.models.mars;
 
 import java.util.List;
 

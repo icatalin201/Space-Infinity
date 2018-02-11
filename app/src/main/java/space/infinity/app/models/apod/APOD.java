@@ -1,4 +1,4 @@
-package space.infinity.app.models;
+package space.infinity.app.models.apod;
 
 import android.os.Parcel;
 import android.os.Parcelable;

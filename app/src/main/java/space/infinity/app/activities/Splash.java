@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 
 import space.infinity.app.R;
+import space.infinity.app.utils.Helper;
 
 public class Splash extends AppCompatActivity {
 
@@ -18,6 +19,7 @@ public class Splash extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         ImageView image = findViewById(R.id.splash);
+        Helper.setAnimationForAll(this, image);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {

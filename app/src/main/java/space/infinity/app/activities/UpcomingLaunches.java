@@ -29,11 +29,11 @@ import java.util.List;
 
 import space.infinity.app.R;
 import space.infinity.app.adapters.LaunchCardAdapter;
-import space.infinity.app.models.Launch;
-import space.infinity.app.models.LaunchSite;
-import space.infinity.app.models.Payloads;
-import space.infinity.app.models.Rocket;
-import space.infinity.app.models.SecondStage;
+import space.infinity.app.models.launch.Launch;
+import space.infinity.app.models.launch.LaunchSite;
+import space.infinity.app.models.launch.Payloads;
+import space.infinity.app.models.launch.Rocket;
+import space.infinity.app.models.launch.SecondStage;
 import space.infinity.app.utils.Constants;
 import space.infinity.app.utils.Helper;
 

@@ -9,7 +9,7 @@ import android.widget.ProgressBar;
 import com.bumptech.glide.Glide;
 
 import space.infinity.app.R;
-import space.infinity.app.models.APOD;
+import space.infinity.app.models.apod.APOD;
 import space.infinity.app.utils.Helper;
 
 public class FullscreenActivity extends AppCompatActivity {

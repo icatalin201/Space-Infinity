@@ -36,7 +36,7 @@ import java.net.URL;
 import java.util.Random;
 
 import space.infinity.app.R;
-import space.infinity.app.models.APOD;
+import space.infinity.app.models.apod.APOD;
 
 public class ApodActivity extends AppCompatActivity {
 

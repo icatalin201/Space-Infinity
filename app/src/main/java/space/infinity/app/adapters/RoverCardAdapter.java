@@ -16,7 +16,7 @@ import java.util.List;
 
 import space.infinity.app.R;
 import space.infinity.app.activities.FullscreenActivity;
-import space.infinity.app.models.RoverImages;
+import space.infinity.app.models.mars.RoverImages;
 import space.infinity.app.utils.Helper;
 
 /**
@@ -36,7 +36,7 @@ public class RoverCardAdapter extends RecyclerView.Adapter<RoverCardAdapter.Rove
 
     @Override
     public RoverCardViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.image_item_card, parent, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.rover_image_item_card, parent, false);
         return new RoverCardViewHolder(view);
     }
 
@@ -54,13 +54,13 @@ public class RoverCardAdapter extends RecyclerView.Adapter<RoverCardAdapter.Rove
         return roverImages.size();
     }
 
-    public class RoverCardViewHolder extends RecyclerView.ViewHolder{
+    protected class RoverCardViewHolder extends RecyclerView.ViewHolder{
 
-        public CardView roverCard;
-        public ImageView roverImage;
-        public TextView roverImageDate;
+        private CardView roverCard;
+        private ImageView roverImage;
+        private TextView roverImageDate;
 
-        public RoverCardViewHolder(View itemView) {
+        protected RoverCardViewHolder(View itemView) {
             super(itemView);
             roverCard = itemView.findViewById(R.id.rover_card);
             roverImage = itemView.findViewById(R.id.rover_image);

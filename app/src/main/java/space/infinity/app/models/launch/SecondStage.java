@@ -1,4 +1,4 @@
-package space.infinity.app.models;
+package space.infinity.app.models.launch;
 
 import java.util.List;
 

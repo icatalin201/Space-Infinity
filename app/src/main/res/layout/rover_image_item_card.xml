@@ -17,6 +17,7 @@
         android:layout_height="match_parent">
 
         <ImageView
+            android:contentDescription="@string/rover"
             android:id="@+id/rover_image"
             android:layout_width="match_parent"
             android:layout_height="170dp"/>
@@ -25,8 +26,7 @@
             android:id="@+id/rover_image_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:text="Apod" />
+            android:padding="10dp" />
 
     </LinearLayout>
 

@@ -1,4 +1,4 @@
-package space.infinity.app.models;
+package space.infinity.app.models.launch;
 
 /**
  * Created by icatalin on 24.01.2018.

@@ -1,4 +1,4 @@
-package space.infinity.app.models;
+package space.infinity.app.models.mars;
 
 /**
  * Created by Catalin on 1/14/2018.

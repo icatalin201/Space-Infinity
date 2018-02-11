@@ -23,7 +23,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import space.infinity.app.R;
-import space.infinity.app.models.APOD;
+import space.infinity.app.models.apod.APOD;
 import space.infinity.app.network.Client;
 import space.infinity.app.network.Service;
 import space.infinity.app.utils.Constants;
@@ -169,7 +169,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void showImageGallery(View view){
-
+        intent = new Intent(this, GalleryActivity.class);
+        startActivity(intent);
     }
 
 

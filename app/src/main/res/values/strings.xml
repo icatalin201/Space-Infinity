@@ -32,4 +32,5 @@
     <string name="payload_customer">Payload Customer:</string>
     <string name="launch_date">Launch Date:</string>
     <string name="launch_site">Launch Site:</string>
+    <string name="searchk">search ex: apollo, orion etc</string>
 </resources>

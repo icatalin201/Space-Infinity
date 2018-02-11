@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import space.infinity.app.R;
-import space.infinity.app.models.Launch;
+import space.infinity.app.models.launch.Launch;
 import space.infinity.app.utils.Helper;
 
 /**
