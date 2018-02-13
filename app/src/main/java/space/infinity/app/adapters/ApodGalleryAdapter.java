@@ -27,7 +27,6 @@ public class ApodGalleryAdapter extends RecyclerView.Adapter<ApodGalleryAdapter.
 
     private Context context;
     private List<APOD> imageDataList;
-    private int lastPosition = -1;
 
     public ApodGalleryAdapter(Context context, List<APOD> imageDataList) {
         this.context = context;
@@ -45,6 +44,7 @@ public class ApodGalleryAdapter extends RecyclerView.Adapter<ApodGalleryAdapter.
         Glide.with(context).load(imageDataList.get(position).getUrl())
                 .asBitmap().centerCrop().into(holder.galleryImage);
         holder.galleryImageTitle.setText(imageDataList.get(position).getTitle());
+        int lastPosition = -1;
         Helper.setAnimationForAdapter(context, holder.itemView, position, lastPosition);
     }
 

@@ -1,43 +1,34 @@
 package space.infinity.app.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import space.infinity.app.R;
 import space.infinity.app.adapters.ApodGalleryAdapter;
 import space.infinity.app.models.apod.APOD;
-import space.infinity.app.network.Client;
-import space.infinity.app.network.Service;
-import space.infinity.app.utils.Constants;
+import space.infinity.app.sql.SqlService;
 
 public class GalleryActivity extends AppCompatActivity {
 
-    private Call<APOD> imageCall;
     private List<APOD> imageDataList;
     private ApodGalleryAdapter adapter;
     private RecyclerView recyclerView;
     private ProgressBar progressBar;
-    private Date dateInstance;
-    private Calendar calendar;
+    private EditText keywords;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,12 +41,31 @@ public class GalleryActivity extends AppCompatActivity {
         toolbar_title.setText(R.string.images);
         progressBar = findViewById(R.id.progress_bar);
         recyclerView = findViewById(R.id.gallery_recycler);
-        imageDataList = new ArrayList<>();
+        keywords = findViewById(R.id.keywords);
+        imageDataList = SqlService.getImageDataList(this);
         adapter = new ApodGalleryAdapter(this, imageDataList);
+        adapter.notifyDataSetChanged();
         recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
+        recyclerView.setLayoutManager(gridLayoutManager);
+    }
 
-        loadGallery();
+    @Override
+    protected void onStart() {
+        super.onStart();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                final Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        progressBar.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.VISIBLE);
+                    }
+                }, 2000);
+            }
+        });
     }
 
     @Override
@@ -80,41 +90,15 @@ public class GalleryActivity extends AppCompatActivity {
         return true;
     }
 
-    private void loadGallery() {
-        for (int i = 1; i < 21; i++) {
-            Log.i("iteration nr: ", Integer.toString(i));
-            dateInstance = new Date();
-            calendar = Calendar.getInstance();
-            calendar.setTime(dateInstance);
-            calendar.add(Calendar.DATE, -i);
-            Date dateBeforeXDays = calendar.getTime();
-            DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-DD");
-            String date = dateFormat.format(dateBeforeXDays);
-            Log.i("date iteration", date);
-            Service service = Client.getRetrofitClient(Constants.NASA_URL).create(Service.class);
-            imageCall = service.getApodByDate(date, Constants.API_KEY);
-            imageCall.enqueue(new Callback<APOD>() {
-                @Override
-                public void onResponse(Call<APOD> call, Response<APOD> response) {
-                    if (!response.isSuccessful()) {
-                        imageCall = call.clone();
-                        imageCall.enqueue(this);
-                        return;
-                    }
-                    if (response.body() == null) return;
-                    if (response.body().getMedia_type().equals("video")) return;
-
-                    imageDataList.add(response.body());
-                    adapter.notifyDataSetChanged();
-                }
-
-                @Override
-                public void onFailure(Call<APOD> call, Throwable t) {
-
-                }
-            });
+    public void doSearch(View view) {
+        String ks = keywords.getText().toString();
+        if (!ks.trim().equals("")) {
+            Intent intent = new Intent();
+            intent.putExtra("keywords", ks);
+            startActivity(intent);
         }
-        progressBar.setVisibility(View.GONE);
-        recyclerView.setVisibility(View.VISIBLE);
+        else {
+            Toast.makeText(this, R.string.search_error, Toast.LENGTH_SHORT).show();
+        }
     }
 }

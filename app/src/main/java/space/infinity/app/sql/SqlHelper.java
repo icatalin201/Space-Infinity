@@ -21,7 +21,8 @@ public class SqlHelper extends SQLiteOpenHelper{
                     SqlStructure.SqlData.date_column + " TEXT," +
                     SqlStructure.SqlData.hdurl_column + " TEXT," +
                     SqlStructure.SqlData.url_column + " TEXT," +
-                    SqlStructure.SqlData.title_column + "TEXT," +
+                    SqlStructure.SqlData.title_column + " TEXT," +
+                    SqlStructure.SqlData.description_column + " TEXT," +
                     SqlStructure.SqlData.author_column + " TEXT)";
 
     private static final String SQL_DELETE_IMAGE_DATA =
@@ -41,5 +42,6 @@ public class SqlHelper extends SQLiteOpenHelper{
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
         sqLiteDatabase.execSQL(SQL_DELETE_IMAGE_DATA);
         Log.i(TAG, "onUpgrade");
+        onCreate(sqLiteDatabase);
     }
 }

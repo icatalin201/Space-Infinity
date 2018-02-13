@@ -60,13 +60,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"/>
 
-                        <VideoView
-                            android:id="@+id/apod_video"
-                            android:visibility="gone"
-                            android:background="@color/colorPrimaryDark"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
-
                     </FrameLayout>
 
                     <TextView

@@ -33,4 +33,5 @@
     <string name="launch_date">Launch Date:</string>
     <string name="launch_site">Launch Site:</string>
     <string name="searchk">search ex: apollo, orion etc</string>
+    <string name="search_error">Insert a word for searching</string>
 </resources>

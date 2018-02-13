@@ -11,6 +11,7 @@
     <include layout="@layout/main_toolbar"/>
 
     <android.support.v7.widget.CardView
+        android:id="@+id/search_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:contentPadding="5dp">
@@ -21,6 +22,7 @@
             android:layout_height="wrap_content">
 
             <EditText
+                android:id="@+id/keywords"
                 android:inputType="text"
                 android:textSize="14sp"
                 android:hint="@string/searchk"
@@ -29,6 +31,7 @@
                 android:layout_height="wrap_content" />
 
             <ImageButton
+                android:onClick="doSearch"
                 android:contentDescription="@string/searchk"
                 android:src="@drawable/ic_search_black_18dp"
                 android:layout_width="wrap_content"
@@ -52,7 +55,6 @@
         android:layout_height="wrap_content" />
 
     <android.support.v7.widget.RecyclerView
-        android:layout_marginTop="10dp"
         android:id="@+id/gallery_recycler"
         android:visibility="gone"
         android:layout_width="match_parent"

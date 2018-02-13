@@ -11,11 +11,13 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.Toast;
-import android.widget.VideoView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,6 +28,7 @@ import space.infinity.app.R;
 import space.infinity.app.models.apod.APOD;
 import space.infinity.app.network.Client;
 import space.infinity.app.network.Service;
+import space.infinity.app.sql.SqlService;
 import space.infinity.app.utils.Constants;
 import space.infinity.app.utils.Helper;
 
@@ -35,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
     private ScrollView mainLayout;
     private Boolean pressed;
     private Call<APOD> apodCall;
-    private VideoView apodVideo;
     private ImageView apodImage;
     private ImageView roverImage;
     private ImageView galleryImage;
@@ -62,7 +64,6 @@ public class MainActivity extends AppCompatActivity {
         mainLayout = findViewById(R.id.main_layout);
         mProgressBar = findViewById(R.id.progress_bar);
         apodImage = findViewById(R.id.apod_image);
-        apodVideo = findViewById(R.id.apod_video);
         roverImage = findViewById(R.id.rover_image);
         galleryImage = findViewById(R.id.gallery_image);
         issImage = findViewById(R.id.iss_image);
@@ -119,8 +120,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<APOD> call, Response<APOD> response) {
                 if (!response.isSuccessful()){
-                    apodCall = call.clone();
-                    apodCall.enqueue(this);
+                    //apodCall = call.clone();
+                    //apodCall.enqueue(this);
+                    getImageFromDb();
                     return;
                 }
                 if (response.body() == null) return;
@@ -130,11 +132,10 @@ public class MainActivity extends AppCompatActivity {
                             .centerCrop()
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
                             .into(apodImage);
-                    apodVideo.setVisibility(View.GONE);
-                    apodImage.setVisibility(View.VISIBLE);
+                    apod = response.body();
+                    SqlService.insertImageDataIntoSql(MainActivity.this, apod);
+                    settingLayout();
                 }
-                apod = response.body();
-                settingLayout();
             }
 
             @Override
@@ -142,6 +143,19 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void getImageFromDb() {
+        Date c = Calendar.getInstance().getTime();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        String formattedDate = df.format(c);
+        apod = SqlService.getApod(MainActivity.this, formattedDate);
+        Glide.with(MainActivity.this).load(apod.getUrl())
+                .asBitmap()
+                .centerCrop()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(apodImage);
+        settingLayout();
     }
 
     private void settingLayout(){
