@@ -1,7 +1,7 @@
 *.iml
+*.db
 /.idea
 /build
 /.gradle
 /gradle
 /captures
-/app/src/main/assets
