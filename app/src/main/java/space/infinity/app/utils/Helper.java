@@ -27,6 +27,12 @@ public class Helper {
         viewToAnimate.startAnimation(animation);
     }
 
+    public static void customAnimation(Context context, View view, int duration, int anim) {
+        Animation animation = AnimationUtils.loadAnimation(context, anim);
+        animation.setDuration(duration);
+        view.startAnimation(animation);
+    }
+
     public static Date unixToDate(Long unix_date){
         return new Date(unix_date*1000);
     }

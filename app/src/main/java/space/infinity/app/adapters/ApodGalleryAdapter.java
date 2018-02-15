@@ -68,7 +68,7 @@ public class ApodGalleryAdapter extends RecyclerView.Adapter<ApodGalleryAdapter.
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(context, FullscreenActivity.class);
-                    intent.putExtra("imagePath", imageDataList.get(getAdapterPosition()).getUrl());
+                    intent.putExtra("imageObject", imageDataList.get(getAdapterPosition()));
                     context.startActivity(intent);
                 }
             });

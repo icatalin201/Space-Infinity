@@ -70,7 +70,7 @@ public class RoverCardAdapter extends RecyclerView.Adapter<RoverCardAdapter.Rove
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(mContext, FullscreenActivity.class);
-                    intent.putExtra("imagePath", roverImages.get(getAdapterPosition()).getImg_src());
+                    intent.putExtra("imageObject", roverImages.get(getAdapterPosition()));
                     mContext.startActivity(intent);
                 }
             });

@@ -8,6 +8,7 @@
 
     <color name="transparentBlack">#90000000</color>
     <color name="almostFullBlack">#CC000000</color>
+    <color name="transparentWhite">#9fffffff</color>
 
     <color name="icon_color">#fff</color>
 </resources>

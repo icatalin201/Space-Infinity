@@ -25,8 +25,11 @@
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorAccent">@color/primaryTextColor</item>
         <item name="android:homeAsUpIndicator">@drawable/ic_keyboard_backspace_white_18dp</item>
         <item name="android:actionOverflowButtonStyle">@style/CustomOptionMenu</item>
+        <item name="android:textColorPrimary">@color/primaryTextColor</item>
+        <item name="android:textColorSecondary">@color/primaryTextColor</item>
     </style>
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />

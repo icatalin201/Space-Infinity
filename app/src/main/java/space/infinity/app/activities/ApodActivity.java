@@ -8,7 +8,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
@@ -78,7 +77,7 @@ public class ApodActivity extends AppCompatActivity {
 
     public void goFullscreen(View view) {
         Intent intent = new Intent(this, FullscreenActivity.class);
-        intent.putExtra("apodObject", apod);
+        intent.putExtra("imageObject", apod);
         startActivity(intent);
     }
 
@@ -165,18 +164,7 @@ public class ApodActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Bitmap bitmap) {
             mBitmap = bitmap;
-            if (Build.VERSION.SDK_INT < 23){
-                saveImageToGallery(mBitmap);
-            }
-            else {
-                if (ActivityCompat.checkSelfPermission(ApodActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                        != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(ApodActivity.this,
-                            new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 123);
-                } else {
-                    saveImageToGallery(mBitmap);
-                }
-            }
+            saveImageToGallery(mBitmap);
         }
     }
 

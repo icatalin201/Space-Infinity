@@ -4,7 +4,7 @@
     <string name="images">Image Gallery</string>
     <string name="rover">Mars Rover Images</string>
     <string name="iss">ISS Now</string>
-    <string name="news">News</string>
+    <string name="facts">Space Facts</string>
     <string name="wiki">Wiki</string>
     <string name="loading">Loading...</string>
     <string name="exit">Press again to exit</string>
@@ -34,4 +34,5 @@
     <string name="launch_site">Launch Site:</string>
     <string name="searchk">search ex: apollo, orion etc</string>
     <string name="search_error">Insert a word for searching</string>
+    <string name="favs">Favorites</string>
 </resources>

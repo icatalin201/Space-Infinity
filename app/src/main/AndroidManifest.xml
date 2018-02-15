@@ -35,7 +35,7 @@
         <activity android:name=".activities.IssActivity" />
         <activity android:name=".activities.UpcomingLaunches" />
         <activity android:name=".activities.FullscreenActivity" />
-        <activity android:name=".activities.GalleryActivity"></activity>
+        <activity android:name=".activities.GalleryActivity" />
     </application>
 
 </manifest>

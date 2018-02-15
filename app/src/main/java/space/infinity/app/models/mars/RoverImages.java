@@ -1,10 +1,13 @@
 package space.infinity.app.models.mars;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by Catalin on 1/14/2018.
  */
 
-public class RoverImages {
+public class RoverImages implements Parcelable {
 
     private Long id;
     private Integer sol;
@@ -18,6 +21,13 @@ public class RoverImages {
         this.img_src = img_src;
         this.earth_date = earth_date;
         this.rover = rover;
+    }
+
+    public RoverImages(Parcel in) {
+        id = in.readLong();
+        sol = in.readInt();
+        img_src = in.readString();
+        earth_date = in.readString();
     }
 
     public Long getId() {
@@ -59,4 +69,26 @@ public class RoverImages {
     public void setRover(Rover rover) {
         this.rover = rover;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeLong(id);
+        parcel.writeInt(sol);
+        parcel.writeString(img_src);
+        parcel.writeString(earth_date);
+    }
+
+    public static final Parcelable.Creator<RoverImages> CREATOR = new Parcelable.Creator<RoverImages>() {
+        public RoverImages createFromParcel(Parcel in) {
+            return new RoverImages(in);
+        }
+        public RoverImages[] newArray(int size) {
+            return new RoverImages[size];
+        }
+    };
 }

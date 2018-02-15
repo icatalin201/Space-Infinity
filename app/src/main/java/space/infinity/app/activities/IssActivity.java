@@ -5,8 +5,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -23,6 +21,8 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -32,6 +32,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -64,9 +65,9 @@ public class IssActivity extends AppCompatActivity implements OnMapReadyCallback
     private TextView altitude;
     private ScheduledExecutorService executorService;
     private Marker marker;
-    private LocationManager locationManager;
-    private LocationListener locationListener;
     private TextView issPass;
+
+    private FusedLocationProviderClient mFusedLocationClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,31 +88,28 @@ public class IssActivity extends AppCompatActivity implements OnMapReadyCallback
         marker = null;
         loadAfterTime();
 
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{ Manifest.permission.ACCESS_COARSE_LOCATION }, 1);
         }
-        locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-        locationListener = new LocationListener() {
-            @Override
-            public void onLocationChanged(Location location) {
-                Log.i("location", location.toString());
-                SharedPreferences preferences = getPreferences(Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = preferences.edit();
-                editor.putString("lat", Double.toString(location.getLatitude()));
-                editor.putString("lon", Double.toString(location.getLongitude()));
-                editor.apply();
-            }
-
-            @Override
-            public void onStatusChanged(String s, int i, Bundle bundle) {}
-
-            @Override
-            public void onProviderEnabled(String s) {}
-
-            @Override
-            public void onProviderDisabled(String s) {}
-        };
+        else {
+            mFusedLocationClient.getLastLocation()
+                    .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                        @Override
+                        public void onSuccess(Location location) {
+                            if (location != null) {
+                                Log.i("locationn", location.toString());
+                                SharedPreferences preferences = getPreferences(Context.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = preferences.edit();
+                                editor.putString("lat", Double.toString(location.getLatitude()));
+                                editor.putString("lon", Double.toString(location.getLongitude()));
+                                editor.apply();
+                            }
+                        }
+                    });
+        }
     }
 
     @Override
@@ -121,8 +119,22 @@ public class IssActivity extends AppCompatActivity implements OnMapReadyCallback
         if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
                     == PackageManager.PERMISSION_GRANTED) {
-                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
                 Log.i("location", "granted");
+                mFusedLocationClient.getLastLocation()
+                        .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                            @Override
+                            public void onSuccess(Location location) {
+                                // Got last known location. In some rare situations this can be null.
+                                if (location != null) {
+                                    Log.i("locationn", location.toString());
+                                    SharedPreferences preferences = getPreferences(Context.MODE_PRIVATE);
+                                    SharedPreferences.Editor editor = preferences.edit();
+                                    editor.putString("lat", Double.toString(location.getLatitude()));
+                                    editor.putString("lon", Double.toString(location.getLongitude()));
+                                    editor.apply();
+                                }
+                            }
+                        });
             }
         }
     }
@@ -131,9 +143,7 @@ public class IssActivity extends AppCompatActivity implements OnMapReadyCallback
 
         String lat = getPreferences(Context.MODE_PRIVATE).getString("lat", "");
         String lon = getPreferences(Context.MODE_PRIVATE).getString("lon", "");
-
         String params = "lat=".concat(lat).concat("&lon=").concat(lon).concat("&n=1");
-
         try {
             JSONObject jsonObject = new GetData().execute(Constants.ISS_PASS.concat(params)).get();
             JSONArray jsonArray = jsonObject.getJSONArray("response");

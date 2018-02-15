@@ -6,11 +6,12 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,7 +29,6 @@ public class GalleryActivity extends AppCompatActivity {
     private ApodGalleryAdapter adapter;
     private RecyclerView recyclerView;
     private ProgressBar progressBar;
-    private EditText keywords;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +41,6 @@ public class GalleryActivity extends AppCompatActivity {
         toolbar_title.setText(R.string.images);
         progressBar = findViewById(R.id.progress_bar);
         recyclerView = findViewById(R.id.gallery_recycler);
-        keywords = findViewById(R.id.keywords);
         imageDataList = SqlService.getImageDataList(this);
         adapter = new ApodGalleryAdapter(this, imageDataList);
         adapter.notifyDataSetChanged();
@@ -63,14 +62,33 @@ public class GalleryActivity extends AppCompatActivity {
                         progressBar.setVisibility(View.GONE);
                         recyclerView.setVisibility(View.VISIBLE);
                     }
-                }, 2000);
+                }, 1000);
             }
         });
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
+        getMenuInflater().inflate(R.menu.search_menu, menu);
+        final MenuItem menuItem = menu.findItem(R.id.action_search);
+        final SearchView searchView = (SearchView)menuItem.getActionView();
+        searchView.setQueryHint(getResources().getString(R.string.searchk));
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Log.i("search", query);
+                menuItem.collapseActionView();
+                searchView.onActionViewCollapsed();
+                searchView.setQuery("", false);
+                searchView.clearFocus();
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
         return true;
     }
 
@@ -78,6 +96,9 @@ public class GalleryActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.info:
+                return true;
+            case R.id.action_search:
+
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -91,7 +112,7 @@ public class GalleryActivity extends AppCompatActivity {
     }
 
     public void doSearch(View view) {
-        String ks = keywords.getText().toString();
+        String ks = "";
         if (!ks.trim().equals("")) {
             Intent intent = new Intent();
             intent.putExtra("keywords", ks);
