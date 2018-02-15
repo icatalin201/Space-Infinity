@@ -4,4 +4,4 @@
 /.gradle
 /gradle
 /captures
-/assets
+/app/src/main/assets
