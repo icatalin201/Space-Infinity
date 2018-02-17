@@ -180,6 +180,7 @@ public class MainActivity extends AppCompatActivity {
                 dst.transferFrom(src, 0, src.size());
                 src.close();
                 dst.close();
+                Log.i("db", "exported");
             }
         } catch (Exception e) {
             Log.i("exception", e.toString());
@@ -229,6 +230,7 @@ public class MainActivity extends AppCompatActivity {
                     //apodCall = call.clone();
                     //apodCall.enqueue(this);
                     getImageFromDb();
+                    Log.i("main", "getting apod from db");
                     return;
                 }
                 if (response.body() == null) return;
@@ -299,8 +301,9 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void showNews(View view){
-
+    public void showFacts(View view){
+        intent = new Intent(this, FactsActivity.class);
+        startActivity(intent);
     }
 
     public void showWiki(View view){

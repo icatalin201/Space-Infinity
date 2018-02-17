@@ -22,16 +22,15 @@ public class SqlStructure {
 
         public static final String WIKI_TABLE = "wiki";
 
-        public static final String FACTS_TABLE = "facts";
-
         public static final String FAVS_IMAGE_TABLE = "image_favorites";
         public static final String fav_type = "type";
         public static final String fav_url = "url";
         public static final String fav_hdulr = "hdurl";
         public static final String fav_title = "title";
 
-        public static final String FAVS_FACTS_TABLE = "facts_favorites";
-        public static final String fav_name = "name";
+        public static final String FACTS_TABLE = "facts";
+        public static final String fact_name = "name";
+        public static final String is_fact_fav = "is_fav";
 
 
     }

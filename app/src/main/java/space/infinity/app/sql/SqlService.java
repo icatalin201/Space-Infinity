@@ -5,17 +5,89 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
+import android.widget.Space;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import space.infinity.app.models.apod.APOD;
+import space.infinity.app.models.facts.SpaceFact;
 
 /**
  * Created by icatalin on 11.02.2018.
  */
 
 public class SqlService {
+
+    public static List<SpaceFact> getSpaceFactsList(Context context) {
+        SqlHelper sqlHelper = new SqlHelper(context);
+        SQLiteDatabase sqLiteDatabase = sqlHelper.getReadableDatabase();
+        Cursor cursor = sqLiteDatabase.query(SqlStructure.SqlData.FACTS_TABLE, null,
+                null, null, null, null, null, null);
+        List<SpaceFact> spaceFacts = new ArrayList<>();
+        while (cursor.moveToNext()) {
+            Integer id = cursor.getInt(cursor.getColumnIndex(SqlStructure.SqlData._ID));
+            String name = cursor.getString(cursor.getColumnIndex(SqlStructure.SqlData.fact_name));
+            String isFav = cursor.getString(cursor.getColumnIndex(SqlStructure.SqlData.is_fact_fav));
+            spaceFacts.add(new SpaceFact(id, name, isFav));
+        }
+        cursor.close();
+        sqLiteDatabase.close();
+        Log.i("db_action", "read facts");
+        Log.i("size facts list", Integer.toString(spaceFacts.size()));
+        return spaceFacts;
+    }
+
+    public static void handleFactToFavs(Context context, SpaceFact fact, String action) {
+        SqlHelper sqlHelper = new SqlHelper(context);
+        SQLiteDatabase database = sqlHelper.getWritableDatabase();
+        String[] args = {Integer.toString(fact.getId())};
+        switch (action) {
+            case "add":
+                if (!isFactFav(context, fact)) {
+                    ContentValues cv = new ContentValues();
+                    cv.put(SqlStructure.SqlData.is_fact_fav, "yes");
+                    database.update(SqlStructure.SqlData.FACTS_TABLE, cv,
+                            SqlStructure.SqlData._ID + " = ?", args);
+                }
+                break;
+            case "remove":
+                if (isFactFav(context, fact)) {
+                    ContentValues cv = new ContentValues();
+                    cv.put(SqlStructure.SqlData.is_fact_fav, "no");
+                    database.update(SqlStructure.SqlData.FACTS_TABLE, cv,
+                            SqlStructure.SqlData._ID + " = ?", args);
+                }
+                break;
+        }
+        database.close();
+    }
+
+    public static boolean isFactFav(Context context, SpaceFact fact) {
+        boolean check = false;
+        SqlHelper sqlHelper = new SqlHelper(context);
+        SQLiteDatabase database = sqlHelper.getReadableDatabase();
+        String[] whereArgs = {Integer.toString(fact.getId())};
+        Cursor cursor = database.query(SqlStructure.SqlData.FACTS_TABLE, null,
+                SqlStructure.SqlData._ID + " = ?", whereArgs,
+                null, null, null, null);
+        if (cursor.getCount() == 1) {
+            cursor.moveToFirst();
+            String name = cursor.getString(cursor.getColumnIndex(SqlStructure.SqlData.fact_name));
+            if (fact.getName().equals(name)) {
+                String isFav = cursor.getString(cursor.getColumnIndex(SqlStructure.SqlData.is_fact_fav));
+                if (isFav.equals("yes")) {
+                    check = true;
+                }
+                else if (isFav.equals("no")) {
+                    check = false;
+                }
+            }
+        }
+        cursor.close();
+        database.close();
+        return check;
+    }
 
     public static List<APOD> getImageDataList(Context context) {
         SqlHelper sqlHelper = new SqlHelper(context);
@@ -33,8 +105,8 @@ public class SqlService {
         }
         cursor.close();
         sqLiteDatabase.close();
-        Log.i("db_action", "read");
-        Log.i("size", Integer.toString(list.size()));
+        Log.i("db_action", "read images");
+        Log.i("size images list", Integer.toString(list.size()));
         return list;
     }
 
@@ -57,7 +129,7 @@ public class SqlService {
         }
         cursor.close();
         sqLiteDatabase.close();
-        Log.i("db_action", "read");
+        Log.i("db_action", "read apod");
         return apod;
     }
 
@@ -75,7 +147,7 @@ public class SqlService {
             String author = checkContent(apodObject);
             cv.put(SqlStructure.SqlData.author_column, author);
             sqLiteDatabase.insert(SqlStructure.SqlData.IMAGE_DATA_TABLE, null, cv);
-            Log.i("db_action", "insert");
+            Log.i("db_action", "insert into images");
         }
         sqLiteDatabase.close();
     }

@@ -98,7 +98,7 @@
 
                     <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="160dp">
+                        android:layout_height="180dp">
 
                         <FrameLayout
                             android:layout_width="match_parent"
@@ -107,7 +107,7 @@
                             <ImageView
                                 android:background="@color/colorPrimaryDark"
                                 android:layout_width="match_parent"
-                                android:layout_height="160dp"
+                                android:layout_height="match_parent"
                                 android:id="@+id/wiki_image"/>
 
                         </FrameLayout>
@@ -136,13 +136,13 @@
                     android:layout_weight="1"
                     android:layout_marginStart="5dp"
                     android:clickable="true"
-                    android:onClick="showNews"
+                    android:onClick="showFacts"
                     android:foreground="?android:attr/selectableItemBackground"
                     android:focusable="true">
 
                     <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="160dp">
+                        android:layout_height="180dp">
 
                         <FrameLayout
                             android:layout_width="match_parent"
@@ -151,7 +151,7 @@
                             <ImageView
                                 android:background="@color/colorPrimaryDark"
                                 android:layout_width="match_parent"
-                                android:layout_height="160dp"
+                                android:layout_height="match_parent"
                                 android:id="@+id/facts_image"/>
 
                         </FrameLayout>
@@ -188,7 +188,7 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="160dp">
+                    android:layout_height="180dp">
 
                     <FrameLayout
                         android:layout_width="match_parent"
@@ -238,7 +238,7 @@
 
                     <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="160dp">
+                        android:layout_height="180dp">
 
                         <FrameLayout
                             android:layout_width="match_parent"
@@ -247,7 +247,7 @@
                             <ImageView
                                 android:background="@color/colorPrimaryDark"
                                 android:layout_width="match_parent"
-                                android:layout_height="160dp"
+                                android:layout_height="match_parent"
                                 android:id="@+id/rover_image"/>
 
                         </FrameLayout>
@@ -282,7 +282,7 @@
 
                     <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="160dp">
+                        android:layout_height="180dp">
 
                         <FrameLayout
                             android:layout_width="match_parent"
@@ -291,7 +291,7 @@
                             <ImageView
                                 android:background="@color/colorPrimaryDark"
                                 android:layout_width="match_parent"
-                                android:layout_height="160dp"
+                                android:layout_height="match_parent"
                                 android:id="@+id/gallery_image"/>
 
                         </FrameLayout>
@@ -327,7 +327,7 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="160dp">
+                    android:layout_height="180dp">
 
                     <FrameLayout
                         android:layout_width="match_parent"
@@ -336,7 +336,7 @@
                         <ImageView
                             android:background="@color/colorPrimaryDark"
                             android:layout_width="match_parent"
-                            android:layout_height="160dp"
+                            android:layout_height="match_parent"
                             android:id="@+id/future_launches"/>
 
                     </FrameLayout>
