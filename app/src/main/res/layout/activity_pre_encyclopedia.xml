@@ -25,6 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="true"
+            android:onClick="planetsEn"
             android:foreground="?android:attr/selectableItemBackground"
             android:focusable="true">
 
@@ -66,6 +67,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="true"
+            android:onClick="moonsEn"
             android:foreground="?android:attr/selectableItemBackground"
             android:focusable="true">
 
@@ -115,6 +117,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="true"
+            android:onClick="galaxiesEn"
             android:foreground="?android:attr/selectableItemBackground"
             android:focusable="true">
 
@@ -156,6 +159,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="true"
+            android:onClick="othersEn"
             android:foreground="?android:attr/selectableItemBackground"
             android:focusable="true">
 

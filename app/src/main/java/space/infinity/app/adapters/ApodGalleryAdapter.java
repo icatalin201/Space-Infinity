@@ -45,7 +45,7 @@ public class ApodGalleryAdapter extends RecyclerView.Adapter<ApodGalleryAdapter.
                 .asBitmap().centerCrop().into(holder.galleryImage);
         holder.galleryImageTitle.setText(imageDataList.get(position).getTitle());
         int lastPosition = -1;
-        Helper.setAnimationForAdapter(context, holder.itemView, position, lastPosition);
+        Helper.customAnimation(context, holder.galleryCard, 700, android.R.anim.fade_in);
     }
 
     @Override

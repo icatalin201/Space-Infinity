@@ -5,12 +5,15 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
-import android.widget.Space;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import space.infinity.app.models.apod.APOD;
+import space.infinity.app.models.encyclopedia.Galaxy;
+import space.infinity.app.models.encyclopedia.Moon;
+import space.infinity.app.models.encyclopedia.Other;
+import space.infinity.app.models.encyclopedia.Planet;
 import space.infinity.app.models.facts.SpaceFact;
 
 /**
@@ -18,6 +21,116 @@ import space.infinity.app.models.facts.SpaceFact;
  */
 
 public class SqlService {
+
+    public static List<Planet> getPlanets(Context context) {
+        SqlHelper sqlHelper = new SqlHelper(context);
+        SQLiteDatabase database = sqlHelper.getReadableDatabase();
+        Cursor cursor = database.query(SqlStructure.SqlData.WIKI_PLANETS_TABLE, null,
+                null, null, null, null, null, null);
+        List<Planet> planets = new ArrayList<>();
+        while (cursor.moveToNext()) {
+            Integer id = cursor.getInt(cursor.getColumnIndex(SqlStructure.SqlData._ID));
+            String name = cursor.getString(cursor.getColumnIndex(SqlStructure.SqlData.wiki_planet_name));
+            String description = cursor.getString(cursor.getColumnIndex(SqlStructure.SqlData.wiki_planet_description));
+            String image = cursor.getString(cursor.getColumnIndex(SqlStructure.SqlData.wiki_planet_image));
+            String diameter = cursor.getString(cursor.getColumnIndex(SqlStructure.SqlData.wiki_planet_diameter));
+            String mass = cursor.getString(cursor.getColumnIndex(SqlStructure.SqlData.wiki_planet_mass));
+            String moons = cursor.getString(cursor.getColumnIndex(SqlStructure.SqlData.wiki_planet_moons));
+            String orbitDistance = cursor.getString(cursor.getColumnIndex(SqlStructure.SqlData.wiki_planet_orbitDistance));
+            String orbitPeriod = cursor.getString(cursor.getColumnIndex(SqlStructure.SqlData.wiki_planet_orbitPeriod));
+            String surfaceTemperature = cursor.getString(cursor.getColumnIndex(SqlStructure.SqlData.wiki_planet_surfaceTemperature));
+            String firstRecord = cursor.getString(cursor.getColumnIndex(SqlStructure.SqlData.wiki_planet_firstRecord));
+            String recordedBy = cursor.getString(cursor.getColumnIndex(SqlStructure.SqlData.wiki_planet_recordedBy));
+            String facts = cursor.getString(cursor.getColumnIndex(SqlStructure.SqlData.wiki_planet_quickFacts));
+            planets.add(new Planet(id, name, description, image, diameter, mass, moons, orbitDistance,
+                    orbitPeriod, surfaceTemperature, firstRecord, recordedBy, facts));
+        }
+        cursor.close();
+        database.close();
+        return planets;
+    }
+
+    public static List<Moon> getMoons(Context context) {
+        SqlHelper sqlHelper = new SqlHelper(context);
+        SQLiteDatabase database = sqlHelper.getReadableDatabase();
+        Cursor cursor = database.query(SqlStructure.SqlData.WIKI_MOONS_TABLE, null,
+                null, null, null, null, null, null);
+        List<Moon> moonList = new ArrayList<>();
+        while (cursor.moveToNext()) {
+            Integer id = cursor.getInt(cursor.getColumnIndex(SqlStructure.SqlData._ID));
+            String name = cursor.getString(cursor.getColumnIndex(SqlStructure.SqlData.wiki_moons_name));
+            String description = cursor.getString(cursor.getColumnIndex(SqlStructure.SqlData.wiki_moons_description));
+            String image = cursor.getString(cursor.getColumnIndex(SqlStructure.SqlData.wiki_moons_image));
+            String diameter = cursor.getString(cursor.getColumnIndex(SqlStructure.SqlData.wiki_moons_diameter));
+            String mass = cursor.getString(cursor.getColumnIndex(SqlStructure.SqlData.wiki_moons_mass));
+            String orbits = cursor.getString(cursor.getColumnIndex(SqlStructure.SqlData.wiki_moons_orbits));
+            String orbitDistance = cursor.getString(cursor.getColumnIndex(SqlStructure.SqlData.wiki_moons_orbitDistance));
+            String orbitPeriod = cursor.getString(cursor.getColumnIndex(SqlStructure.SqlData.wiki_moons_orbitPeriod));
+            String surfaceTemperature = cursor.getString(cursor.getColumnIndex(SqlStructure.SqlData.wiki_moons_surfaceTemperature));
+            String firstRecord = cursor.getString(cursor.getColumnIndex(SqlStructure.SqlData.wiki_moons_firstRecord));
+            String recordedBy = cursor.getString(cursor.getColumnIndex(SqlStructure.SqlData.wiki_moons_recordedBy));
+            String facts = cursor.getString(cursor.getColumnIndex(SqlStructure.SqlData.wiki_moons_quickFacts));
+            moonList.add(new Moon(id, name, description, image, diameter, mass, orbits, orbitDistance,
+                    orbitPeriod, surfaceTemperature, firstRecord, recordedBy, facts));
+        }
+        cursor.close();
+        database.close();
+        return moonList;
+    }
+
+    public static List<Galaxy> getGalaxies(Context context) {
+        SqlHelper sqlHelper = new SqlHelper(context);
+        SQLiteDatabase database = sqlHelper.getReadableDatabase();
+        Cursor cursor = database.query(SqlStructure.SqlData.WIKI_GALAXY_TABLE, null,
+                null, null, null, null, null, null);
+        List<Galaxy> galaxies = new ArrayList<>();
+        while (cursor.moveToNext()) {
+            Integer id = cursor.getInt(cursor.getColumnIndex(SqlStructure.SqlData._ID));
+            String name = cursor.getString(cursor.getColumnIndex(SqlStructure.SqlData.wiki_galaxy_name));
+            String description = cursor.getString(cursor.getColumnIndex(SqlStructure.SqlData.wiki_galaxy_description));
+            String image = cursor.getString(cursor.getColumnIndex(SqlStructure.SqlData.wiki_galaxy_image));
+            String diameter = cursor.getString(cursor.getColumnIndex(SqlStructure.SqlData.wiki_galaxy_diameter));
+            String mass = cursor.getString(cursor.getColumnIndex(SqlStructure.SqlData.wiki_galaxy_mass));
+            String designation = cursor.getString(cursor.getColumnIndex(SqlStructure.SqlData.wiki_galaxy_designation));
+            String distance = cursor.getString(cursor.getColumnIndex(SqlStructure.SqlData.wiki_galaxy_distance));
+            String constellation = cursor.getString(cursor.getColumnIndex(SqlStructure.SqlData.wiki_galaxy_constellation));
+            String galaxyGroup = cursor.getString(cursor.getColumnIndex(SqlStructure.SqlData.wiki_galaxy_group));
+            String numberOfStars = cursor.getString(cursor.getColumnIndex(SqlStructure.SqlData.wiki_galaxy_numberOfStars));
+            String type = cursor.getString(cursor.getColumnIndex(SqlStructure.SqlData.wiki_galaxy_type));
+            String facts = cursor.getString(cursor.getColumnIndex(SqlStructure.SqlData.wiki_galaxy_quickFacts));
+            galaxies.add(new Galaxy(id, name, description, image, designation, diameter, distance, mass,
+                    constellation, galaxyGroup, numberOfStars, type, facts));
+        }
+        cursor.close();
+        database.close();
+        return galaxies;
+    }
+
+    public static List<Other> getOthers(Context context) {
+        SqlHelper sqlHelper = new SqlHelper(context);
+        SQLiteDatabase database = sqlHelper.getReadableDatabase();
+        Cursor cursor = database.query(SqlStructure.SqlData.WIKI_OTHERS_TABLE, null,
+                null, null, null, null, null, null);
+        List<Other> others = new ArrayList<>();
+        while (cursor.moveToNext()) {
+            Integer id = cursor.getInt(cursor.getColumnIndex(SqlStructure.SqlData._ID));
+            String name = cursor.getString(cursor.getColumnIndex(SqlStructure.SqlData.wiki_name));
+            String description = cursor.getString(cursor.getColumnIndex(SqlStructure.SqlData.wiki_description));
+            String image = cursor.getString(cursor.getColumnIndex(SqlStructure.SqlData.wiki_image));
+            String age = cursor.getString(cursor.getColumnIndex(SqlStructure.SqlData.wiki_age));
+            String type = cursor.getString(cursor.getColumnIndex(SqlStructure.SqlData.wiki_type));
+            String diameter = cursor.getString(cursor.getColumnIndex(SqlStructure.SqlData.wiki_diameter));
+            String mass = cursor.getString(cursor.getColumnIndex(SqlStructure.SqlData.wiki_mass));
+            String surfaceTemperature = cursor.getString(cursor.getColumnIndex(SqlStructure.SqlData.wiki_surface_temperature));
+            String detailedInfo = cursor.getString(cursor.getColumnIndex(SqlStructure.SqlData.wiki_info));
+            String otherInfo = cursor.getString(cursor.getColumnIndex(SqlStructure.SqlData.wiki_other_info));
+            others.add(new Other(id, name, description, image, age, type, diameter, mass,
+                    surfaceTemperature, detailedInfo, otherInfo));
+        }
+        cursor.close();
+        database.close();
+        return others;
+    }
 
     public static List<SpaceFact> getSpaceFactsList(Context context) {
         SqlHelper sqlHelper = new SqlHelper(context);

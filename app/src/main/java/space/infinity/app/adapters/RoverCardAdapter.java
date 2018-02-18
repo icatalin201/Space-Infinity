@@ -46,7 +46,7 @@ public class RoverCardAdapter extends RecyclerView.Adapter<RoverCardAdapter.Rove
                 .asBitmap().centerCrop().into(holder.roverImage);
         holder.roverImageDate.setText(mContext.getResources().getString(R.string.date).concat(" ")
                 .concat(roverImages.get(position).getEarth_date()));
-        Helper.setAnimationForAdapter(mContext, holder.itemView, position, lastPosition);
+        Helper.customAnimation(mContext, holder.roverCard, 700, android.R.anim.fade_in);
     }
 
     @Override

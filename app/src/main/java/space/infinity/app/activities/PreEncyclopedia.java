@@ -1,12 +1,12 @@
 package space.infinity.app.activities;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.SearchView;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -38,6 +38,7 @@ public class PreEncyclopedia extends AppCompatActivity {
         Glide.with(this).load(R.drawable.planets).asBitmap().centerCrop().into(planets);
         Glide.with(this).load(R.drawable.moons).asBitmap().centerCrop().into(moons);
         Glide.with(this).load(R.drawable.others).asBitmap().centerCrop().into(others);
+
     }
 
     @Override
@@ -60,5 +61,29 @@ public class PreEncyclopedia extends AppCompatActivity {
     public boolean onSupportNavigateUp(){
         finish();
         return true;
+    }
+
+    public void planetsEn(View view) {
+        Intent intent = new Intent(this, ChooseEncyclopedia.class);
+        intent.putExtra("type", "planets");
+        startActivity(intent);
+    }
+
+    public void moonsEn(View view) {
+        Intent intent = new Intent(this, ChooseEncyclopedia.class);
+        intent.putExtra("type", "moons");
+        startActivity(intent);
+    }
+
+    public void galaxiesEn(View view) {
+        Intent intent = new Intent(this, ChooseEncyclopedia.class);
+        intent.putExtra("type", "galaxies");
+        startActivity(intent);
+    }
+
+    public void othersEn(View view) {
+        Intent intent = new Intent(this, ChooseEncyclopedia.class);
+        intent.putExtra("type", "others");
+        startActivity(intent);
     }
 }

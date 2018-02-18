@@ -37,7 +37,9 @@
         <activity android:name=".activities.FullscreenActivity" />
         <activity android:name=".activities.GalleryActivity" />
         <activity android:name=".activities.FactsActivity" />
-        <activity android:name=".activities.PreEncyclopedia"></activity>
+        <activity android:name=".activities.PreEncyclopedia" />
+        <activity android:name=".activities.ChooseEncyclopedia" />
+        <activity android:name=".activities.Encyclopedia" />
     </application>
 
 </manifest>

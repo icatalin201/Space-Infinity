@@ -40,4 +40,22 @@
     <string name="moons">Moons</string>
     <string name="galaxies">Galaxies</string>
     <string name="others">Others</string>
+    <string name="name">Name:</string>
+    <string name="description">Description</string>
+    <string name="diameter">Diameter:</string>
+    <string name="mass">Mass:</string>
+    <string name="moon">Moons:</string>
+    <string name="orbits">Orbits:</string>
+    <string name="orbitd">Orbit Distance:</string>
+    <string name="orbitp">Orbit Period:</string>
+    <string name="surfacet">Surface Temperature:</string>
+    <string name="firstrec">First Recorded:</string>
+    <string name="recby">Recorded By:</string>
+    <string name="quickfacts">Facts</string>
+    <string name="designation">Designation:</string>
+    <string name="distance">Distance:</string>
+    <string name="constellation">Constellation:</string>
+    <string name="galaxy_group">Galaxy Group:</string>
+    <string name="galaxy_type">Galaxy Type:</string>
+    <string name="number_of_stars">Number of Stars:</string>
 </resources>

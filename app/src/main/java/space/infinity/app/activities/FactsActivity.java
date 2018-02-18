@@ -1,9 +1,8 @@
 package space.infinity.app.activities;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 import space.infinity.app.R;
 import space.infinity.app.models.facts.SpaceFact;
@@ -40,8 +40,8 @@ public class FactsActivity extends AppCompatActivity {
         factView = findViewById(R.id.fact);
         fav = findViewById(R.id.fav);
         spaceFactList = SqlService.getSpaceFactsList(this);
-        index = 0;
         max = spaceFactList.size() - 1;
+        index = ThreadLocalRandom.current().nextInt(0, max);
         factView.setText(spaceFactList.get(index).getName());
         Helper.customAnimation(this, factView, 700, android.R.anim.fade_in);
         setFavorites(spaceFactList.get(index));
