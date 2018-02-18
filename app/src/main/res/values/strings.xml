@@ -1,11 +1,12 @@
 <resources>
     <string name="app_name">Space Infinity - All About Space</string>
+    <string name="app_short">Space Infinity</string>
     <string name="apod">APOD - Astronomy Picture of the Day</string>
     <string name="images">Image Gallery</string>
     <string name="rover">Mars Rover Images</string>
     <string name="iss">ISS Now</string>
     <string name="facts">Space Facts</string>
-    <string name="wiki">Wiki</string>
+    <string name="wiki">Encyclopedia</string>
     <string name="loading">Loading...</string>
     <string name="exit">Press again to exit</string>
     <string name="info">About</string>
@@ -35,4 +36,8 @@
     <string name="searchk">search ex: apollo, orion etc</string>
     <string name="search_error">Insert a word for searching</string>
     <string name="favs">Favorites</string>
+    <string name="planets">Planets</string>
+    <string name="moons">Moons</string>
+    <string name="galaxies">Galaxies</string>
+    <string name="others">Others</string>
 </resources>

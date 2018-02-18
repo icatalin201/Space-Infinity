@@ -39,6 +39,68 @@ public class SqlHelper extends SQLiteOpenHelper{
                     SqlStructure.SqlData.fav_hdulr + " TEXT," +
                     SqlStructure.SqlData.fav_title + " TEXT)";
 
+    private static final String SQL_CREATE_WIKI_PLANETS =
+            "CREATE TABLE " + SqlStructure.SqlData.WIKI_PLANETS_TABLE + " (" +
+                    SqlStructure.SqlData._ID + " INTEGER PRIMARY KEY," +
+                    SqlStructure.SqlData.wiki_planet_name + " TEXT," +
+                    SqlStructure.SqlData.wiki_planet_description + " TEXT," +
+                    SqlStructure.SqlData.wiki_planet_image + " TEXT," +
+                    SqlStructure.SqlData.wiki_planet_diameter + " TEXT," +
+                    SqlStructure.SqlData.wiki_planet_mass + " TEXT," +
+                    SqlStructure.SqlData.wiki_planet_moons + " TEXT," +
+                    SqlStructure.SqlData.wiki_planet_orbitDistance + " TEXT," +
+                    SqlStructure.SqlData.wiki_planet_orbitPeriod + " TEXT," +
+                    SqlStructure.SqlData.wiki_planet_surfaceTemperature + " TEXT," +
+                    SqlStructure.SqlData.wiki_planet_firstRecord + " TEXT," +
+                    SqlStructure.SqlData.wiki_planet_recordedBy + " TEXT," +
+                    SqlStructure.SqlData.wiki_planet_quickFacts + " TEXT)";
+
+    private static final String SQL_CREATE_WIKI_OTHERS =
+            "CREATE TABLE " + SqlStructure.SqlData.WIKI_OTHERS_TABLE + " (" +
+                    SqlStructure.SqlData._ID + " INTEGER PRIMARY KEY," +
+                    SqlStructure.SqlData.wiki_name + " TEXT," +
+                    SqlStructure.SqlData.wiki_description + " TEXT," +
+                    SqlStructure.SqlData.wiki_image + " TEXT," +
+                    SqlStructure.SqlData.wiki_age + " TEXT," +
+                    SqlStructure.SqlData.wiki_type + " TEXT," +
+                    SqlStructure.SqlData.wiki_diameter + " TEXT," +
+                    SqlStructure.SqlData.wiki_mass + " TEXT," +
+                    SqlStructure.SqlData.wiki_surface_temperature + " TEXT," +
+                    SqlStructure.SqlData.wiki_info + " TEXT," +
+                    SqlStructure.SqlData.wiki_other_info + " TEXT)";
+
+    private static final String SQL_CREATE_WIKI_GALAXIES =
+            "CREATE TABLE " + SqlStructure.SqlData.WIKI_GALAXY_TABLE + " (" +
+                    SqlStructure.SqlData._ID + " INTEGER PRIMARY KEY," +
+                    SqlStructure.SqlData.wiki_galaxy_name + " TEXT," +
+                    SqlStructure.SqlData.wiki_galaxy_description + " TEXT," +
+                    SqlStructure.SqlData.wiki_galaxy_image + " TEXT," +
+                    SqlStructure.SqlData.wiki_galaxy_designation + " TEXT," +
+                    SqlStructure.SqlData.wiki_galaxy_diameter + " TEXT," +
+                    SqlStructure.SqlData.wiki_galaxy_distance + " TEXT," +
+                    SqlStructure.SqlData.wiki_galaxy_mass + " TEXT," +
+                    SqlStructure.SqlData.wiki_galaxy_constellation + " TEXT," +
+                    SqlStructure.SqlData.wiki_galaxy_group + " TEXT," +
+                    SqlStructure.SqlData.wiki_galaxy_numberOfStars + " TEXT," +
+                    SqlStructure.SqlData.wiki_galaxy_type + " TEXT," +
+                    SqlStructure.SqlData.wiki_galaxy_quickFacts + " TEXT)";
+
+    private static final String SQL_CREATE_WIKI_MOONS =
+            "CREATE TABLE " + SqlStructure.SqlData.WIKI_MOONS_TABLE + " (" +
+                    SqlStructure.SqlData._ID + " INTEGER PRIMARY KEY," +
+                    SqlStructure.SqlData.wiki_moons_name + " TEXT," +
+                    SqlStructure.SqlData.wiki_moons_description + " TEXT," +
+                    SqlStructure.SqlData.wiki_moons_image + " TEXT," +
+                    SqlStructure.SqlData.wiki_moons_diameter + " TEXT," +
+                    SqlStructure.SqlData.wiki_moons_mass + " TEXT," +
+                    SqlStructure.SqlData.wiki_moons_orbits + " TEXT," +
+                    SqlStructure.SqlData.wiki_moons_orbitDistance + " TEXT," +
+                    SqlStructure.SqlData.wiki_moons_orbitPeriod + " TEXT," +
+                    SqlStructure.SqlData.wiki_moons_surfaceTemperature + " TEXT," +
+                    SqlStructure.SqlData.wiki_moons_firstRecord + " TEXT," +
+                    SqlStructure.SqlData.wiki_moons_recordedBy + " TEXT," +
+                    SqlStructure.SqlData.wiki_moons_quickFacts + " TEXT)";
+
     private static final String SQL_DELETE_IMAGE_DATA =
             "DROP TABLE IF EXISTS " + SqlStructure.SqlData.IMAGE_DATA_TABLE;
 
@@ -47,6 +109,18 @@ public class SqlHelper extends SQLiteOpenHelper{
 
     private static final String SQL_DELETE_FACTS =
             "DROP TABLE IF EXISTS " + SqlStructure.SqlData.FACTS_TABLE;
+
+    private static final String SQL_DELETE_WIKI_PLANETS =
+            "DROP TABLE IF EXISTS " + SqlStructure.SqlData.WIKI_PLANETS_TABLE;
+
+    private static final String SQL_DELETE_WIKI_GALAXY =
+            "DROP TABLE IF EXISTS " + SqlStructure.SqlData.WIKI_GALAXY_TABLE;
+
+    private static final String SQL_DELETE_WIKI_MOONS =
+            "DROP TABLE IF EXISTS " + SqlStructure.SqlData.WIKI_MOONS_TABLE;
+
+    private static final String SQL_DELETE_WIKI_OTHERS =
+            "DROP TABLE IF EXISTS " + SqlStructure.SqlData.WIKI_OTHERS_TABLE;
 
     public SqlHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -57,6 +131,10 @@ public class SqlHelper extends SQLiteOpenHelper{
         sqLiteDatabase.execSQL(SQL_CREATE_IMAGE_DATA);
         sqLiteDatabase.execSQL(SQL_CREATE_FAVS_IMAGE);
         sqLiteDatabase.execSQL(SQL_CREATE_FACTS);
+        sqLiteDatabase.execSQL(SQL_CREATE_WIKI_PLANETS);
+        sqLiteDatabase.execSQL(SQL_CREATE_WIKI_MOONS);
+        sqLiteDatabase.execSQL(SQL_CREATE_WIKI_GALAXIES);
+        sqLiteDatabase.execSQL(SQL_CREATE_WIKI_OTHERS);
         Log.i(TAG, "onCreate");
     }
 
@@ -65,6 +143,10 @@ public class SqlHelper extends SQLiteOpenHelper{
         sqLiteDatabase.execSQL(SQL_DELETE_IMAGE_DATA);
         sqLiteDatabase.execSQL(SQL_DELETE_FAVS_IMAGE);
         sqLiteDatabase.execSQL(SQL_DELETE_FACTS);
+        sqLiteDatabase.execSQL(SQL_DELETE_WIKI_PLANETS);
+        sqLiteDatabase.execSQL(SQL_DELETE_WIKI_GALAXY);
+        sqLiteDatabase.execSQL(SQL_DELETE_WIKI_MOONS);
+        sqLiteDatabase.execSQL(SQL_DELETE_WIKI_OTHERS);
         Log.i(TAG, "onUpgrade");
         onCreate(sqLiteDatabase);
     }

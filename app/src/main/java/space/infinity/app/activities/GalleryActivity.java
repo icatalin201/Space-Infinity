@@ -97,9 +97,6 @@ public class GalleryActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.info:
                 return true;
-            case R.id.action_search:
-
-                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

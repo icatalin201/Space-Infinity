@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -43,7 +45,9 @@ import space.infinity.app.R;
 import space.infinity.app.models.apod.APOD;
 import space.infinity.app.network.Client;
 import space.infinity.app.network.Service;
+import space.infinity.app.sql.SqlHelper;
 import space.infinity.app.sql.SqlService;
+import space.infinity.app.sql.SqlStructure;
 import space.infinity.app.utils.Constants;
 import space.infinity.app.utils.Helper;
 
@@ -307,7 +311,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void showWiki(View view){
-
+        intent = new Intent(this, PreEncyclopedia.class);
+        startActivity(intent);
     }
 
     public void futureLaunches(View view){

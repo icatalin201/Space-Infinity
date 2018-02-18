@@ -12,7 +12,7 @@
         android:allowBackup="true"
         android:configChanges="orientation"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:label="@string/app_short"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:screenOrientation="portrait"
         android:supportsRtl="true"
@@ -36,7 +36,8 @@
         <activity android:name=".activities.UpcomingLaunches" />
         <activity android:name=".activities.FullscreenActivity" />
         <activity android:name=".activities.GalleryActivity" />
-        <activity android:name=".activities.FactsActivity"></activity>
+        <activity android:name=".activities.FactsActivity" />
+        <activity android:name=".activities.PreEncyclopedia"></activity>
     </application>
 
 </manifest>
