@@ -244,6 +244,9 @@ public class MainActivity extends AppCompatActivity {
                     SqlService.insertImageDataIntoSql(MainActivity.this, apod);
                     settingLayout();
                 }
+                else {
+                    getImageFromDb();
+                }
             }
 
             @Override
@@ -254,10 +257,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getImageFromDb() {
-        Date c = Calendar.getInstance().getTime();
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        String formattedDate = df.format(c);
-        apod = SqlService.getApod(MainActivity.this, formattedDate);
+        //Date c = Calendar.getInstance().getTime();
+        //SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        //String formattedDate = df.format(c);
+        apod = SqlService.getApod(MainActivity.this);
         Glide.with(MainActivity.this).load(apod.getUrl())
                 .asBitmap()
                 .centerCrop()

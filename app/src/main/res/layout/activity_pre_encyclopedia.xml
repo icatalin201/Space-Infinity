@@ -10,188 +10,186 @@
 
     <include layout="@layout/main_toolbar" />
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_weight="1"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.v7.widget.CardView
-            android:layout_weight="1"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="5dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginBottom="5dp"
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:onClick="planetsEn"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:focusable="true">
+            android:layout_height="match_parent">
 
-            <RelativeLayout
+            <android.support.v7.widget.CardView
+                android:id="@+id/card_planets"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="5dp"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="200dp"
+                android:clickable="true"
+                android:onClick="planetsEn"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:focusable="true">
 
-                <FrameLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                    <ImageView
-                        android:background="@color/colorPrimaryDark"
-                        android:id="@+id/planets"
+                    <FrameLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"/>
+                        android:layout_height="match_parent">
 
-                </FrameLayout>
+                        <ImageView
+                            android:background="@color/colorPrimaryDark"
+                            android:id="@+id/planets"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"/>
 
-                <TextView
-                    android:layout_alignParentBottom="true"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:background="@color/transparentBlack"
-                    android:textColor="@color/primaryTextColor"
-                    android:text="@string/planets"/>
+                    </FrameLayout>
 
-            </RelativeLayout>
+                    <TextView
+                        android:layout_alignParentBottom="true"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:background="@color/transparentBlack"
+                        android:textColor="@color/primaryTextColor"
+                        android:text="@string/planets"/>
 
-        </android.support.v7.widget.CardView>
+                </RelativeLayout>
 
-        <android.support.v7.widget.CardView
-            android:layout_weight="1"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginStart="5dp"
-            android:layout_marginBottom="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:onClick="moonsEn"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:focusable="true">
+            </android.support.v7.widget.CardView>
 
-            <RelativeLayout
+            <android.support.v7.widget.CardView
+                android:id="@+id/card_moons"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="5dp"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="200dp"
+                android:clickable="true"
+                android:onClick="moonsEn"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:focusable="true">
 
-                <FrameLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                    <ImageView
-                        android:background="@color/colorPrimaryDark"
-                        android:id="@+id/moons"
+                    <FrameLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"/>
+                        android:layout_height="match_parent">
 
-                </FrameLayout>
+                        <ImageView
+                            android:background="@color/colorPrimaryDark"
+                            android:id="@+id/moons"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"/>
 
-                <TextView
-                    android:layout_alignParentBottom="true"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:background="@color/transparentBlack"
-                    android:textColor="@color/primaryTextColor"
-                    android:text="@string/moons"/>
+                    </FrameLayout>
 
-            </RelativeLayout>
+                    <TextView
+                        android:layout_alignParentBottom="true"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:background="@color/transparentBlack"
+                        android:textColor="@color/primaryTextColor"
+                        android:text="@string/moons"/>
 
-        </android.support.v7.widget.CardView>
+                </RelativeLayout>
 
-    </LinearLayout>
+            </android.support.v7.widget.CardView>
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_weight="1"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <android.support.v7.widget.CardView
-            android:layout_weight="1"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="5dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:onClick="galaxiesEn"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:focusable="true">
-
-            <RelativeLayout
+            <android.support.v7.widget.CardView
+                android:id="@+id/card_galaxy"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="5dp"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="200dp"
+                android:clickable="true"
+                android:onClick="galaxiesEn"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:focusable="true">
 
-                <FrameLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                    <ImageView
-                        android:background="@color/colorPrimaryDark"
-                        android:id="@+id/galaxies"
+                    <FrameLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"/>
+                        android:layout_height="match_parent">
 
-                </FrameLayout>
+                        <ImageView
+                            android:background="@color/colorPrimaryDark"
+                            android:id="@+id/galaxies"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"/>
 
-                <TextView
-                    android:layout_alignParentBottom="true"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:background="@color/transparentBlack"
-                    android:textColor="@color/primaryTextColor"
-                    android:text="@string/galaxies"/>
+                    </FrameLayout>
 
-            </RelativeLayout>
+                    <TextView
+                        android:layout_alignParentBottom="true"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:background="@color/transparentBlack"
+                        android:textColor="@color/primaryTextColor"
+                        android:text="@string/galaxies"/>
 
-        </android.support.v7.widget.CardView>
+                </RelativeLayout>
 
-        <android.support.v7.widget.CardView
-            android:layout_weight="1"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginStart="5dp"
-            android:layout_marginBottom="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:onClick="othersEn"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:focusable="true">
+            </android.support.v7.widget.CardView>
 
-            <RelativeLayout
+            <android.support.v7.widget.CardView
+                android:id="@+id/card_other"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="5dp"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="200dp"
+                android:clickable="true"
+                android:onClick="othersEn"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:focusable="true">
 
-                <FrameLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                    <ImageView
-                        android:background="@color/colorPrimaryDark"
-                        android:id="@+id/others"
+                    <FrameLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"/>
+                        android:layout_height="match_parent">
 
-                </FrameLayout>
+                        <ImageView
+                            android:background="@color/colorPrimaryDark"
+                            android:id="@+id/others"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"/>
 
-                <TextView
-                    android:layout_alignParentBottom="true"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:background="@color/transparentBlack"
-                    android:textColor="@color/primaryTextColor"
-                    android:text="@string/others"/>
+                    </FrameLayout>
 
-            </RelativeLayout>
+                    <TextView
+                        android:layout_alignParentBottom="true"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:background="@color/transparentBlack"
+                        android:textColor="@color/primaryTextColor"
+                        android:text="@string/others"/>
 
-        </android.support.v7.widget.CardView>
+                </RelativeLayout>
 
-    </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+
+        </LinearLayout>
+
+    </ScrollView>
 
 </LinearLayout>

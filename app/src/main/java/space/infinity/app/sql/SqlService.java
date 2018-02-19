@@ -223,15 +223,14 @@ public class SqlService {
         return list;
     }
 
-    public static APOD getApod(Context context, String date) {
+    public static APOD getApod(Context context) {
         SqlHelper sqlHelper = new SqlHelper(context);
         SQLiteDatabase sqLiteDatabase = sqlHelper.getReadableDatabase();
-        String[] whereArgs = {date};
+        //String[] whereArgs = {date};
         Cursor cursor = sqLiteDatabase.query(SqlStructure.SqlData.IMAGE_DATA_TABLE, null,
-                SqlStructure.SqlData.date_column + " = ? ", whereArgs,
-                null, null, null, null);
+                null, null, null, null, null, null);
         APOD apod = new APOD();
-        if (cursor.getCount() == 1) {
+        if (cursor.moveToNext()) {
             cursor.moveToFirst();
             apod.setDate(cursor.getString(cursor.getColumnIndex(SqlStructure.SqlData.date_column)));
             apod.setCopyright(cursor.getString(cursor.getColumnIndex(SqlStructure.SqlData.author_column)));
