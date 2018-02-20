@@ -9,6 +9,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -65,7 +67,7 @@ public class IssActivity extends AppCompatActivity implements OnMapReadyCallback
     private TextView altitude;
     private ScheduledExecutorService executorService;
     private Marker marker;
-    private TextView issPass;
+    private CoordinatorLayout coordinator;
 
     private FusedLocationProviderClient mFusedLocationClient;
 
@@ -79,7 +81,7 @@ public class IssActivity extends AppCompatActivity implements OnMapReadyCallback
         linearLayout = findViewById(R.id.main_layout);
         velocity = findViewById(R.id.velocity);
         altitude = findViewById(R.id.altitude);
-        issPass = findViewById(R.id.iss_pass);
+        coordinator = findViewById(R.id.coordinator);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar_title.setText(R.string.iss);
@@ -150,9 +152,10 @@ public class IssActivity extends AppCompatActivity implements OnMapReadyCallback
             JSONObject object = (JSONObject) jsonArray.get(0);
             String date = Helper.unixToDate(object.getLong("risetime")).toString();
 
-            issPass.setText(getResources().getString(R.string.iss_pass_result).concat(":\n").concat(date));
-            issPass.setVisibility(View.VISIBLE);
-            Helper.setAnimationForAll(this, issPass);
+            Snackbar snackbar = Snackbar
+                    .make(coordinator, getResources().getString(R.string.iss_pass_result)
+                            .concat(":\n").concat(date), Snackbar.LENGTH_LONG);
+            snackbar.show();
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {

@@ -9,6 +9,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -41,6 +43,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import space.infinity.app.R;
 import space.infinity.app.models.apod.APOD;
+import space.infinity.app.network.CheckingConnection;
 import space.infinity.app.network.Client;
 import space.infinity.app.network.Service;
 import space.infinity.app.sql.SqlService;
@@ -61,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView wikiImage;
     private ImageView flaunches;
     private APOD apod;
+    private CoordinatorLayout coordinatorLayout;
     private Intent intent;
 
     private HashMap<ImageView, Integer> images;
@@ -87,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
                 generateDb();
             }
         }
-
+        coordinatorLayout = findViewById(R.id.coordinator);
         mainLayout = findViewById(R.id.main_layout);
         mProgressBar = findViewById(R.id.progress_bar);
         apodImage = findViewById(R.id.apod_image);
@@ -104,7 +108,22 @@ public class MainActivity extends AppCompatActivity {
         images.put(factsImage, R.drawable.facts);
         images.put(wikiImage, R.drawable.wiki);
         images.put(flaunches, R.drawable.ulaunches);
-        loadData();
+        if (CheckingConnection.isConnected(this)) {
+            loadData();
+        }
+        else {
+            getImageFromDb();
+            Snackbar snackbar = Snackbar
+                    .make(coordinatorLayout, "No Internet Connection", Snackbar.LENGTH_LONG)
+                    .setAction("Retry", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            finish();
+                            startActivity(getIntent());
+                        }
+                    });
+            snackbar.show();
+        }
     }
 
     private void generateDb() {
