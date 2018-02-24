@@ -61,4 +61,5 @@
     <string name="age">Age:</string>
     <string name="star_type">Type:</string>
     <string name="detailed_info">Detailed Information</string>
+    <string name="search_result">Search Result</string>
 </resources>

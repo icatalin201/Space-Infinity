@@ -40,6 +40,7 @@
         <activity android:name=".activities.PreEncyclopedia" />
         <activity android:name=".activities.ChooseEncyclopedia" />
         <activity android:name=".activities.Encyclopedia" />
+        <activity android:name=".activities.SearchActivity"></activity>
     </application>
 
 </manifest>

@@ -16,49 +16,49 @@ import java.util.List;
 
 import space.infinity.app.R;
 import space.infinity.app.activities.FullscreenActivity;
-import space.infinity.app.models.apod.APOD;
+import space.infinity.app.models.gallery.ImageInfo;
 import space.infinity.app.utils.Helper;
 
 /**
- * Created by icatalin on 11.02.2018.
+ * Created by icatalin on 24.02.2018.
  */
 
-public class ApodGalleryAdapter extends RecyclerView.Adapter<ApodGalleryAdapter.ApodViewHolder> {
+public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchViewHolder> {
 
     private Context context;
-    private List<APOD> imageDataList;
+    private List<ImageInfo> imageInfoList;
 
-    public ApodGalleryAdapter(Context context, List<APOD> imageDataList) {
+    public SearchAdapter(Context context, List<ImageInfo> imageInfoList) {
         this.context = context;
-        this.imageDataList = imageDataList;
+        this.imageInfoList = imageInfoList;
     }
 
     @Override
-    public ApodViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public SearchViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.gallery_item_card, parent, false);
-        return new ApodViewHolder(view);
+        return new SearchViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(ApodViewHolder holder, int position) {
-        Glide.with(context).load(imageDataList.get(position).getUrl())
+    public void onBindViewHolder(SearchViewHolder holder, int position) {
+        Glide.with(context).load(imageInfoList.get(position).getImage())
                 .asBitmap().centerCrop().into(holder.galleryImage);
-        holder.galleryImageTitle.setText(imageDataList.get(position).getTitle());
+        holder.galleryImageTitle.setText(imageInfoList.get(position).getTitle());
         Helper.customAnimation(context, holder.galleryCard, 700, android.R.anim.fade_in);
     }
 
     @Override
     public int getItemCount() {
-        return imageDataList.size();
+        return imageInfoList.size();
     }
 
-    protected class ApodViewHolder extends RecyclerView.ViewHolder {
+    public class SearchViewHolder extends RecyclerView.ViewHolder {
 
         private CardView galleryCard;
         private ImageView galleryImage;
         private TextView galleryImageTitle;
 
-        protected ApodViewHolder(View itemView) {
+        public SearchViewHolder(View itemView) {
             super(itemView);
             galleryCard = itemView.findViewById(R.id.gallery_card);
             galleryImage = itemView.findViewById(R.id.gallery_image);
@@ -67,7 +67,7 @@ public class ApodGalleryAdapter extends RecyclerView.Adapter<ApodGalleryAdapter.
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(context, FullscreenActivity.class);
-                    intent.putExtra("imageObject", imageDataList.get(getAdapterPosition()));
+                    intent.putExtra("imageObject", imageInfoList.get(getAdapterPosition()));
                     context.startActivity(intent);
                 }
             });

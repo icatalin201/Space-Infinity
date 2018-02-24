@@ -81,6 +81,11 @@ public class GalleryActivity extends AppCompatActivity {
                 searchView.onActionViewCollapsed();
                 searchView.setQuery("", false);
                 searchView.clearFocus();
+                if (!query.trim().equals("")) {
+                    Intent intent = new Intent(GalleryActivity.this, SearchActivity.class);
+                    intent.putExtra("query", query);
+                    startActivity(intent);
+                }
                 return false;
             }
 
@@ -108,15 +113,4 @@ public class GalleryActivity extends AppCompatActivity {
         return true;
     }
 
-    public void doSearch(View view) {
-        String ks = "";
-        if (!ks.trim().equals("")) {
-            Intent intent = new Intent();
-            intent.putExtra("keywords", ks);
-            startActivity(intent);
-        }
-        else {
-            Toast.makeText(this, R.string.search_error, Toast.LENGTH_SHORT).show();
-        }
-    }
 }

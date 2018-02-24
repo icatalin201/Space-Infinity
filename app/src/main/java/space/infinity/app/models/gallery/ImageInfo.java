@@ -1,30 +1,40 @@
 package space.infinity.app.models.gallery;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import space.infinity.app.models.apod.APOD;
+
 /**
  * Created by icatalin on 10.02.2018.
  */
 
-public class ImageInfo {
+public class ImageInfo implements Parcelable{
 
     private String date_created;
-    private String location;
     private String media_type;
     private String description;
     private String title;
     private String photographer;
-    private String nasa_id;
-    private String center;
+    private String image;
 
-    public ImageInfo(String date_created, String location, String media_type, String description,
-                     String title, String photographer, String nasa_id, String center) {
+    public ImageInfo(String date_created, String media_type, String description, String title,
+                     String photographer, String image) {
         this.date_created = date_created;
-        this.location = location;
         this.media_type = media_type;
         this.description = description;
         this.title = title;
         this.photographer = photographer;
-        this.nasa_id = nasa_id;
-        this.center = center;
+        this.image = image;
+    }
+
+    public ImageInfo(Parcel in) {
+        date_created = in.readString();
+        media_type = in.readString();
+        description = in.readString();
+        title = in.readString();
+        photographer = in.readString();
+        image = in.readString();
     }
 
     public String getDate_created() {
@@ -33,14 +43,6 @@ public class ImageInfo {
 
     public void setDate_created(String date_created) {
         this.date_created = date_created;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
     }
 
     public String getMedia_type() {
@@ -75,19 +77,35 @@ public class ImageInfo {
         this.photographer = photographer;
     }
 
-    public String getNasa_id() {
-        return nasa_id;
+    public String getImage() {
+        return image;
     }
 
-    public void setNasa_id(String nasa_id) {
-        this.nasa_id = nasa_id;
+    public void setImage(String image) {
+        this.image = image;
     }
 
-    public String getCenter() {
-        return center;
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
-    public void setCenter(String center) {
-        this.center = center;
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(date_created);
+        parcel.writeString(media_type);
+        parcel.writeString(description);
+        parcel.writeString(title);
+        parcel.writeString(photographer);
+        parcel.writeString(image);
     }
+
+    public static final Parcelable.Creator<ImageInfo> CREATOR = new Parcelable.Creator<ImageInfo>() {
+        public ImageInfo createFromParcel(Parcel in) {
+            return new ImageInfo(in);
+        }
+        public ImageInfo[] newArray(int size) {
+            return new ImageInfo[size];
+        }
+    };
 }
