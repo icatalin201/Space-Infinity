@@ -154,7 +154,7 @@ public class IssActivity extends AppCompatActivity implements OnMapReadyCallback
 
             Snackbar snackbar = Snackbar
                     .make(coordinator, getResources().getString(R.string.iss_pass_result)
-                            .concat(":\n").concat(date), Snackbar.LENGTH_LONG);
+                            .concat(":\n").concat(date), 8000);
             snackbar.show();
         } catch (InterruptedException e) {
             e.printStackTrace();

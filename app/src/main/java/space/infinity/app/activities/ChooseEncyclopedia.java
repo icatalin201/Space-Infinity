@@ -14,9 +14,11 @@ import java.util.List;
 import space.infinity.app.R;
 import space.infinity.app.adapters.GalaxyAdapter;
 import space.infinity.app.adapters.MoonAdapter;
+import space.infinity.app.adapters.OtherAdapter;
 import space.infinity.app.adapters.PlanetAdapter;
 import space.infinity.app.models.encyclopedia.Galaxy;
 import space.infinity.app.models.encyclopedia.Moon;
+import space.infinity.app.models.encyclopedia.Other;
 import space.infinity.app.models.encyclopedia.Planet;
 import space.infinity.app.sql.SqlService;
 
@@ -61,7 +63,11 @@ public class ChooseEncyclopedia extends AppCompatActivity {
                 break;
 
             case "others":
-
+                List<Other> otherListList = SqlService.getOthers(this);
+                OtherAdapter otherAdapter = new OtherAdapter(this, otherListList);
+                recyclerView.setAdapter(otherAdapter);
+                recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+                otherAdapter.notifyDataSetChanged();
                 break;
 
         }

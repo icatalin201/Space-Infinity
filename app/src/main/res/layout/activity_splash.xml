@@ -7,11 +7,11 @@
     tools:context="space.infinity.app.activities.Splash">
 
     <ImageView
+        android:layout_centerInParent="true"
         android:id="@+id/splash"
-        android:src="@drawable/spla"
-        android:scaleType="centerCrop"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:src="@mipmap/ic_launcher"
+        android:layout_width="100dp"
+        android:layout_height="100dp" />
 
     <TextView
         android:textColor="@color/primaryTextColor"

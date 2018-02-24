@@ -161,6 +161,32 @@ public class Encyclopedia extends AppCompatActivity {
             Other other = (Other) object;
             name = other.getName();
             image = other.getImage().split("\\.")[0];
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            if (!other.getType().equals("-")) {
+                ageView.setText(getResources().getString(R.string.age).
+                        concat(" ").concat(other.getAge()));
+                typeView.setText(getResources().getString(R.string.star_type).
+                        concat(" ").concat(other.getType()));
+                massView.setText(getResources().getString(R.string.mass).concat(" ")
+                        .concat(other.getMass()));
+                diameterView.setText(getResources().getString(R.string.diameter).concat(" ")
+                        .concat(other.getDiameter()));
+                surfaceTemperatureView.setText(getResources().getString(R.string.surfacet).concat(" ")
+                        .concat(other.getSurfaceTemperature()));
+                ageView.setVisibility(View.VISIBLE);
+                typeView.setVisibility(View.VISIBLE);
+                massView.setVisibility(View.VISIBLE);
+                diameterView.setVisibility(View.VISIBLE);
+                surfaceTemperatureView.setVisibility(View.VISIBLE);
+            }
+            descriptionView.setText(getResources().getString(R.string.description).
+                    concat("\n\n").concat(other.getDescription()));
+            factsView.setText(getResources().getString(R.string.detailed_info).concat("\n\n")
+                    .concat(other.getDetailedInfo()));
+            otherFactsView.setText(other.getOtherInfo());
+            descriptionView.setVisibility(View.VISIBLE);
+            factsView.setVisibility(View.VISIBLE);
+            otherFactsView.setVisibility(View.VISIBLE);
         }
         int resID = getResources().getIdentifier(image , "drawable", getPackageName());
         mCollapsingToolbarLayout.setTitle(name);

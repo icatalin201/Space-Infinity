@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
         else {
             getImageFromDb();
             Snackbar snackbar = Snackbar
-                    .make(coordinatorLayout, "No Internet Connection", Snackbar.LENGTH_LONG)
+                    .make(coordinatorLayout, "No Internet Connection", 8000)
                     .setAction("Retry", new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -122,6 +122,7 @@ public class MainActivity extends AppCompatActivity {
                             startActivity(getIntent());
                         }
                     });
+            snackbar.setActionTextColor(getResources().getColor(R.color.primaryTextColor));
             snackbar.show();
         }
     }
