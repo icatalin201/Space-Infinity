@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Space Infinity - All About Space</string>
     <string name="app_short">Space Infinity</string>
+    <string name="app_suffix">All About Space</string>
+    <string name="credits">Images Credits:  NASA</string>
     <string name="apod">APOD - Astronomy Picture of the Day</string>
     <string name="images">Image Gallery</string>
     <string name="rover">Mars Rover Images</string>
@@ -18,7 +20,7 @@
     <string name="curiosity">Curiosity Rover</string>
     <string name="opportunity">Opportunity Rover</string>
     <string name="spirit">Spirit Rover</string>
-    <string name="iss_pass">When will be ISS passing near me?</string>
+    <string name="iss_pass">When will ISS pass by my location?</string>
     <string name="velocity">Velocity</string>
     <string name="altitude">Altitude</string>
     <string name="spacex_flaunches">Upcoming Rocket Launches</string>
@@ -52,6 +54,7 @@
     <string name="firstrec">First Recorded:</string>
     <string name="recby">Recorded By:</string>
     <string name="quickfacts">Facts</string>
+    <string name="imagess">Images</string>
     <string name="designation">Designation:</string>
     <string name="distance">Distance:</string>
     <string name="constellation">Constellation:</string>
@@ -62,4 +65,8 @@
     <string name="star_type">Type:</string>
     <string name="detailed_info">Detailed Information</string>
     <string name="search_result">Search Result</string>
+    <string name="about">About</string>
+    <string name="no_fav">No favorite facts</string>
+    <string name="filter">Filter</string>
+    <string name="press">Press here to view it</string>
 </resources>

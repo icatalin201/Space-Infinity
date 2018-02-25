@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/creation"
+    tools:context="space.infinity.app.activities.About">
+
+    <include layout="@layout/main_toolbar" />
+
+    <android.support.v7.widget.CardView
+        android:clickable="true"
+        android:layout_weight="1"
+        app:cardBackgroundColor="@color/transparentBlack"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:focusable="true"
+        android:layout_marginBottom="1dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:textColor="@color/primaryTextColor"
+                android:text="@string/app_short"
+                android:gravity="center"
+                android:padding="10dp"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:textColor="@color/primaryTextColor"
+                android:text="@string/app_suffix"
+                android:gravity="center"
+                android:textSize="12sp"
+                android:padding="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:clickable="true"
+        android:layout_weight="1"
+        app:cardBackgroundColor="@color/transparentBlack"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:focusable="true"
+        android:layout_marginBottom="1dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+
+        <LinearLayout
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="30dp">
+
+            <ImageButton
+                android:layout_weight="1"
+                android:onClick="share"
+                android:src="@android:drawable/ic_menu_share"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:layout_width="0dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:tint="@color/primaryTextColor"
+                android:layout_height="wrap_content" />
+
+            <ImageButton
+                android:layout_weight="1"
+                android:onClick="rate"
+                android:src="@android:drawable/star_big_on"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:layout_width="0dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:tint="@android:color/holo_orange_light"
+                android:layout_height="wrap_content" />
+
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:clickable="true"
+        android:layout_weight="1"
+        app:cardBackgroundColor="@color/transparentBlack"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:focusable="true"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+
+        <TextView
+            android:text="@string/credits"
+            android:textColor="@color/primaryTextColor"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>

@@ -46,7 +46,7 @@ public class FullscreenActivity extends AppCompatActivity {
     private String path;
     private String desc;
     private TextView description;
-    private ImageButton fav;
+    //private ImageButton fav;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +56,7 @@ public class FullscreenActivity extends AppCompatActivity {
         full_image = findViewById(R.id.full_image);
         full_image_title = findViewById(R.id.full_image_title);
         description = findViewById(R.id.description);
-        fav = findViewById(R.id.fav);
+        //fav = findViewById(R.id.fav);
         object = getIntent().getParcelableExtra("imageObject");
         String title = "";
         if (object instanceof APOD) {
@@ -66,7 +66,7 @@ public class FullscreenActivity extends AppCompatActivity {
             hdpath = apod.getHdurl();
             desc = apod.getExplanation();
 
-            if (SqlService.isImageFav(FullscreenActivity.this, apod.getTitle())) {
+            /*if (SqlService.isImageFav(FullscreenActivity.this, apod.getTitle())) {
                 fav.setImageResource(R.drawable.fav_big);
                 fav.setTag("yes");
             }
@@ -94,7 +94,7 @@ public class FullscreenActivity extends AppCompatActivity {
                         fav.setImageResource(R.drawable.fav_big);
                     }
                 }
-            });
+            });*/
 
         }
         else if (object instanceof RoverImages){
@@ -102,7 +102,7 @@ public class FullscreenActivity extends AppCompatActivity {
             title = "Photo taken on ".concat(roverImages.getEarth_date());
             path = roverImages.getImg_src();
             hdpath = roverImages.getImg_src();
-            fav.setVisibility(View.GONE);
+            //fav.setVisibility(View.GONE);
         }
         else if (object instanceof ImageInfo) {
             final ImageInfo imageInfo = (ImageInfo) object;
@@ -111,7 +111,7 @@ public class FullscreenActivity extends AppCompatActivity {
             hdpath = imageInfo.getImage();
             desc = imageInfo.getDescription();
 
-            if (SqlService.isImageFav(FullscreenActivity.this, imageInfo.getTitle())) {
+            /*if (SqlService.isImageFav(FullscreenActivity.this, imageInfo.getTitle())) {
                 fav.setImageResource(R.drawable.fav_big);
                 fav.setTag("yes");
             }
@@ -141,7 +141,7 @@ public class FullscreenActivity extends AppCompatActivity {
                         fav.setImageResource(R.drawable.fav_big);
                     }
                 }
-            });
+            });*/
         }
         Glide.with(this).load(path)
                 .asBitmap().into(full_image);

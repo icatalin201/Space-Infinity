@@ -1,12 +1,17 @@
 package space.infinity.app.activities;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +29,7 @@ public class FactsActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private TextView factView;
     private List<SpaceFact> spaceFactList;
+    private LinearLayout buttons;
     private ImageButton fav;
     private int index;
     private int max;
@@ -39,17 +45,22 @@ public class FactsActivity extends AppCompatActivity {
         toolbar_title.setText(R.string.facts);
         factView = findViewById(R.id.fact);
         fav = findViewById(R.id.fav);
+        buttons = findViewById(R.id.buttons);
         spaceFactList = SqlService.getSpaceFactsList(this);
         max = spaceFactList.size() - 1;
         index = ThreadLocalRandom.current().nextInt(0, max);
         factView.setText(spaceFactList.get(index).getName());
         Helper.customAnimation(this, factView, 700, android.R.anim.fade_in);
         setFavorites(spaceFactList.get(index));
+        SharedPreferences preferences = getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("filter", "no");
+        editor.apply();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
+        getMenuInflater().inflate(R.menu.custom_menu, menu);
         return true;
     }
 
@@ -57,6 +68,42 @@ public class FactsActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.info:
+                Intent aboutIntent = new Intent(getApplicationContext(), About.class);
+                startActivity(aboutIntent);
+                return true;
+            case R.id.action_filter:
+                String c = getPreferences(Context.MODE_PRIVATE).getString("filter", "");
+                if (c.equals("no")) {
+                    spaceFactList.clear();
+                    spaceFactList = SqlService.getFavoriteFacts(FactsActivity.this);
+                    if (spaceFactList.size() > 0) {
+                        max = spaceFactList.size() - 1;
+                        index = 0;
+                        factView.setText(spaceFactList.get(index).getName());
+                        Helper.customAnimation(this, factView, 700, android.R.anim.fade_in);
+                        setFavorites(spaceFactList.get(index));
+                    }
+                    else {
+                        factView.setText(R.string.no_fav);
+                        buttons.setVisibility(View.GONE);
+                    }
+                    SharedPreferences preferences = getPreferences(Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putString("filter", "yes");
+                    editor.apply();
+                }
+                else if (c.equals("yes")) {
+                    spaceFactList = SqlService.getSpaceFactsList(this);
+                    max = spaceFactList.size() - 1;
+                    index = ThreadLocalRandom.current().nextInt(0, max);
+                    factView.setText(spaceFactList.get(index).getName());
+                    Helper.customAnimation(this, factView, 700, android.R.anim.fade_in);
+                    setFavorites(spaceFactList.get(index));
+                    SharedPreferences preferences = getPreferences(Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putString("filter", "no");
+                    editor.apply();
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

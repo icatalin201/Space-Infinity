@@ -17,17 +17,26 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/fact"
-            android:padding="30dp"
-            android:gravity="center"
+
+        <ScrollView
             android:layout_weight="1"
-            android:textSize="18sp"
-            android:textColor="@color/primaryTextColor"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/fact"
+                android:padding="30dp"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:textSize="18sp"
+                android:textColor="@color/primaryTextColor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </ScrollView>
 
         <LinearLayout
+            android:id="@+id/buttons"
             android:orientation="horizontal"
             android:layout_weight="2"
             android:layout_width="match_parent"

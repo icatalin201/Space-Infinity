@@ -108,6 +108,8 @@ public class ApodActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.info:
+                Intent aboutIntent = new Intent(getApplicationContext(), About.class);
+                startActivity(aboutIntent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

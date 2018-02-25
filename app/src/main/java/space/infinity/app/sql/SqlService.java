@@ -22,6 +22,25 @@ import space.infinity.app.models.facts.SpaceFact;
 
 public class SqlService {
 
+    public static List<SpaceFact> getFavoriteFacts(Context context) {
+        List<SpaceFact> facts = new ArrayList<>();
+        SqlHelper sqlHelper = new SqlHelper(context);
+        SQLiteDatabase database = sqlHelper.getReadableDatabase();
+        String[] where = {"yes"};
+        Cursor cursor = database.query(SqlStructure.SqlData.FACTS_TABLE, null,
+                SqlStructure.SqlData.is_fact_fav + " = ?", where,
+                null, null, null);
+        while (cursor.moveToNext()) {
+            int id = cursor.getInt(cursor.getColumnIndex(SqlStructure.SqlData._ID));
+            String name = cursor.getString(cursor.getColumnIndex(SqlStructure.SqlData.fact_name));
+            String isFav = cursor.getString(cursor.getColumnIndex(SqlStructure.SqlData.is_fact_fav));
+            facts.add(new SpaceFact(id, name, isFav));
+        }
+        cursor.close();
+        database.close();
+        return facts;
+    }
+
     public static void handleImageFavs(Context context, String action, String title, String url,
                                        String hdurl, String description) {
         SqlHelper sqlHelper = new SqlHelper(context);

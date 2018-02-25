@@ -26,8 +26,8 @@ public class NotificationService extends BroadcastReceiver {
                 splashIntent, 0);
         mBuilder.setContentIntent(pendingIntent);
         mBuilder.setSmallIcon(R.drawable.logo);
-        mBuilder.setContentTitle("My notification");
-        mBuilder.setContentText("Hello World!");
+        mBuilder.setContentTitle(context.getResources().getString(R.string.apod));
+        mBuilder.setContentText(context.getResources().getString(R.string.press));
         mBuilder.setAutoCancel(true);
         NotificationManager mNotificationManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);

@@ -48,14 +48,14 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
                 .asBitmap().centerCrop().into(holder.galleryImage);
         holder.galleryImageTitle.setText(imageInfoList.get(position).getTitle());
         Helper.customAnimation(context, holder.galleryCard, 700, android.R.anim.fade_in);
-        if (SqlService.isImageFav(context, imageInfoList.get(position).getTitle())) {
+        /*if (SqlService.isImageFav(context, imageInfoList.get(position).getTitle())) {
             holder.galleryImageFav.setImageResource(R.drawable.fav_big);
             holder.galleryImageFav.setTag("yes");
         }
         else {
             holder.galleryImageFav.setImageResource(R.drawable.notfav_big);
             holder.galleryImageFav.setTag("no");
-        }
+        }*/
     }
 
     @Override
@@ -68,14 +68,14 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
         private CardView galleryCard;
         private ImageView galleryImage;
         private TextView galleryImageTitle;
-        private ImageButton galleryImageFav;
+        //private ImageButton galleryImageFav;
 
         public SearchViewHolder(View itemView) {
             super(itemView);
             galleryCard = itemView.findViewById(R.id.gallery_card);
             galleryImage = itemView.findViewById(R.id.gallery_image);
             galleryImageTitle = itemView.findViewById(R.id.gallery_image_title);
-            galleryImageFav = itemView.findViewById(R.id.image_fav);
+            //galleryImageFav = itemView.findViewById(R.id.image_fav);
             galleryCard.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -84,7 +84,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
                     context.startActivity(intent);
                 }
             });
-            galleryImageFav.setOnClickListener(new View.OnClickListener() {
+            /*galleryImageFav.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (galleryImageFav.getTag().equals("yes")) {
@@ -108,7 +108,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
                         galleryImageFav.setImageResource(R.drawable.fav_big);
                     }
                 }
-            });
+            });*/
         }
     }
 }
