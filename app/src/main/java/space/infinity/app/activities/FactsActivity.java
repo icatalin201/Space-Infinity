@@ -82,6 +82,7 @@ public class FactsActivity extends AppCompatActivity {
                         factView.setText(spaceFactList.get(index).getName());
                         Helper.customAnimation(this, factView, 700, android.R.anim.fade_in);
                         setFavorites(spaceFactList.get(index));
+                        buttons.setVisibility(View.VISIBLE);
                     }
                     else {
                         factView.setText(R.string.no_fav);
@@ -99,6 +100,7 @@ public class FactsActivity extends AppCompatActivity {
                     factView.setText(spaceFactList.get(index).getName());
                     Helper.customAnimation(this, factView, 700, android.R.anim.fade_in);
                     setFavorites(spaceFactList.get(index));
+                    buttons.setVisibility(View.VISIBLE);
                     SharedPreferences preferences = getPreferences(Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = preferences.edit();
                     editor.putString("filter", "no");
