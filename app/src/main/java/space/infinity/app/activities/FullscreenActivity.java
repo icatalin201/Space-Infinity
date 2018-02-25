@@ -14,7 +14,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,7 +33,6 @@ import space.infinity.app.R;
 import space.infinity.app.models.apod.APOD;
 import space.infinity.app.models.gallery.ImageInfo;
 import space.infinity.app.models.mars.RoverImages;
-import space.infinity.app.sql.SqlService;
 import space.infinity.app.utils.Helper;
 
 public class FullscreenActivity extends AppCompatActivity {
