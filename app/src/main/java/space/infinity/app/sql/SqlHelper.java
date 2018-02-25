@@ -37,7 +37,8 @@ public class SqlHelper extends SQLiteOpenHelper{
                     SqlStructure.SqlData.fav_type + " TEXT," +
                     SqlStructure.SqlData.fav_url + " TEXT," +
                     SqlStructure.SqlData.fav_hdulr + " TEXT," +
-                    SqlStructure.SqlData.fav_title + " TEXT)";
+                    SqlStructure.SqlData.fav_title + " TEXT," +
+                    SqlStructure.SqlData.fav_description + " TEXT)";
 
     private static final String SQL_CREATE_WIKI_PLANETS =
             "CREATE TABLE " + SqlStructure.SqlData.WIKI_PLANETS_TABLE + " (" +

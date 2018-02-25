@@ -79,6 +79,7 @@ public class SqlStructure {
         public static final String fav_url = "url";
         public static final String fav_hdulr = "hdurl";
         public static final String fav_title = "title";
+        public static final String fav_description = "description";
 
         public static final String FACTS_TABLE = "facts";
         public static final String fact_name = "name";

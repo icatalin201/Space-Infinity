@@ -7,16 +7,20 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
 import java.util.List;
 
 import space.infinity.app.R;
+import space.infinity.app.activities.FactsActivity;
 import space.infinity.app.activities.FullscreenActivity;
 import space.infinity.app.models.apod.APOD;
+import space.infinity.app.sql.SqlService;
 import space.infinity.app.utils.Helper;
 
 /**
@@ -45,6 +49,14 @@ public class ApodGalleryAdapter extends RecyclerView.Adapter<ApodGalleryAdapter.
                 .asBitmap().centerCrop().into(holder.galleryImage);
         holder.galleryImageTitle.setText(imageDataList.get(position).getTitle());
         Helper.customAnimation(context, holder.galleryCard, 700, android.R.anim.fade_in);
+        if (SqlService.isImageFav(context, imageDataList.get(position).getTitle())) {
+            holder.galleryImageFav.setImageResource(R.drawable.fav_big);
+            holder.galleryImageFav.setTag("yes");
+        }
+        else {
+            holder.galleryImageFav.setImageResource(R.drawable.notfav_big);
+            holder.galleryImageFav.setTag("no");
+        }
     }
 
     @Override
@@ -57,18 +69,45 @@ public class ApodGalleryAdapter extends RecyclerView.Adapter<ApodGalleryAdapter.
         private CardView galleryCard;
         private ImageView galleryImage;
         private TextView galleryImageTitle;
+        private ImageButton galleryImageFav;
 
         protected ApodViewHolder(View itemView) {
             super(itemView);
             galleryCard = itemView.findViewById(R.id.gallery_card);
             galleryImage = itemView.findViewById(R.id.gallery_image);
             galleryImageTitle = itemView.findViewById(R.id.gallery_image_title);
+            galleryImageFav = itemView.findViewById(R.id.image_fav);
             galleryCard.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(context, FullscreenActivity.class);
                     intent.putExtra("imageObject", imageDataList.get(getAdapterPosition()));
                     context.startActivity(intent);
+                }
+            });
+            galleryImageFav.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (galleryImageFav.getTag().equals("yes")) {
+                        SqlService.handleImageFavs(context, "remove",
+                                imageDataList.get(getAdapterPosition()).getTitle(),
+                                imageDataList.get(getAdapterPosition()).getUrl(),
+                                imageDataList.get(getAdapterPosition()).getHdurl(),
+                                imageDataList.get(getAdapterPosition()).getExplanation());
+                        Toast.makeText(context, "Removed from favorites", Toast.LENGTH_SHORT).show();
+                        galleryImageFav.setTag("no");
+                        galleryImageFav.setImageResource(R.drawable.notfav_big);
+                    }
+                    else if (galleryImageFav.getTag().equals("no")) {
+                        SqlService.handleImageFavs(context,"add",
+                                imageDataList.get(getAdapterPosition()).getTitle(),
+                                imageDataList.get(getAdapterPosition()).getUrl(),
+                                imageDataList.get(getAdapterPosition()).getHdurl(),
+                                imageDataList.get(getAdapterPosition()).getExplanation());
+                        Toast.makeText(context, "Marked as favorite", Toast.LENGTH_SHORT).show();
+                        galleryImageFav.setTag("yes");
+                        galleryImageFav.setImageResource(R.drawable.fav_big);
+                    }
                 }
             });
         }

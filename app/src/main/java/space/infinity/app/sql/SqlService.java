@@ -22,6 +22,51 @@ import space.infinity.app.models.facts.SpaceFact;
 
 public class SqlService {
 
+    public static void handleImageFavs(Context context, String action, String title, String url,
+                                       String hdurl, String description) {
+        SqlHelper sqlHelper = new SqlHelper(context);
+        SQLiteDatabase database = sqlHelper.getWritableDatabase();
+        switch (action) {
+            case "add":
+                if (!isImageFav(context, title)) {
+                    ContentValues cv = new ContentValues();
+                    cv.put(SqlStructure.SqlData.fav_title, title);
+                    cv.put(SqlStructure.SqlData.fav_type, "image");
+                    cv.put(SqlStructure.SqlData.fav_url, url);
+                    cv.put(SqlStructure.SqlData.fav_hdulr, hdurl);
+                    cv.put(SqlStructure.SqlData.fav_description, description);
+                    database.insert(SqlStructure.SqlData.FAVS_IMAGE_TABLE, null, cv);
+                    Log.i("add", "image favorite");
+                }
+                break;
+            case "remove":
+                if (isImageFav(context, title)) {
+                    String[] where = { title };
+                    database.delete(SqlStructure.SqlData.FAVS_IMAGE_TABLE,
+                            SqlStructure.SqlData.fav_title + " = ? ", where);
+                    Log.i("remove", "image favorite");
+                }
+                break;
+        }
+        database.close();
+    }
+
+    public static boolean isImageFav(Context context, String title) {
+        boolean check = false;
+        SqlHelper sqlHelper = new SqlHelper(context);
+        SQLiteDatabase database = sqlHelper.getReadableDatabase();
+        String[] whereArgs = { title };
+        Cursor cursor = database.query(SqlStructure.SqlData.FAVS_IMAGE_TABLE, null,
+                SqlStructure.SqlData.fav_title + " = ?", whereArgs,
+                null, null, null, null);
+        if (cursor.getCount() == 1) {
+            check = true;
+        }
+        cursor.close();
+        database.close();
+        return check;
+    }
+
     public static List<Planet> getPlanets(Context context) {
         SqlHelper sqlHelper = new SqlHelper(context);
         SQLiteDatabase database = sqlHelper.getReadableDatabase();

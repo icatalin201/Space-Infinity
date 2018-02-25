@@ -20,13 +20,31 @@
             android:contentDescription="@string/apod"
             android:id="@+id/gallery_image"
             android:layout_width="match_parent"
-            android:layout_height="170dp"/>
+            android:layout_height="200dp"/>
 
-        <TextView
-            android:id="@+id/gallery_image_title"
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="10dp" />
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/gallery_image_title"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:padding="10dp" />
+
+            <ImageButton
+                android:id="@+id/image_fav"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:src="@drawable/notfav_big"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:padding="8dp"
+                android:tint="@android:color/holo_red_dark" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
