@@ -3,8 +3,6 @@ package space.infinity.app.models.gallery;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import space.infinity.app.models.apod.APOD;
-
 /**
  * Created by icatalin on 10.02.2018.
  */

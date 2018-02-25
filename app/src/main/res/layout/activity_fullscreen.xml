@@ -9,7 +9,6 @@
 
     <LinearLayout
         android:id="@+id/layout"
-        android:layout_marginTop="20dp"
         android:orientation="horizontal"
         android:translationZ="5dp"
         android:padding="10dp"
@@ -32,7 +31,7 @@
             android:layout_height="match_parent" />
 
         <ImageButton
-            android:onClick="putInFav"
+            android:id="@+id/fav"
             android:src="@drawable/notfav_big"
             android:tint="@android:color/holo_red_dark"
             android:background="?attr/selectableItemBackgroundBorderless"
@@ -73,5 +72,19 @@
         app:zoomage_translatable="true"
         app:zoomage_minScale="0.6"
         app:zoomage_maxScale="8" />
+
+    <ScrollView
+        android:layout_alignParentBottom="true"
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="100dp">
+
+        <TextView
+            android:id="@+id/description"
+            android:textColor="@color/primaryTextColor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </ScrollView>
 
 </RelativeLayout>

@@ -17,7 +17,6 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 import space.infinity.app.R;
-import space.infinity.app.activities.FactsActivity;
 import space.infinity.app.activities.FullscreenActivity;
 import space.infinity.app.models.apod.APOD;
 import space.infinity.app.sql.SqlService;

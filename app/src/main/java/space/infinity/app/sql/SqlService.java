@@ -259,7 +259,8 @@ public class SqlService {
             String url = cursor.getString(cursor.getColumnIndex(SqlStructure.SqlData.url_column));
             String title = cursor.getString(cursor.getColumnIndex(SqlStructure.SqlData.title_column));
             String author = cursor.getString(cursor.getColumnIndex(SqlStructure.SqlData.author_column));
-            list.add(new APOD(date, null, url, hdurl, null, title, author));
+            String description = cursor.getString(cursor.getColumnIndex(SqlStructure.SqlData.description_column));
+            list.add(new APOD(date, description, url, hdurl, null, title, author));
         }
         cursor.close();
         sqLiteDatabase.close();

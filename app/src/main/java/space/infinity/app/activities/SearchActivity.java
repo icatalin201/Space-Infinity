@@ -1,8 +1,8 @@
 package space.infinity.app.activities;
 
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -26,14 +26,9 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import space.infinity.app.R;
 import space.infinity.app.adapters.SearchAdapter;
 import space.infinity.app.models.gallery.ImageInfo;
-import space.infinity.app.network.Client;
-import space.infinity.app.network.Service;
 import space.infinity.app.utils.Constants;
 
 public class SearchActivity extends AppCompatActivity {

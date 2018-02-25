@@ -1,6 +1,8 @@
 package space.infinity.app.activities;
 
 import android.Manifest;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -32,9 +34,7 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.channels.FileChannel;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -49,6 +49,7 @@ import space.infinity.app.network.Service;
 import space.infinity.app.sql.SqlService;
 import space.infinity.app.utils.Constants;
 import space.infinity.app.utils.Helper;
+import space.infinity.app.utils.NotificationService;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -82,7 +83,8 @@ public class MainActivity extends AppCompatActivity {
             generateDb();
         }
         else {
-            if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            if (ActivityCompat.checkSelfPermission(MainActivity.this,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE)
                     != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(MainActivity.this,
                         new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 123);
@@ -110,6 +112,11 @@ public class MainActivity extends AppCompatActivity {
         images.put(flaunches, R.drawable.ulaunches);
         if (CheckingConnection.isConnected(this)) {
             loadData();
+            Calendar calendar = Calendar.getInstance();
+            String day = getPreferences(Context.MODE_PRIVATE).getString("notification-today", "");
+            if (day.equals("") || !Integer.toString(calendar.get(Calendar.DAY_OF_MONTH)).equals(day)) {
+                setNotifications();
+            }
         }
         else {
             getImageFromDb();
@@ -148,7 +155,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull
+            String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (ActivityCompat.checkSelfPermission(MainActivity.this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
@@ -337,5 +345,21 @@ public class MainActivity extends AppCompatActivity {
     public void futureLaunches(View view){
         intent = new Intent(this, UpcomingLaunches.class);
         startActivity(intent);
+    }
+
+    private void setNotifications() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 9);
+        calendar.set(Calendar.MINUTE, 30);
+        Intent intent = new Intent(MainActivity.this, NotificationService.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this,
+                1, intent, 0);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                AlarmManager.INTERVAL_DAY, pendingIntent);
+        SharedPreferences preferences = getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("notification-today", Integer.toString(calendar.get(Calendar.DAY_OF_MONTH)));
+        editor.apply();
     }
 }
