@@ -31,7 +31,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="350dp">
+                android:layout_height="500dp">
 
                 <ImageButton
                     android:onClick="downloadImg"
@@ -75,6 +75,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
+                    android:textSize="18sp"
                     android:singleLine="true"
                     android:ellipsize="marquee"
                     android:marqueeRepeatLimit ="marquee_forever"
@@ -94,6 +95,7 @@
                 <TextView
                     android:id="@+id/apod_date"
                     android:layout_weight="1"
+                    android:textSize="18sp"
                     android:layout_width="wrap_content"
                     android:layout_marginEnd="10dp"
                     android:layout_marginStart="10dp"
@@ -104,6 +106,7 @@
                 <TextView
                     android:id="@+id/apod_author"
                     android:layout_weight="1"
+                    android:textSize="18sp"
                     android:layout_marginEnd="10dp"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="10dp"
@@ -126,6 +129,7 @@
                 android:id="@+id/apod_explanation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textSize="18sp"
                 android:layout_marginEnd="10dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginBottom="10dp"/>

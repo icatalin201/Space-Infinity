@@ -91,6 +91,7 @@ public class FactsActivity extends AppCompatActivity {
                     SharedPreferences.Editor editor = preferences.edit();
                     editor.putString("filter", "yes");
                     editor.apply();
+                    Toast.makeText(this, "Favorite facts", Toast.LENGTH_SHORT).show();
                 }
                 else if (c.equals("yes")) {
                     spaceFactList = SqlService.getSpaceFactsList(this);
@@ -104,6 +105,7 @@ public class FactsActivity extends AppCompatActivity {
                     SharedPreferences.Editor editor = preferences.edit();
                     editor.putString("filter", "no");
                     editor.apply();
+                    Toast.makeText(this, "All facts", Toast.LENGTH_SHORT).show();
                 }
                 return true;
             default:
