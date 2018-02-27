@@ -69,7 +69,7 @@ public class LaunchCardAdapter extends RecyclerView.Adapter<LaunchCardAdapter.La
                 .concat(" ").concat(launchList.get(position).getLaunch_site().getSite_name_long()));
         Long unix_date = launchList.get(position).getLaunch_date_unix();
         holder.launch_date.setText(context.getResources().getString(R.string.launch_date)
-                .concat(" ").concat(Helper.unixToDate(unix_date).toString()));
+                .concat(" ").concat(Helper.unixToDate(unix_date)));
     }
 
     @Override

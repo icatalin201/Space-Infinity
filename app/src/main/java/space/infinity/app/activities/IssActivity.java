@@ -151,7 +151,7 @@ public class IssActivity extends AppCompatActivity implements OnMapReadyCallback
             JSONObject jsonObject = new GetData().execute(Constants.ISS_PASS.concat(params)).get();
             JSONArray jsonArray = jsonObject.getJSONArray("response");
             JSONObject object = (JSONObject) jsonArray.get(0);
-            String date = Helper.unixToDate(object.getLong("risetime")).toString();
+            String date = Helper.unixToDate(object.getLong("risetime"));
 
             Snackbar snackbar = Snackbar
                     .make(coordinator, getResources().getString(R.string.iss_pass_result)

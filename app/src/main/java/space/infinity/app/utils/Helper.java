@@ -1,10 +1,13 @@
 package space.infinity.app.utils;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -33,7 +36,9 @@ public class Helper {
         view.startAnimation(animation);
     }
 
-    public static Date unixToDate(Long unix_date){
-        return new Date(unix_date*1000);
+    public static String unixToDate(Long unix_date){
+        Date d = new Date(unix_date*1000);
+        DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss dd-MM-yyyy");
+        return dateFormat.format(d);
     }
 }
