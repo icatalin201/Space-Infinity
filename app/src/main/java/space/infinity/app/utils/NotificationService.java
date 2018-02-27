@@ -25,7 +25,7 @@ public class NotificationService extends BroadcastReceiver {
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 1,
                 splashIntent, 0);
         mBuilder.setContentIntent(pendingIntent);
-        mBuilder.setSmallIcon(R.drawable.logo);
+        mBuilder.setSmallIcon(R.mipmap.ic_launcher);
         mBuilder.setContentTitle(context.getResources().getString(R.string.apod));
         mBuilder.setContentText(context.getResources().getString(R.string.press));
         mBuilder.setAutoCancel(true);

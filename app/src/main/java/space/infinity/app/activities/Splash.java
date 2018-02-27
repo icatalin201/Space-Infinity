@@ -22,7 +22,7 @@ public class Splash extends AppCompatActivity {
         Animation pulse = AnimationUtils.loadAnimation(this, R.anim.animation);
         image.startAnimation(pulse);
         String dbpath = this.getDatabasePath("space_infinity.db").toString();
-        Log.i("dbpath", dbpath);
+        Log.i("db_path", dbpath);
         int SPLASH_TIME_OUT = 3000;
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -32,5 +32,11 @@ public class Splash extends AppCompatActivity {
                 finish();
             }
         }, SPLASH_TIME_OUT);
+    }
+
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+        Log.i("back", "pressed - ha ha");
     }
 }

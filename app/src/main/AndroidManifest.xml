@@ -41,10 +41,9 @@
         <activity android:name=".activities.ChooseEncyclopedia" />
         <activity android:name=".activities.Encyclopedia" />
         <activity android:name=".activities.SearchActivity" />
+        <activity android:name=".activities.About" />
 
         <receiver android:name=".utils.NotificationService" />
-
-        <activity android:name=".activities.About" />
     </application>
 
 </manifest>
