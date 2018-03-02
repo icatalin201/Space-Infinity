@@ -38,7 +38,7 @@ public class Helper {
 
     public static String unixToDate(Long unix_date){
         Date d = new Date(unix_date*1000);
-        DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss dd-MM-yyyy");
+        DateFormat dateFormat = new SimpleDateFormat("HH:mm dd-MM-yyyy");
         return dateFormat.format(d);
     }
 }
