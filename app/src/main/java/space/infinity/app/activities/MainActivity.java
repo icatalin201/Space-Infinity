@@ -147,8 +147,8 @@ public class MainActivity extends AppCompatActivity {
             Log.i("directory", "exists");
             check = true;
         }
-        String firstTime = getPreferences(Context.MODE_PRIVATE).getString("first_time", "");
-        if (check && !firstTime.equals("no")) {
+        String firstTime = getPreferences(Context.MODE_PRIVATE).getString("updated", "");
+        if (check && !firstTime.equals("yes")) {
             //exportDB();
             importDB();
         }
@@ -185,7 +185,7 @@ public class MainActivity extends AppCompatActivity {
                 myOutput.close();
                 SharedPreferences preferences = getPreferences(Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = preferences.edit();
-                editor.putString("first_time", "no");
+                editor.putString("updated", "yes");
                 editor.apply();
                 Log.i("db", "copied");
             }

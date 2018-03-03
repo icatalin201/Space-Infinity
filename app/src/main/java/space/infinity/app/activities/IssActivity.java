@@ -146,7 +146,7 @@ public class IssActivity extends AppCompatActivity implements OnMapReadyCallback
 
         String lat = getPreferences(Context.MODE_PRIVATE).getString("lat", "");
         String lon = getPreferences(Context.MODE_PRIVATE).getString("lon", "");
-        String params = "lat=".concat(lat).concat("&lon=").concat(lon).concat("&n=1");
+        String params = "lat=".concat(lat).concat("&lon=").concat(lon).concat("&n=3");
         try {
             JSONObject jsonObject = new GetData().execute(Constants.ISS_PASS.concat(params)).get();
             JSONArray jsonArray = jsonObject.getJSONArray("response");
