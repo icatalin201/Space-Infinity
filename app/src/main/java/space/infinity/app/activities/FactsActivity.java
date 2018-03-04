@@ -72,6 +72,16 @@ public class FactsActivity extends AppCompatActivity {
                 Intent aboutIntent = new Intent(getApplicationContext(), About.class);
                 startActivity(aboutIntent);
                 return true;
+            case R.id.share_fact:
+                String packageName = getPackageName();
+                Intent appShareIntent = new Intent(Intent.ACTION_SEND);
+                appShareIntent.setType("text/plain");
+                String extraText = spaceFactList.get(index).getName().concat("\n");
+                extraText += "See more. Download the app!\n";
+                extraText += "https://play.google.com/store/apps/details?id=" + packageName;
+                appShareIntent.putExtra(Intent.EXTRA_TEXT, extraText);
+                startActivity(appShareIntent);
+                return true;
             case R.id.action_filter:
                 String c = getPreferences(Context.MODE_PRIVATE).getString("filter", "");
                 if (c.equals("no")) {

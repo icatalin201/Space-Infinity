@@ -69,5 +69,6 @@
     <string name="no_fav">No favorite facts</string>
     <string name="filter">Filter</string>
     <string name="press">Press here to view it</string>
-    <string name="version">App version: 1.7</string>
+    <string name="share">Share</string>
+    <string name="version">App version: 1.8</string>
 </resources>
