@@ -49,7 +49,12 @@ public class FactsActivity extends AppCompatActivity {
         spaceFactList = SqlService.getSpaceFactsList(this);
         max = spaceFactList.size() - 1;
         //index = ThreadLocalRandom.current().nextInt(0, max);
-        index = new Random().nextInt(max);
+        try {
+            index = new Random().nextInt(max);
+        }
+        catch (Exception ex) {
+            index = 1;
+        }
         factView.setText(spaceFactList.get(index).getName());
         Helper.customAnimation(this, factView, 700, android.R.anim.fade_in);
         setFavorites(spaceFactList.get(index));
@@ -109,7 +114,12 @@ public class FactsActivity extends AppCompatActivity {
                     spaceFactList = SqlService.getSpaceFactsList(this);
                     max = spaceFactList.size() - 1;
                     //index = ThreadLocalRandom.current().nextInt(0, max);
-                    index = new Random().nextInt(max);
+                    try {
+                        index = new Random().nextInt(max);
+                    }
+                    catch (Exception ex) {
+                        index = 1;
+                    }
                     factView.setText(spaceFactList.get(index).getName());
                     Helper.customAnimation(this, factView, 700, android.R.anim.fade_in);
                     setFavorites(spaceFactList.get(index));
