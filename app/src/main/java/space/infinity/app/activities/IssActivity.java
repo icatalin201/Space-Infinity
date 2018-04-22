@@ -157,12 +157,18 @@ public class IssActivity extends AppCompatActivity implements OnMapReadyCallback
                     .make(coordinator, getResources().getString(R.string.iss_pass_result)
                             .concat(":\n").concat(date), 8000);
             snackbar.show();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            Snackbar snackbar = Snackbar
+                    .make(coordinator, getResources().getString(R.string.isserror), 8000)
+                    .setAction("Retry", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            finish();
+                            startActivity(getIntent());
+                        }
+                    });
+            snackbar.setActionTextColor(getResources().getColor(R.color.primaryTextColor));
+            snackbar.show();
         }
     }
 
@@ -241,7 +247,9 @@ public class IssActivity extends AppCompatActivity implements OnMapReadyCallback
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        executorService.shutdown();
+        if (executorService != null) {
+            executorService.shutdown();
+        }
     }
 
     @Override
@@ -319,7 +327,7 @@ public class IssActivity extends AppCompatActivity implements OnMapReadyCallback
 
         @Override
         protected void onPostExecute(JSONObject json) {
-            Log.i("Result", json.toString());
+            //Log.i("Result", json.toString());
         }
     }
 
