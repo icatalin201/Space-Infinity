@@ -296,7 +296,7 @@ public class SqlService {
                 null, null, null, null, null, null);
         APOD apod = new APOD();
         if (cursor.moveToNext()) {
-            cursor.moveToFirst();
+            cursor.moveToLast();
             apod.setDate(cursor.getString(cursor.getColumnIndex(SqlStructure.SqlData.date_column)));
             apod.setCopyright(cursor.getString(cursor.getColumnIndex(SqlStructure.SqlData.author_column)));
             apod.setExplanation(cursor.getString(cursor.getColumnIndex(SqlStructure.SqlData.description_column)));
