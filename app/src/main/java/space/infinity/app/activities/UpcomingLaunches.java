@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,6 +36,7 @@ import space.infinity.app.models.launch.LaunchSite;
 import space.infinity.app.models.launch.Payloads;
 import space.infinity.app.models.launch.Rocket;
 import space.infinity.app.models.launch.SecondStage;
+import space.infinity.app.network.CheckingConnection;
 import space.infinity.app.utils.Constants;
 import space.infinity.app.utils.Helper;
 
@@ -62,7 +64,12 @@ public class UpcomingLaunches extends AppCompatActivity {
         adapter = new LaunchCardAdapter(this, launches);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        new GetDatas().execute(Constants.SPACEX_API);
+        if (CheckingConnection.isConnected(this)) {
+            new GetDatas().execute(Constants.SPACEX_API);
+        }
+        else {
+            Toast.makeText(this, "No Internet Connection", Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override

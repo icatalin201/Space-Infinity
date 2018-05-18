@@ -36,6 +36,7 @@ import java.util.Random;
 
 import space.infinity.app.R;
 import space.infinity.app.models.apod.APOD;
+import space.infinity.app.network.CheckingConnection;
 
 public class ApodActivity extends AppCompatActivity {
 
@@ -123,9 +124,14 @@ public class ApodActivity extends AppCompatActivity {
     }
 
     public void downloadImg(View view){
-        Toast.makeText(this, R.string.download, Toast.LENGTH_SHORT).show();
-        if (apod.getMedia_type().equals("image")){
-            new DownloadImage().execute(apod.getHdurl());
+        if (CheckingConnection.isConnected(this)) {
+            Toast.makeText(this, R.string.download, Toast.LENGTH_SHORT).show();
+            if (apod.getMedia_type().equals("image")){
+                new DownloadImage().execute(apod.getHdurl());
+            }
+        }
+        else {
+            Toast.makeText(this, "No Internet Connection", Toast.LENGTH_LONG).show();
         }
 
     }

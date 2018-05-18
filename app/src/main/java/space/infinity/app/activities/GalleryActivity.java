@@ -14,12 +14,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
 import space.infinity.app.R;
 import space.infinity.app.adapters.ApodGalleryAdapter;
 import space.infinity.app.models.apod.APOD;
+import space.infinity.app.network.CheckingConnection;
 import space.infinity.app.sql.SqlService;
 
 public class GalleryActivity extends AppCompatActivity {
@@ -81,9 +83,14 @@ public class GalleryActivity extends AppCompatActivity {
                 searchView.setQuery("", false);
                 searchView.clearFocus();
                 if (!query.trim().equals("")) {
-                    Intent intent = new Intent(GalleryActivity.this, SearchActivity.class);
-                    intent.putExtra("query", query);
-                    startActivity(intent);
+                    if (CheckingConnection.isConnected(getApplicationContext())) {
+                        Intent intent = new Intent(GalleryActivity.this, SearchActivity.class);
+                        intent.putExtra("query", query);
+                        startActivity(intent);
+                    }
+                    else {
+                        Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_LONG).show();
+                    }
                 }
                 return false;
             }

@@ -54,6 +54,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import space.infinity.app.R;
+import space.infinity.app.network.CheckingConnection;
 import space.infinity.app.utils.Constants;
 import space.infinity.app.utils.Helper;
 
@@ -183,6 +184,7 @@ public class IssActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     private LatLng getLocationIss() {
+
         GetData getData = new GetData();
         JSONObject jsonObject = null;
         LatLng location = null;
@@ -254,23 +256,39 @@ public class IssActivity extends AppCompatActivity implements OnMapReadyCallback
 
     @Override
     public void onMapReady(final GoogleMap googleMap) {
-        googleMap.getUiSettings().setZoomGesturesEnabled(false);
 
-        executorService = Executors.newSingleThreadScheduledExecutor();
-        executorService.scheduleAtFixedRate(new Runnable() {
-            @Override
-            public void run() {
-                Log.i("location", "updated");
-                final LatLng location = getLocationIss();
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Log.i("map", "updated");
-                        updateLocation(location, googleMap);
-                    }
-                });
-            }
-        }, 0, 5, TimeUnit.SECONDS);
+        if (CheckingConnection.isConnected(this)) {
+            googleMap.getUiSettings().setZoomGesturesEnabled(false);
+
+            executorService = Executors.newSingleThreadScheduledExecutor();
+            executorService.scheduleAtFixedRate(new Runnable() {
+                @Override
+                public void run() {
+                    Log.i("location", "updated");
+                    final LatLng location = getLocationIss();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Log.i("map", "updated");
+                            updateLocation(location, googleMap);
+                        }
+                    });
+                }
+            }, 0, 5, TimeUnit.SECONDS);
+        }
+        else {
+            Snackbar snackbar = Snackbar
+                    .make(coordinator, "No Internet Connection", 8000)
+                    .setAction("Retry", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            finish();
+                            startActivity(getIntent());
+                        }
+                    });
+            snackbar.setActionTextColor(getResources().getColor(R.color.primaryTextColor));
+            snackbar.show();
+        }
     }
 
     void updateLocation(LatLng location, GoogleMap googleMap) {

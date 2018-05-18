@@ -8,8 +8,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import space.infinity.app.R;
+import space.infinity.app.network.CheckingConnection;
 
 public class MarsActivity extends AppCompatActivity {
 
@@ -54,17 +56,32 @@ public class MarsActivity extends AppCompatActivity {
     }
 
     public void curiosityRover(View view){
-        intent.putExtra("rover", "Curiosity");
-        startActivity(intent);
+        if (CheckingConnection.isConnected(this)) {
+            intent.putExtra("rover", "Curiosity");
+            startActivity(intent);
+        }
+        else {
+            Toast.makeText(this, "No Internet Connection", Toast.LENGTH_LONG).show();
+        }
     }
 
     public void opportunityRover(View view){
-        intent.putExtra("rover", "Opportunity");
-        startActivity(intent);
+        if (CheckingConnection.isConnected(this)) {
+            intent.putExtra("rover", "Opportunity");
+            startActivity(intent);
+        }
+        else {
+            Toast.makeText(this, "No Internet Connection", Toast.LENGTH_LONG).show();
+        }
     }
 
     public void spiritRover(View view){
-        intent.putExtra("rover", "Spirit");
-        startActivity(intent);
+        if (CheckingConnection.isConnected(this)) {
+            intent.putExtra("rover", "Spirit");
+            startActivity(intent);
+        }
+        else {
+            Toast.makeText(this, "No Internet Connection", Toast.LENGTH_LONG).show();
+        }
     }
 }
