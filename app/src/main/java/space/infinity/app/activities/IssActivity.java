@@ -259,7 +259,7 @@ public class IssActivity extends AppCompatActivity implements OnMapReadyCallback
 
         if (CheckingConnection.isConnected(this)) {
             googleMap.getUiSettings().setZoomGesturesEnabled(false);
-
+            googleMap.getUiSettings().setAllGesturesEnabled(false);
             executorService = Executors.newSingleThreadScheduledExecutor();
             executorService.scheduleAtFixedRate(new Runnable() {
                 @Override

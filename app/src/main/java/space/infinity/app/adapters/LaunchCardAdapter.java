@@ -1,5 +1,6 @@
 package space.infinity.app.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
@@ -129,6 +130,7 @@ public class LaunchCardAdapter extends RecyclerView.Adapter<LaunchCardAdapter.La
         }
     }
 
+    @SuppressLint("StaticFieldLeak")
     private class GetLatLngFromLocation extends AsyncTask<String, Void, JSONObject> {
 
         @Override
