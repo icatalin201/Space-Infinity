@@ -56,16 +56,8 @@ public class MainActivity extends AppCompatActivity {
     private ProgressBar mProgressBar;
     private ScrollView mainLayout;
     private Boolean pressed;
-    private Call<APOD> apodCall;
     private ImageView apodImage;
-    private ImageView roverImage;
-    private ImageView galleryImage;
-    private ImageView issImage;
-    private ImageView factsImage;
-    private ImageView wikiImage;
-    private ImageView flaunches;
     private APOD apod;
-    private CoordinatorLayout coordinatorLayout;
     private Intent intent;
 
     private HashMap<ImageView, Integer> images;
@@ -93,16 +85,16 @@ public class MainActivity extends AppCompatActivity {
                 generateDb();
             }
         }
-        coordinatorLayout = findViewById(R.id.coordinator);
+        CoordinatorLayout coordinatorLayout = findViewById(R.id.coordinator);
         mainLayout = findViewById(R.id.main_layout);
         mProgressBar = findViewById(R.id.progress_bar);
         apodImage = findViewById(R.id.apod_image);
-        roverImage = findViewById(R.id.rover_image);
-        galleryImage = findViewById(R.id.gallery_image);
-        issImage = findViewById(R.id.iss_image);
-        factsImage = findViewById(R.id.facts_image);
-        wikiImage = findViewById(R.id.wiki_image);
-        flaunches = findViewById(R.id.future_launches);
+        ImageView roverImage = findViewById(R.id.rover_image);
+        ImageView galleryImage = findViewById(R.id.gallery_image);
+        ImageView issImage = findViewById(R.id.iss_image);
+        ImageView factsImage = findViewById(R.id.facts_image);
+        ImageView wikiImage = findViewById(R.id.wiki_image);
+        ImageView flaunches = findViewById(R.id.future_launches);
         images = new HashMap<>();
         images.put(roverImage, R.drawable.rover);
         images.put(galleryImage, R.drawable.gallery);
@@ -252,7 +244,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void loadData(){
         Service service = Client.getRetrofitClient(Constants.NASA_URL).create(Service.class);
-        apodCall = service.getAstronomyPictureOfTheDay(Constants.API_KEY);
+        Call<APOD> apodCall = service.getAstronomyPictureOfTheDay(Constants.API_KEY);
         apodCall.enqueue(new Callback<APOD>() {
             @Override
             public void onResponse(Call<APOD> call, Response<APOD> response) {
@@ -263,16 +255,17 @@ public class MainActivity extends AppCompatActivity {
                     Log.i("main", "getting apod from db");
                     return;
                 }
-                if (response.body() == null) return;
-                if (response.body().getMedia_type().equals("image")) {
-                    Glide.with(MainActivity.this).load(response.body().getUrl())
-                            .asBitmap()
-                            .centerCrop()
-                            .diskCacheStrategy(DiskCacheStrategy.ALL)
-                            .into(apodImage);
-                    apod = response.body();
-                    SqlService.insertImageDataIntoSql(MainActivity.this, apod);
-                    settingLayout();
+                if (response.body() != null) {
+                    APOD apod = response.body();
+                    if (apod.getMedia_type().equals("image")) {
+                        Glide.with(MainActivity.this).load(apod.getUrl())
+                                .asBitmap()
+                                .centerCrop()
+                                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                                .into(apodImage);
+                        SqlService.insertImageDataIntoSql(MainActivity.this, apod);
+                        settingLayout();
+                    }
                 }
                 else {
                     getImageFromDb();
@@ -357,8 +350,10 @@ public class MainActivity extends AppCompatActivity {
         PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this,
                 1, intent, 0);
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                AlarmManager.INTERVAL_DAY, pendingIntent);
+        if (alarmManager != null) {
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                    AlarmManager.INTERVAL_DAY, pendingIntent);
+        }
         SharedPreferences preferences = getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString("notification-today", Integer.toString(calendar.get(Calendar.DAY_OF_MONTH)));

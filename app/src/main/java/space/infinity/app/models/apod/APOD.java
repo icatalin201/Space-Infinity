@@ -29,7 +29,7 @@ public class APOD implements Parcelable {
         this.copyright = copyright;
     }
 
-    public APOD(Parcel in) {
+    private APOD(Parcel in) {
         date = in.readString();
         explanation = in.readString();
         url = in.readString();

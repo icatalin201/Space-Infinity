@@ -1,6 +1,7 @@
 package space.infinity.app.activities;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -60,8 +61,6 @@ import space.infinity.app.utils.Helper;
 
 public class IssActivity extends AppCompatActivity implements OnMapReadyCallback {
 
-    private TextView toolbar_title;
-    private Toolbar toolbar;
     private ProgressBar progressBar;
     private LinearLayout linearLayout;
     private SupportMapFragment mapFragment;
@@ -77,8 +76,8 @@ public class IssActivity extends AppCompatActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_iss);
-        toolbar_title = findViewById(R.id.toolbar_title);
-        toolbar = findViewById(R.id.my_awesome_toolbar);
+        TextView toolbar_title = findViewById(R.id.toolbar_title);
+        Toolbar toolbar = findViewById(R.id.my_awesome_toolbar);
         progressBar = findViewById(R.id.progress_bar);
         linearLayout = findViewById(R.id.main_layout);
         velocity = findViewById(R.id.velocity);
@@ -186,7 +185,7 @@ public class IssActivity extends AppCompatActivity implements OnMapReadyCallback
     private LatLng getLocationIss() {
 
         GetData getData = new GetData();
-        JSONObject jsonObject = null;
+        JSONObject jsonObject;
         LatLng location = null;
 
         try {
@@ -306,6 +305,7 @@ public class IssActivity extends AppCompatActivity implements OnMapReadyCallback
         marker.setVisible(true);
     }
 
+    @SuppressLint("StaticFieldLeak")
     private class GetData extends AsyncTask<String, Void, JSONObject> {
 
         @Override
@@ -321,7 +321,7 @@ public class IssActivity extends AppCompatActivity implements OnMapReadyCallback
             HttpURLConnection httpURLConnection;
             URL url;
             JSONObject json = null;
-            BufferedReader reader = null;
+            BufferedReader reader;
             try {
                 url = new URL(urlString);
                 httpURLConnection = (HttpURLConnection) url.openConnection();

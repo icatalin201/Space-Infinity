@@ -60,14 +60,14 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
         return imageInfoList.size();
     }
 
-    public class SearchViewHolder extends RecyclerView.ViewHolder {
+    class SearchViewHolder extends RecyclerView.ViewHolder {
 
         private CardView galleryCard;
         private ImageView galleryImage;
         private TextView galleryImageTitle;
         //private ImageButton galleryImageFav;
 
-        public SearchViewHolder(View itemView) {
+        SearchViewHolder(View itemView) {
             super(itemView);
             galleryCard = itemView.findViewById(R.id.gallery_card);
             galleryImage = itemView.findViewById(R.id.gallery_image);

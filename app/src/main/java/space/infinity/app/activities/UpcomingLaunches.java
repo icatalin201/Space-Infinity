@@ -1,5 +1,6 @@
 package space.infinity.app.activities;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -42,8 +43,6 @@ import space.infinity.app.utils.Helper;
 
 public class UpcomingLaunches extends AppCompatActivity {
 
-    private TextView toolbar_title;
-    private Toolbar toolbar;
     private ProgressBar progressBar;
     private RecyclerView recyclerView;
     private List<Launch> launches;
@@ -53,8 +52,8 @@ public class UpcomingLaunches extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upcoming_launches);
-        toolbar_title = findViewById(R.id.toolbar_title);
-        toolbar = findViewById(R.id.my_awesome_toolbar);
+        TextView toolbar_title = findViewById(R.id.toolbar_title);
+        Toolbar toolbar = findViewById(R.id.my_awesome_toolbar);
         progressBar = findViewById(R.id.progress_bar);
         recyclerView = findViewById(R.id.launches_recycler);
         setSupportActionBar(toolbar);
@@ -96,6 +95,7 @@ public class UpcomingLaunches extends AppCompatActivity {
         }
     }
 
+    @SuppressLint("StaticFieldLeak")
     private class GetDatas extends AsyncTask<String, Void, JSONArray>{
 
         @Override

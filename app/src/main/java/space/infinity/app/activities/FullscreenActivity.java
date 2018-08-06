@@ -1,6 +1,7 @@
 package space.infinity.app.activities;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -40,11 +41,9 @@ public class FullscreenActivity extends AppCompatActivity {
 
     private ImageView full_image;
     private TextView full_image_title;
-    private Object object;
     private String hdpath;
     private String path;
     private String desc;
-    private TextView description;
     //private ImageButton fav;
 
     @Override
@@ -54,9 +53,9 @@ public class FullscreenActivity extends AppCompatActivity {
         setContentView(R.layout.activity_fullscreen);
         full_image = findViewById(R.id.full_image);
         full_image_title = findViewById(R.id.full_image_title);
-        description = findViewById(R.id.description);
+        TextView description = findViewById(R.id.description);
         //fav = findViewById(R.id.fav);
-        object = getIntent().getParcelableExtra("imageObject");
+        Object object = getIntent().getParcelableExtra("imageObject");
         String title = "";
         if (object instanceof APOD) {
             final APOD apod = (APOD) object;
@@ -159,6 +158,7 @@ public class FullscreenActivity extends AppCompatActivity {
         }
     }
 
+    @SuppressLint("StaticFieldLeak")
     private class DownloadImage extends AsyncTask<String, Void, Bitmap> {
 
         @Override
@@ -199,14 +199,14 @@ public class FullscreenActivity extends AppCompatActivity {
     }
 
     private void saveImageToGallery(Bitmap bitmap){
-        FileOutputStream outStream = null;;
+        FileOutputStream outStream;
         if (ActivityCompat.checkSelfPermission(FullscreenActivity.this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
             File picturesDir = new File(Environment.getExternalStorageDirectory() +
                     File.separator + "Pictures");
             File dir = new File(picturesDir.getAbsolutePath() + File.separator +
                     "Space Infinity");
-            boolean success = false;
+            boolean success;
             if (!dir.exists()) {
                 success = dir.mkdir();
                 if (success) {

@@ -1,5 +1,6 @@
 package space.infinity.app.utils;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
@@ -38,7 +39,7 @@ public class Helper {
 
     public static String unixToDate(Long unix_date){
         Date d = new Date(unix_date*1000);
-        DateFormat dateFormat = new SimpleDateFormat("HH:mm dd-MM-yyyy");
+        @SuppressLint("SimpleDateFormat") DateFormat dateFormat = new SimpleDateFormat("HH:mm dd-MM-yyyy");
         return dateFormat.format(d);
     }
 }

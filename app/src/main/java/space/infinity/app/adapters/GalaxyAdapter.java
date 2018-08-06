@@ -53,13 +53,13 @@ public class GalaxyAdapter extends RecyclerView.Adapter<GalaxyAdapter.GalaxyView
         return galaxies.size();
     }
 
-    public class GalaxyViewHolder extends RecyclerView.ViewHolder {
+    class GalaxyViewHolder extends RecyclerView.ViewHolder {
 
         private CardView card;
         private ImageView image;
         private TextView name;
 
-        public GalaxyViewHolder(View itemView) {
+        GalaxyViewHolder(View itemView) {
             super(itemView);
             card = itemView.findViewById(R.id.card);
             image = itemView.findViewById(R.id.image);

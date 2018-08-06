@@ -41,7 +41,7 @@ public class Planet implements Parcelable {
         this.facts = facts;
     }
 
-    public Planet(Parcel in) {
+    private Planet(Parcel in) {
         id = in.readInt();
         name = in.readString();
         description = in.readString();

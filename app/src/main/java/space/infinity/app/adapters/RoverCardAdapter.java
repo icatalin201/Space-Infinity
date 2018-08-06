@@ -54,13 +54,13 @@ public class RoverCardAdapter extends RecyclerView.Adapter<RoverCardAdapter.Rove
         return roverImages.size();
     }
 
-    protected class RoverCardViewHolder extends RecyclerView.ViewHolder{
+    class RoverCardViewHolder extends RecyclerView.ViewHolder{
 
         private CardView roverCard;
         private ImageView roverImage;
         private TextView roverImageDate;
 
-        protected RoverCardViewHolder(View itemView) {
+        RoverCardViewHolder(View itemView) {
             super(itemView);
             roverCard = itemView.findViewById(R.id.rover_card);
             roverImage = itemView.findViewById(R.id.rover_image);

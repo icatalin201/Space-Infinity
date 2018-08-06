@@ -16,15 +16,13 @@ import space.infinity.app.network.CheckingConnection;
 public class MarsActivity extends AppCompatActivity {
 
     private Intent intent;
-    private TextView toolbar_title;
-    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mars);
-        toolbar_title = findViewById(R.id.toolbar_title);
-        toolbar = findViewById(R.id.my_awesome_toolbar);
+        TextView toolbar_title = findViewById(R.id.toolbar_title);
+        Toolbar toolbar = findViewById(R.id.my_awesome_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar_title.setText(R.string.rover);

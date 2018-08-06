@@ -89,7 +89,7 @@ public class LaunchCardAdapter extends RecyclerView.Adapter<LaunchCardAdapter.La
         private TextView launch_site;
         private MapView map;
 
-        public LaunchCardAdapterViewHolder(View itemView) {
+        LaunchCardAdapterViewHolder(View itemView) {
             super(itemView);
             rocket_name = itemView.findViewById(R.id.rocket_name);
             rocket_type = itemView.findViewById(R.id.rocket_type);

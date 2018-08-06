@@ -18,15 +18,6 @@ import space.infinity.app.utils.Helper;
 
 public class PreEncyclopedia extends AppCompatActivity {
 
-    private ImageView galaxies;
-    private ImageView planets;
-    private ImageView moons;
-    private ImageView others;
-    private CardView card_planet;
-    private CardView card_galaxy;
-    private CardView card_moon;
-    private CardView card_other;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,14 +27,14 @@ public class PreEncyclopedia extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar_title.setText(R.string.wiki);
-        galaxies = findViewById(R.id.galaxies);
-        planets = findViewById(R.id.planets);
-        moons = findViewById(R.id.moons);
-        others = findViewById(R.id.others);
-        card_galaxy = findViewById(R.id.card_galaxy);
-        card_planet = findViewById(R.id.card_planets);
-        card_moon = findViewById(R.id.card_moons);
-        card_other = findViewById(R.id.card_other);
+        ImageView galaxies = findViewById(R.id.galaxies);
+        ImageView planets = findViewById(R.id.planets);
+        ImageView moons = findViewById(R.id.moons);
+        ImageView others = findViewById(R.id.others);
+        CardView card_galaxy = findViewById(R.id.card_galaxy);
+        CardView card_planet = findViewById(R.id.card_planets);
+        CardView card_moon = findViewById(R.id.card_moons);
+        CardView card_other = findViewById(R.id.card_other);
         Glide.with(this).load(R.drawable.galaxies).asBitmap().centerCrop().into(galaxies);
         Glide.with(this).load(R.drawable.planets).asBitmap().centerCrop().into(planets);
         Glide.with(this).load(R.drawable.moons).asBitmap().centerCrop().into(moons);

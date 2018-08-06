@@ -1,6 +1,7 @@
 package space.infinity.app.activities;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -41,16 +42,12 @@ import space.infinity.app.network.CheckingConnection;
 public class ApodActivity extends AppCompatActivity {
 
     private TextView toolbar_title;
-    private Toolbar toolbar;
 
     private ImageView apodImage;
     private TextView apodTitle;
     private TextView apodAuthor;
     private TextView apodDate;
     private TextView apodExplanation;
-    private ProgressBar progressBar;
-    private ScrollView scrollView;
-    private Bitmap mBitmap;
     private APOD apod;
 
     @Override
@@ -58,14 +55,14 @@ public class ApodActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_apod);
         toolbar_title = findViewById(R.id.toolbar_title);
-        toolbar = findViewById(R.id.my_awesome_toolbar);
+        Toolbar toolbar = findViewById(R.id.my_awesome_toolbar);
         apodImage = findViewById(R.id.apod_image);
         apodTitle = findViewById(R.id.apod_title);
         apodAuthor = findViewById(R.id.apod_author);
         apodDate = findViewById(R.id.apod_date);
         apodExplanation = findViewById(R.id.apod_explanation);
-        progressBar = findViewById(R.id.progress_bar);
-        scrollView = findViewById(R.id.main_layout);
+        ProgressBar progressBar = findViewById(R.id.progress_bar);
+        ScrollView scrollView = findViewById(R.id.main_layout);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         apod = getIntent().getParcelableExtra("apod");
@@ -136,6 +133,7 @@ public class ApodActivity extends AppCompatActivity {
 
     }
 
+    @SuppressLint("StaticFieldLeak")
     private class DownloadImage extends AsyncTask<String, Void, Bitmap>{
 
         @Override
@@ -171,18 +169,17 @@ public class ApodActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Bitmap bitmap) {
-            mBitmap = bitmap;
-            saveImageToGallery(mBitmap);
+            saveImageToGallery(bitmap);
         }
     }
 
     private void saveImageToGallery(Bitmap bitmap){
-        FileOutputStream outStream = null;;
+        FileOutputStream outStream;
         if (ActivityCompat.checkSelfPermission(ApodActivity.this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
             File picturesDir = new File(Environment.getExternalStorageDirectory() + File.separator + "Pictures");
             File dir = new File(picturesDir.getAbsolutePath() + File.separator + "Space Infinity");
-            boolean succes = false;
+            boolean succes;
             if (!dir.exists()) {
                 succes = dir.mkdir();
                 if (succes) {

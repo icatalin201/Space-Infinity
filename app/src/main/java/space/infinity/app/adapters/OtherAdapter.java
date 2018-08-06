@@ -53,13 +53,13 @@ public class OtherAdapter extends RecyclerView.Adapter<OtherAdapter.OtherViewHol
         return otherList.size();
     }
 
-    public class OtherViewHolder extends RecyclerView.ViewHolder {
+    class OtherViewHolder extends RecyclerView.ViewHolder {
 
         private CardView card;
         private ImageView image;
         private TextView name;
 
-        public OtherViewHolder(View itemView) {
+        OtherViewHolder(View itemView) {
             super(itemView);
             card = itemView.findViewById(R.id.card);
             image = itemView.findViewById(R.id.image);

@@ -53,13 +53,13 @@ public class MoonAdapter extends RecyclerView.Adapter<MoonAdapter.MoonViewHolder
         return moonList.size();
     }
 
-    public class MoonViewHolder extends RecyclerView.ViewHolder {
+    class MoonViewHolder extends RecyclerView.ViewHolder {
 
         private CardView card;
         private ImageView image;
         private TextView name;
 
-        public MoonViewHolder(View itemView) {
+        MoonViewHolder(View itemView) {
             super(itemView);
             card = itemView.findViewById(R.id.card);
             image = itemView.findViewById(R.id.image);

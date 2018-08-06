@@ -28,22 +28,18 @@ import space.infinity.app.utils.Constants;
 
 public class MarsRoverActivity extends AppCompatActivity {
 
-    private TextView toolbar_title;
-    private Toolbar toolbar;
     private ProgressBar progressBar;
     private RecyclerView recyclerView;
     private Call<MarsRovers> roversCall;
     private RoverCardAdapter roverCardAdapter;
     private List<RoverImages> roverImagesList;
 
-    private String rover;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mars_rover);
-        toolbar_title = findViewById(R.id.toolbar_title);
-        toolbar = findViewById(R.id.my_awesome_toolbar);
+        TextView toolbar_title = findViewById(R.id.toolbar_title);
+        Toolbar toolbar = findViewById(R.id.my_awesome_toolbar);
         progressBar = findViewById(R.id.progress_bar);
         recyclerView = findViewById(R.id.images_recycler);
         setSupportActionBar(toolbar);
@@ -55,7 +51,7 @@ public class MarsRoverActivity extends AppCompatActivity {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
         recyclerView.setLayoutManager(gridLayoutManager);
 
-        rover = getIntent().getStringExtra("rover");
+        String rover = getIntent().getStringExtra("rover");
         toolbar_title.setText(rover);
 
         loadImages(rover);
@@ -110,9 +106,7 @@ public class MarsRoverActivity extends AppCompatActivity {
                 if (response.body() == null) return;
                 if (response.body().getPhotos() == null) return;
 
-                for (RoverImages roverImage : response.body().getPhotos()){
-                    roverImagesList.add(roverImage);
-                }
+                roverImagesList.addAll(response.body().getPhotos());
                 roverCardAdapter.notifyDataSetChanged();
                 settingLayout();
             }

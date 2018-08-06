@@ -70,7 +70,7 @@ public class SqlService {
         database.close();
     }
 
-    public static boolean isImageFav(Context context, String title) {
+    private static boolean isImageFav(Context context, String title) {
         boolean check = false;
         SqlHelper sqlHelper = new SqlHelper(context);
         SQLiteDatabase database = sqlHelper.getReadableDatabase();

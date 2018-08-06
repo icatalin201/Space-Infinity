@@ -123,7 +123,7 @@ public class SqlHelper extends SQLiteOpenHelper{
     private static final String SQL_DELETE_WIKI_OTHERS =
             "DROP TABLE IF EXISTS " + SqlStructure.SqlData.WIKI_OTHERS_TABLE;
 
-    public SqlHelper(Context context) {
+    SqlHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 

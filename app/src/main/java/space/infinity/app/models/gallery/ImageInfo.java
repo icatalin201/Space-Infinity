@@ -26,7 +26,7 @@ public class ImageInfo implements Parcelable{
         this.image = image;
     }
 
-    public ImageInfo(Parcel in) {
+    private ImageInfo(Parcel in) {
         date_created = in.readString();
         media_type = in.readString();
         description = in.readString();

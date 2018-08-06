@@ -26,8 +26,6 @@ import space.infinity.app.sql.SqlService;
 
 public class GalleryActivity extends AppCompatActivity {
 
-    private List<APOD> imageDataList;
-    private ApodGalleryAdapter adapter;
     private RecyclerView recyclerView;
     private ProgressBar progressBar;
 
@@ -42,8 +40,8 @@ public class GalleryActivity extends AppCompatActivity {
         toolbar_title.setText(R.string.images);
         progressBar = findViewById(R.id.progress_bar);
         recyclerView = findViewById(R.id.gallery_recycler);
-        imageDataList = SqlService.getImageDataList(this);
-        adapter = new ApodGalleryAdapter(this, imageDataList);
+        List<APOD> imageDataList = SqlService.getImageDataList(this);
+        ApodGalleryAdapter adapter = new ApodGalleryAdapter(this, imageDataList);
         adapter.notifyDataSetChanged();
         recyclerView.setAdapter(adapter);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);

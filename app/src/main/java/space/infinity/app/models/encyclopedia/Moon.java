@@ -41,7 +41,7 @@ public class Moon implements Parcelable{
         this.facts = facts;
     }
 
-    public Moon(Parcel in) {
+    private Moon(Parcel in) {
         id = in.readInt();
         name = in.readString();
         description = in.readString();

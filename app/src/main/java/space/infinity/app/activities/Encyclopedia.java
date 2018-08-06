@@ -23,7 +23,7 @@ public class Encyclopedia extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_encyclopedia);
         Toolbar mToolbar = findViewById(R.id.toolbar);
-        mToolbar.setBackground(getDrawable(android.R.color.transparent));
+        mToolbar.setBackground(getResources().getDrawable(android.R.color.transparent));
         //AppBarLayout mAppBarLayout = findViewById(R.id.app_bar_layout);
         CollapsingToolbarLayout mCollapsingToolbarLayout = findViewById(R.id.collapsing_toolbar);
         ImageView imageView = findViewById(R.id.image);

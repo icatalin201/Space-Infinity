@@ -1,5 +1,6 @@
 package space.infinity.app.activities;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -112,6 +113,7 @@ public class SearchActivity extends AppCompatActivity {
         return true;
     }
 
+    @SuppressLint("StaticFieldLeak")
     private class ImageCall extends AsyncTask<String, Void, JSONObject> {
 
         @Override

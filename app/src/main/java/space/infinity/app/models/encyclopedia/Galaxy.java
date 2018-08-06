@@ -41,7 +41,7 @@ public class Galaxy implements Parcelable{
         this.facts = facts;
     }
 
-    public Galaxy(Parcel in) {
+    private Galaxy(Parcel in) {
         id = in.readInt();
         name = in.readString();
         description = in.readString();

@@ -31,6 +31,8 @@ public class NotificationService extends BroadcastReceiver {
         mBuilder.setAutoCancel(true);
         NotificationManager mNotificationManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationManager.notify(notificationId, mBuilder.build());
+        if (mNotificationManager != null) {
+            mNotificationManager.notify(notificationId, mBuilder.build());
+        }
     }
 }

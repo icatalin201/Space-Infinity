@@ -60,14 +60,14 @@ public class ApodGalleryAdapter extends RecyclerView.Adapter<ApodGalleryAdapter.
         return imageDataList.size();
     }
 
-    protected class ApodViewHolder extends RecyclerView.ViewHolder {
+    class ApodViewHolder extends RecyclerView.ViewHolder {
 
         private CardView galleryCard;
         private ImageView galleryImage;
         private TextView galleryImageTitle;
         //private ImageButton galleryImageFav;
 
-        protected ApodViewHolder(View itemView) {
+        ApodViewHolder(View itemView) {
             super(itemView);
             galleryCard = itemView.findViewById(R.id.gallery_card);
             galleryImage = itemView.findViewById(R.id.gallery_image);

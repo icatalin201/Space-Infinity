@@ -37,7 +37,7 @@ public class Other implements Parcelable{
         this.otherInfo = otherInfo;
     }
 
-    public Other(Parcel in) {
+    private Other(Parcel in) {
         id = in.readInt();
         name = in.readString();
         description = in.readString();

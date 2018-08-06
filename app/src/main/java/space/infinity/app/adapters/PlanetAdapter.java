@@ -53,13 +53,13 @@ public class PlanetAdapter extends RecyclerView.Adapter<PlanetAdapter.PlanetView
         return planetList.size();
     }
 
-    public class PlanetViewHolder extends RecyclerView.ViewHolder {
+    class PlanetViewHolder extends RecyclerView.ViewHolder {
 
         private CardView card;
         private ImageView image;
         private TextView name;
 
-        public PlanetViewHolder(View itemView) {
+        PlanetViewHolder(View itemView) {
             super(itemView);
             card = itemView.findViewById(R.id.card);
             image = itemView.findViewById(R.id.image);
