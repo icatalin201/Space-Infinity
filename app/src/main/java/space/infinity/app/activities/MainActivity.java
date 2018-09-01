@@ -256,7 +256,7 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
                 if (response.body() != null) {
-                    APOD apod = response.body();
+                    apod = response.body();
                     if (apod.getMedia_type().equals("image")) {
                         Glide.with(MainActivity.this).load(apod.getUrl())
                                 .asBitmap()
@@ -266,6 +266,9 @@ public class MainActivity extends AppCompatActivity {
                         SqlService.insertImageDataIntoSql(MainActivity.this, apod);
                         settingLayout();
                     }
+                    else {
+                        getImageFromDb();
+                    }
                 }
                 else {
                     getImageFromDb();
@@ -274,7 +277,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<APOD> call, Throwable t) {
-
+                getImageFromDb();
             }
         });
     }
