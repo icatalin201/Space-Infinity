@@ -49,6 +49,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.DecimalFormat;
+import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -84,7 +85,7 @@ public class IssActivity extends AppCompatActivity implements OnMapReadyCallback
         altitude = findViewById(R.id.altitude);
         coordinator = findViewById(R.id.coordinator);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         toolbar_title.setText(R.string.iss);
         mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map_view);
@@ -117,7 +118,7 @@ public class IssActivity extends AppCompatActivity implements OnMapReadyCallback
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
         if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
@@ -139,6 +140,9 @@ public class IssActivity extends AppCompatActivity implements OnMapReadyCallback
                             }
                         });
             }
+        }
+        else {
+            ActivityCompat.requestPermissions(this, new String[]{ Manifest.permission.ACCESS_COARSE_LOCATION }, 1);
         }
     }
 
@@ -209,11 +213,7 @@ public class IssActivity extends AppCompatActivity implements OnMapReadyCallback
                     Helper.setAnimationForAll(IssActivity.this, altitude);
                 }
             });
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
+        } catch (InterruptedException | ExecutionException | JSONException e) {
             e.printStackTrace();
         }
 
@@ -305,8 +305,7 @@ public class IssActivity extends AppCompatActivity implements OnMapReadyCallback
         marker.setVisible(true);
     }
 
-    @SuppressLint("StaticFieldLeak")
-    private class GetData extends AsyncTask<String, Void, JSONObject> {
+    private static class GetData extends AsyncTask<String, Void, JSONObject> {
 
         @Override
         protected JSONObject doInBackground(String... strings) {
@@ -333,11 +332,7 @@ public class IssActivity extends AppCompatActivity implements OnMapReadyCallback
                 reader.close();
                 httpURLConnection.disconnect();
                 json = new JSONObject(stringBuilder.toString());
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
+            } catch (IOException | JSONException e) {
                 e.printStackTrace();
             }
             return json;

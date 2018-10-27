@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context="space.infinity.app.activities.ApodActivity"
     android:background="@color/primaryTextColor">
@@ -37,9 +37,9 @@
                     android:onClick="downloadImg"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
                     android:layout_margin="5dp"
                     android:translationZ="5dp"
+                    android:contentDescription="@string/download"
                     android:src="@drawable/ic_file_download_white_18dp"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:tint="@color/primaryTextColor"
@@ -55,6 +55,7 @@
                         android:clickable="true"
                         android:foreground="?android:attr/selectableItemBackground"
                         android:focusable="true"
+                        app:cardCornerRadius="0dp"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
 

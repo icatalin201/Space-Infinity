@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView apodImage;
     private APOD apod;
     private Intent intent;
+    private CoordinatorLayout coordinatorLayout;
 
     private HashMap<ImageView, Integer> images;
 
@@ -70,22 +71,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         toolbar.setTitle(null);
         pressed = false;
-
-        if (Build.VERSION.SDK_INT < 23){
-            generateDb();
-        }
-        else {
-            if (ActivityCompat.checkSelfPermission(MainActivity.this,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                    != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(MainActivity.this,
-                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 123);
-            }
-            else {
-                generateDb();
-            }
-        }
-        CoordinatorLayout coordinatorLayout = findViewById(R.id.coordinator);
+        coordinatorLayout = findViewById(R.id.coordinator);
         mainLayout = findViewById(R.id.main_layout);
         mProgressBar = findViewById(R.id.progress_bar);
         apodImage = findViewById(R.id.apod_image);
@@ -102,6 +88,24 @@ public class MainActivity extends AppCompatActivity {
         images.put(factsImage, R.drawable.facts);
         images.put(wikiImage, R.drawable.wiki);
         images.put(flaunches, R.drawable.ulaunches);
+        if (Build.VERSION.SDK_INT < 23){
+            starting();
+        }
+        else {
+            if (ActivityCompat.checkSelfPermission(MainActivity.this,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(MainActivity.this,
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 123);
+            }
+            else {
+                starting();
+            }
+        }
+    }
+
+    private void starting() {
+        generateDb();
         if (CheckingConnection.isConnected(this)) {
             loadData();
             Calendar calendar = Calendar.getInstance();
@@ -149,12 +153,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull
             String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (ActivityCompat.checkSelfPermission(MainActivity.this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-
-            generateDb();
+            starting();
+        } else {
+            ActivityCompat.requestPermissions(MainActivity.this,
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 123);
         }
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     private void importDB() {

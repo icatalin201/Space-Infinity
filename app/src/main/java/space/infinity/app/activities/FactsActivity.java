@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 import space.infinity.app.R;
@@ -28,8 +29,6 @@ import space.infinity.app.utils.SwipeController;
 
 public class FactsActivity extends AppCompatActivity {
 
-    private TextView toolbar_title;
-    private Toolbar toolbar;
     private TextView factView;
     private List<SpaceFact> spaceFactList;
     private LinearLayout buttons;
@@ -42,10 +41,10 @@ public class FactsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_facts);
-        toolbar_title = findViewById(R.id.toolbar_title);
-        toolbar = findViewById(R.id.my_awesome_toolbar);
+        TextView toolbar_title = findViewById(R.id.toolbar_title);
+        Toolbar toolbar = findViewById(R.id.my_awesome_toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         toolbar_title.setText(R.string.facts);
         factView = findViewById(R.id.fact);
         fav = findViewById(R.id.fav);
