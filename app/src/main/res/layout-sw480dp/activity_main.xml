@@ -59,8 +59,10 @@
                             android:layout_height="match_parent">
 
                             <ImageView
+                                android:contentDescription="@string/apod"
                                 android:id="@+id/apod_image"
                                 android:visibility="visible"
+                                android:scaleType="centerCrop"
                                 android:background="@color/colorPrimaryDark"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"/>
@@ -97,7 +99,6 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:layout_marginEnd="5dp"
-                        android:layout_marginRight="5dp"
                         android:clickable="true"
                         android:onClick="showWiki"
                         android:foreground="?android:attr/selectableItemBackground"
@@ -112,6 +113,7 @@
                                 android:layout_height="match_parent">
 
                                 <ImageView
+                                    android:contentDescription="@string/wiki"
                                     android:background="@color/colorPrimaryDark"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
@@ -143,7 +145,6 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:layout_marginStart="5dp"
-                        android:layout_marginLeft="5dp"
                         android:clickable="true"
                         android:onClick="showFacts"
                         android:foreground="?android:attr/selectableItemBackground"
@@ -158,6 +159,7 @@
                                 android:layout_height="match_parent">
 
                                 <ImageView
+                                    android:contentDescription="@string/facts"
                                     android:background="@color/colorPrimaryDark"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
@@ -205,6 +207,7 @@
                             android:layout_height="match_parent">
 
                             <ImageView
+                                android:contentDescription="@string/iss"
                                 android:background="@color/colorPrimaryDark"
                                 android:id="@+id/iss_image"
                                 android:layout_width="match_parent"
@@ -242,7 +245,6 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:layout_marginEnd="5dp"
-                        android:layout_marginRight="5dp"
                         android:onClick="showRoverImages"
                         android:clickable="true"
                         android:foreground="?android:attr/selectableItemBackground"
@@ -257,6 +259,7 @@
                                 android:layout_height="match_parent">
 
                                 <ImageView
+                                    android:contentDescription="@string/rover"
                                     android:background="@color/colorPrimaryDark"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
@@ -288,7 +291,6 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:layout_marginStart="5dp"
-                        android:layout_marginLeft="5dp"
                         android:onClick="showImageGallery"
                         android:clickable="true"
                         android:foreground="?android:attr/selectableItemBackground"
@@ -303,6 +305,7 @@
                                 android:layout_height="match_parent">
 
                                 <ImageView
+                                    android:contentDescription="@string/images"
                                     android:background="@color/colorPrimaryDark"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
@@ -349,6 +352,7 @@
                             android:layout_height="match_parent">
 
                             <ImageView
+                                android:contentDescription="@string/spacex_flaunches"
                                 android:background="@color/colorPrimaryDark"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"

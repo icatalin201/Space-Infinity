@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -27,6 +28,8 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -268,9 +271,15 @@ public class MainActivity extends AppCompatActivity {
                                 .asBitmap()
                                 .centerCrop()
                                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-                                .into(apodImage);
+                                .into(new SimpleTarget<Bitmap>() {
+                                    @Override
+                                    public void onResourceReady(Bitmap resource,
+                                                                GlideAnimation<? super Bitmap> glideAnimation) {
+                                        apodImage.setImageBitmap(resource);
+                                        settingLayout();
+                                    }
+                                });
                         SqlService.insertImageDataIntoSql(MainActivity.this, apod);
-                        settingLayout();
                     }
                     else {
                         getImageFromDb();
@@ -293,12 +302,19 @@ public class MainActivity extends AppCompatActivity {
         //SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         //String formattedDate = df.format(c);
         apod = SqlService.getApod(MainActivity.this);
-        Glide.with(MainActivity.this).load(apod.getUrl())
+        Glide.with(MainActivity.this)
+                .load(apod.getUrl())
                 .asBitmap()
                 .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(apodImage);
-        settingLayout();
+                .into(new SimpleTarget<Bitmap>() {
+                    @Override
+                    public void onResourceReady(Bitmap resource,
+                                                GlideAnimation<? super Bitmap> glideAnimation) {
+                        apodImage.setImageBitmap(resource);
+                        settingLayout();
+                    }
+                });
     }
 
     private void settingLayout(){

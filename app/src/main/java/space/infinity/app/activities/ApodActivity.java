@@ -25,14 +25,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Objects;
 import java.util.Random;
 
 import space.infinity.app.R;
@@ -50,6 +52,9 @@ public class ApodActivity extends AppCompatActivity {
     private TextView apodExplanation;
     private APOD apod;
 
+    private ProgressBar progressBar;
+    private ScrollView scrollView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,16 +66,12 @@ public class ApodActivity extends AppCompatActivity {
         apodAuthor = findViewById(R.id.apod_author);
         apodDate = findViewById(R.id.apod_date);
         apodExplanation = findViewById(R.id.apod_explanation);
-        ProgressBar progressBar = findViewById(R.id.progress_bar);
-        ScrollView scrollView = findViewById(R.id.main_layout);
+        progressBar = findViewById(R.id.progress_bar);
+        scrollView = findViewById(R.id.main_layout);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         apod = getIntent().getParcelableExtra("apod");
-        if (setContent(apod)){
-            progressBar.setVisibility(View.GONE);
-            scrollView.setVisibility(View.VISIBLE);
-        }
-
+        setContent(apod);
     }
 
     public void goFullscreen(View view) {
@@ -79,10 +80,8 @@ public class ApodActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private boolean setContent(APOD apod){
+    private void setContent(APOD apod){
         toolbar_title.setText(R.string.apod);
-        Glide.with(this).load(apod.getUrl())
-                .asBitmap().centerCrop().into(apodImage);
         apodTitle.setText(apod.getTitle());
         apodExplanation.setText(apod.getExplanation());
         if (apod.getDate() != null) {
@@ -93,7 +92,16 @@ public class ApodActivity extends AppCompatActivity {
             String copyright = getResources().getString(R.string.author).concat(" ").concat(apod.getCopyright());
             apodAuthor.setText(copyright);
         }
-        return true;
+        Glide.with(this).load(apod.getUrl())
+                .asBitmap().centerCrop().into(new SimpleTarget<Bitmap>() {
+            @Override
+            public void onResourceReady(Bitmap resource,
+                                        GlideAnimation<? super Bitmap> glideAnimation) {
+                apodImage.setImageBitmap(resource);
+                progressBar.setVisibility(View.GONE);
+                scrollView.setVisibility(View.VISIBLE);
+            }
+        });
     }
 
     @Override
@@ -154,8 +162,6 @@ public class ApodActivity extends AppCompatActivity {
                     bitmap = BitmapFactory.decodeStream(inputStream);
                 }
 
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }
