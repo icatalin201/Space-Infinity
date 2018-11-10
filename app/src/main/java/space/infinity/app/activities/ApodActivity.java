@@ -7,10 +7,12 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -25,8 +27,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -92,12 +95,14 @@ public class ApodActivity extends AppCompatActivity {
             String copyright = getResources().getString(R.string.author).concat(" ").concat(apod.getCopyright());
             apodAuthor.setText(copyright);
         }
-        Glide.with(this).load(apod.getUrl())
-                .asBitmap().centerCrop().into(new SimpleTarget<Bitmap>() {
+        Glide.with(this)
+                .load(apod.getUrl())
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .into(new SimpleTarget<Drawable>() {
             @Override
-            public void onResourceReady(Bitmap resource,
-                                        GlideAnimation<? super Bitmap> glideAnimation) {
-                apodImage.setImageBitmap(resource);
+            public void onResourceReady(@NonNull Drawable resource,
+                                        Transition<? super Drawable> glideAnimation) {
+                apodImage.setImageDrawable(resource);
                 progressBar.setVisibility(View.GONE);
                 scrollView.setVisibility(View.VISIBLE);
             }

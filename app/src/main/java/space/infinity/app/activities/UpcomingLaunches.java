@@ -29,6 +29,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import space.infinity.app.R;
 import space.infinity.app.adapters.LaunchCardAdapter;
@@ -57,7 +58,7 @@ public class UpcomingLaunches extends AppCompatActivity {
         progressBar = findViewById(R.id.progress_bar);
         recyclerView = findViewById(R.id.launches_recycler);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         toolbar_title.setText(R.string.spacex_flaunches);
         launches = new ArrayList<>();
         adapter = new LaunchCardAdapter(this, launches);
@@ -117,11 +118,7 @@ public class UpcomingLaunches extends AppCompatActivity {
                 reader.close();
                 httpURLConnection.disconnect();
                 jsonArray = new JSONArray(stringBuilder.toString());
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
+            } catch (IOException | JSONException e) {
                 e.printStackTrace();
             }
 

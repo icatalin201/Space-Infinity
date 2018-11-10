@@ -3,6 +3,7 @@ package space.infinity.app.adapters;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,14 +46,15 @@ public class LaunchCardAdapter extends RecyclerView.Adapter<LaunchCardAdapter.La
         this.launchList = launches;
     }
 
+    @NonNull
     @Override
-    public LaunchCardAdapterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public LaunchCardAdapterViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.rocket_launch_card, parent, false);
         return new LaunchCardAdapterViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(LaunchCardAdapterViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull LaunchCardAdapterViewHolder holder, int position) {
         holder.rocket_name.setText(context.getResources().getString(R.string.rocket_name)
                 .concat(" ").concat(launchList.get(position).getRocket().getRocket_name()));
         holder.rocket_type.setText(context.getResources().getString(R.string.rocket_type)
@@ -120,11 +122,7 @@ public class LaunchCardAdapter extends RecyclerView.Adapter<LaunchCardAdapter.La
                 LatLng location = new LatLng(loc.getDouble("lat"), loc.getDouble("lng"));
                 googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 5));
                 googleMap.addMarker(new MarkerOptions().position(location));
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
+            } catch (InterruptedException | ExecutionException | JSONException e) {
                 e.printStackTrace();
             }
         }
@@ -151,9 +149,7 @@ public class LaunchCardAdapter extends RecyclerView.Adapter<LaunchCardAdapter.La
                 reader.close();
                 urlConnection.disconnect();
                 jsonObject = new JSONObject(stringBuilder.toString());
-            } catch (java.io.IOException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
+            } catch (java.io.IOException | JSONException e) {
                 e.printStackTrace();
             }
 

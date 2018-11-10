@@ -116,6 +116,7 @@
                                     android:contentDescription="@string/wiki"
                                     android:background="@color/colorPrimaryDark"
                                     android:layout_width="match_parent"
+                                    android:scaleType="centerCrop"
                                     android:layout_height="match_parent"
                                     android:id="@+id/wiki_image"/>
 
@@ -162,6 +163,7 @@
                                     android:contentDescription="@string/facts"
                                     android:background="@color/colorPrimaryDark"
                                     android:layout_width="match_parent"
+                                    android:scaleType="centerCrop"
                                     android:layout_height="match_parent"
                                     android:id="@+id/facts_image"/>
 
@@ -211,6 +213,7 @@
                                 android:background="@color/colorPrimaryDark"
                                 android:id="@+id/iss_image"
                                 android:layout_width="match_parent"
+                                android:scaleType="centerCrop"
                                 android:layout_height="match_parent"/>
 
                         </FrameLayout>
@@ -263,6 +266,7 @@
                                     android:background="@color/colorPrimaryDark"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
+                                    android:scaleType="centerCrop"
                                     android:id="@+id/rover_image"/>
 
                             </FrameLayout>
@@ -308,6 +312,7 @@
                                     android:contentDescription="@string/images"
                                     android:background="@color/colorPrimaryDark"
                                     android:layout_width="match_parent"
+                                    android:scaleType="centerCrop"
                                     android:layout_height="match_parent"
                                     android:id="@+id/gallery_image"/>
 
@@ -355,6 +360,7 @@
                                 android:contentDescription="@string/spacex_flaunches"
                                 android:background="@color/colorPrimaryDark"
                                 android:layout_width="match_parent"
+                                android:scaleType="centerCrop"
                                 android:layout_height="match_parent"
                                 android:id="@+id/future_launches"/>
 

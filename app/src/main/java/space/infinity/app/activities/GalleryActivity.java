@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
+import java.util.Objects;
 
 import space.infinity.app.R;
 import space.infinity.app.adapters.ApodGalleryAdapter;
@@ -36,7 +37,7 @@ public class GalleryActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.my_awesome_toolbar);
         TextView toolbar_title = findViewById(R.id.toolbar_title);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         toolbar_title.setText(R.string.images);
         progressBar = findViewById(R.id.progress_bar);
         recyclerView = findViewById(R.id.gallery_recycler);

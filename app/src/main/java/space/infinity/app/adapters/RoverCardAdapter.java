@@ -2,6 +2,7 @@ package space.infinity.app.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 
 import java.util.List;
 
@@ -27,23 +29,23 @@ public class RoverCardAdapter extends RecyclerView.Adapter<RoverCardAdapter.Rove
 
     private Context mContext;
     private List<RoverImages> roverImages;
-    private int lastPosition = -1;
 
     public RoverCardAdapter(Context mContext, List<RoverImages> roverImages){
         this.mContext = mContext;
         this.roverImages = roverImages;
     }
 
+    @NonNull
     @Override
-    public RoverCardViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RoverCardViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.rover_image_item_card, parent, false);
         return new RoverCardViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(RoverCardViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RoverCardViewHolder holder, int position) {
         Glide.with(mContext).load(roverImages.get(position).getImg_src())
-                .asBitmap().centerCrop().into(holder.roverImage);
+                .transition(DrawableTransitionOptions.withCrossFade()).into(holder.roverImage);
         holder.roverImageDate.setText(mContext.getResources().getString(R.string.date).concat(" ")
                 .concat(roverImages.get(position).getEarth_date()));
         Helper.customAnimation(mContext, holder.roverCard, 700, android.R.anim.fade_in);

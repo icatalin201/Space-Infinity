@@ -2,6 +2,7 @@ package space.infinity.app.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 
 import java.util.List;
 
@@ -33,16 +35,17 @@ public class ApodGalleryAdapter extends RecyclerView.Adapter<ApodGalleryAdapter.
         this.imageDataList = imageDataList;
     }
 
+    @NonNull
     @Override
-    public ApodViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ApodViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.gallery_item_card, parent, false);
         return new ApodViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(ApodViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ApodViewHolder holder, int position) {
         Glide.with(context).load(imageDataList.get(position).getUrl())
-                .asBitmap().centerCrop().into(holder.galleryImage);
+                .transition(DrawableTransitionOptions.withCrossFade()).into(holder.galleryImage);
         holder.galleryImageTitle.setText(imageDataList.get(position).getTitle());
         Helper.customAnimation(context, holder.galleryCard, 700, android.R.anim.fade_in);
         /*if (SqlService.isImageFav(context, imageDataList.get(position).getTitle())) {

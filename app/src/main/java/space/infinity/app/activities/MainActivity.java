@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -28,8 +29,9 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -267,15 +269,14 @@ public class MainActivity extends AppCompatActivity {
                 if (response.body() != null) {
                     apod = response.body();
                     if (apod.getMedia_type().equals("image")) {
-                        Glide.with(MainActivity.this).load(apod.getUrl())
-                                .asBitmap()
-                                .centerCrop()
-                                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                                .into(new SimpleTarget<Bitmap>() {
+                        Glide.with(MainActivity.this)
+                                .load(apod.getUrl())
+                                .transition(DrawableTransitionOptions.withCrossFade())
+                                .into(new SimpleTarget<Drawable>() {
                                     @Override
-                                    public void onResourceReady(Bitmap resource,
-                                                                GlideAnimation<? super Bitmap> glideAnimation) {
-                                        apodImage.setImageBitmap(resource);
+                                    public void onResourceReady(@NonNull Drawable resource,
+                                                                Transition<? super Drawable> glideAnimation) {
+                                        apodImage.setImageDrawable(resource);
                                         settingLayout();
                                     }
                                 });
@@ -304,14 +305,12 @@ public class MainActivity extends AppCompatActivity {
         apod = SqlService.getApod(MainActivity.this);
         Glide.with(MainActivity.this)
                 .load(apod.getUrl())
-                .asBitmap()
-                .centerCrop()
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(new SimpleTarget<Bitmap>() {
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .into(new SimpleTarget<Drawable>() {
                     @Override
-                    public void onResourceReady(Bitmap resource,
-                                                GlideAnimation<? super Bitmap> glideAnimation) {
-                        apodImage.setImageBitmap(resource);
+                    public void onResourceReady(@NonNull Drawable resource,
+                                                Transition<? super Drawable> glideAnimation) {
+                        apodImage.setImageDrawable(resource);
                         settingLayout();
                     }
                 });
@@ -320,7 +319,7 @@ public class MainActivity extends AppCompatActivity {
     private void settingLayout(){
         for (Map.Entry<ImageView, Integer> entry : images.entrySet()){
             Glide.with(MainActivity.this).load(entry.getValue())
-                    .asBitmap().centerCrop().diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .transition(DrawableTransitionOptions.withCrossFade())
                     .into(entry.getKey());
         }
         mProgressBar.setVisibility(View.GONE);

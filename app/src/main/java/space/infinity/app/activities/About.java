@@ -8,6 +8,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
 
+import java.util.Objects;
+
 import space.infinity.app.R;
 
 public class About extends AppCompatActivity {
@@ -19,7 +21,7 @@ public class About extends AppCompatActivity {
         TextView toolbar_title = findViewById(R.id.toolbar_title);
         Toolbar toolbar = findViewById(R.id.my_awesome_toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         toolbar_title.setText(R.string.about);
     }
 

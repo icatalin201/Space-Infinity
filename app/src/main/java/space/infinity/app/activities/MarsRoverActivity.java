@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -43,7 +44,7 @@ public class MarsRoverActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progress_bar);
         recyclerView = findViewById(R.id.images_recycler);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         roverImagesList = new ArrayList<>();
         roverCardAdapter = new RoverCardAdapter(this, roverImagesList);

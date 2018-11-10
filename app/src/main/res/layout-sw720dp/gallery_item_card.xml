@@ -17,7 +17,8 @@
         android:layout_height="match_parent">
 
         <ImageView
-            android:contentDescription="@string/apod"
+            android:contentDescription="@string/images"
+            android:scaleType="centerCrop"
             android:id="@+id/gallery_image"
             android:layout_width="match_parent"
             android:layout_height="350dp"/>

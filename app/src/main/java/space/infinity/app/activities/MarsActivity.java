@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Objects;
+
 import space.infinity.app.R;
 import space.infinity.app.network.CheckingConnection;
 
@@ -24,7 +26,7 @@ public class MarsActivity extends AppCompatActivity {
         TextView toolbar_title = findViewById(R.id.toolbar_title);
         Toolbar toolbar = findViewById(R.id.my_awesome_toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         toolbar_title.setText(R.string.rover);
         intent = new Intent(this, MarsRoverActivity.class);
     }

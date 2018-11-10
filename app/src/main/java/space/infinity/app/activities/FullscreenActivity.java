@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -140,8 +141,10 @@ public class FullscreenActivity extends AppCompatActivity {
                 }
             });*/
         }
-        Glide.with(this).load(path)
-                .asBitmap().into(full_image);
+        Glide.with(this)
+                .load(path)
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .into(full_image);
         full_image_title.setText(title);
         description.setText(desc);
         Helper.setAnimationForAll(this, full_image);

@@ -2,6 +2,7 @@ package space.infinity.app.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 
 import java.util.List;
 
@@ -33,18 +35,19 @@ public class GalaxyAdapter extends RecyclerView.Adapter<GalaxyAdapter.GalaxyView
         this.galaxies = galaxies;
     }
 
+    @NonNull
     @Override
-    public GalaxyAdapter.GalaxyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public GalaxyAdapter.GalaxyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.choose_enc_item, parent, false);
         return new GalaxyViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(GalaxyAdapter.GalaxyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull GalaxyAdapter.GalaxyViewHolder holder, int position) {
         holder.name.setText(galaxies.get(position).getName());
         String imageName = galaxies.get(position).getImage().split("\\.")[0];
         int resID = context.getResources().getIdentifier(imageName , "drawable", context.getPackageName());
-        Glide.with(context).load(resID).asBitmap().centerCrop().into(holder.image);
+        Glide.with(context).load(resID).transition(DrawableTransitionOptions.withCrossFade()).into(holder.image);
         Helper.customAnimation(context, holder.card, 700, android.R.anim.fade_in);
     }
 

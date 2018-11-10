@@ -27,6 +27,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import space.infinity.app.R;
 import space.infinity.app.adapters.SearchAdapter;
@@ -47,7 +48,7 @@ public class SearchActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.my_awesome_toolbar);
         TextView toolbar_title = findViewById(R.id.toolbar_title);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         toolbar_title.setText(R.string.search_result);
         recyclerView = findViewById(R.id.search_recycler);
         progressBar = findViewById(R.id.progress_bar);
@@ -136,9 +137,7 @@ public class SearchActivity extends AppCompatActivity {
                 reader.close();
                 httpURLConnection.disconnect();
                 jsonObject = new JSONObject(stringBuilder.toString());
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
+            } catch (IOException | JSONException e) {
                 e.printStackTrace();
             }
             return jsonObject;

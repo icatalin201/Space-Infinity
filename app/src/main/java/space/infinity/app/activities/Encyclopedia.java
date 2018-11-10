@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 
 import space.infinity.app.R;
 import space.infinity.app.models.encyclopedia.Galaxy;
@@ -190,7 +191,10 @@ public class Encyclopedia extends AppCompatActivity {
         }
         int resID = getResources().getIdentifier(image , "drawable", getPackageName());
         mCollapsingToolbarLayout.setTitle(name);
-        Glide.with(this).load(resID).asBitmap().into(imageView);
+        Glide.with(this)
+                .load(resID)
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .into(imageView);
         /*mAppBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
