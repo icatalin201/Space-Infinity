@@ -16,6 +16,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -42,6 +43,7 @@ public class GalleryActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progress_bar);
         recyclerView = findViewById(R.id.gallery_recycler);
         List<APOD> imageDataList = SqlService.getImageDataList(this);
+        Collections.shuffle(imageDataList);
         ApodGalleryAdapter adapter = new ApodGalleryAdapter(this, imageDataList);
         adapter.notifyDataSetChanged();
         recyclerView.setAdapter(adapter);

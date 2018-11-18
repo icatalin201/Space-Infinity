@@ -11,9 +11,13 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -28,6 +32,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Objects;
 import java.util.Random;
 
 import space.infinity.app.R;
@@ -44,7 +49,6 @@ public class FullscreenActivity extends AppCompatActivity {
     private String hdpath;
     private String path;
     private String desc;
-    //private ImageButton fav;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,55 +56,25 @@ public class FullscreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fullscreen);
         full_image = findViewById(R.id.full_image);
-        full_image_title = findViewById(R.id.full_image_title);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getWindow().setStatusBarColor(getResources().getColor(android.R.color.transparent));
+        full_image_title = findViewById(R.id.toolbar_title);
         TextView description = findViewById(R.id.description);
-        //fav = findViewById(R.id.fav);
         Object object = getIntent().getParcelableExtra("imageObject");
         String title = "";
         if (object instanceof APOD) {
-            final APOD apod = (APOD) object;
+            APOD apod = (APOD) object;
             title = apod.getTitle();
             path = apod.getUrl();
             hdpath = apod.getHdurl();
             desc = apod.getExplanation();
-
-            /*if (SqlService.isImageFav(FullscreenActivity.this, apod.getTitle())) {
-                fav.setImageResource(R.drawable.fav_big);
-                fav.setTag("yes");
-            }
-            else {
-                fav.setImageResource(R.drawable.notfav_big);
-                fav.setTag("no");
-            }
-            fav.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (fav.getTag().equals("yes")) {
-                        SqlService.handleImageFavs(FullscreenActivity.this, "remove",
-                                apod.getTitle(), apod.getUrl(), apod.getHdurl(), apod.getExplanation());
-                        Toast.makeText(FullscreenActivity.this, "Removed from favorites",
-                                Toast.LENGTH_SHORT).show();
-                        fav.setTag("no");
-                        fav.setImageResource(R.drawable.notfav_big);
-                    }
-                    else if (fav.getTag().equals("no")) {
-                        SqlService.handleImageFavs(FullscreenActivity.this, "add",
-                                apod.getTitle(), apod.getUrl(), apod.getHdurl(), apod.getExplanation());
-                        Toast.makeText(FullscreenActivity.this, "Marked as favorite",
-                                Toast.LENGTH_SHORT).show();
-                        fav.setTag("yes");
-                        fav.setImageResource(R.drawable.fav_big);
-                    }
-                }
-            });*/
-
         }
         else if (object instanceof RoverImages){
             RoverImages roverImages = (RoverImages) object;
             title = "Photo taken on ".concat(roverImages.getEarth_date());
             path = roverImages.getImg_src();
             hdpath = roverImages.getImg_src();
-            //fav.setVisibility(View.GONE);
         }
         else if (object instanceof ImageInfo) {
             final ImageInfo imageInfo = (ImageInfo) object;
@@ -108,38 +82,6 @@ public class FullscreenActivity extends AppCompatActivity {
             path = imageInfo.getImage();
             hdpath = imageInfo.getImage();
             desc = imageInfo.getDescription();
-
-            /*if (SqlService.isImageFav(FullscreenActivity.this, imageInfo.getTitle())) {
-                fav.setImageResource(R.drawable.fav_big);
-                fav.setTag("yes");
-            }
-            else {
-                fav.setImageResource(R.drawable.notfav_big);
-                fav.setTag("no");
-            }
-            fav.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (fav.getTag().equals("yes")) {
-                        SqlService.handleImageFavs(FullscreenActivity.this, "remove",
-                                imageInfo.getTitle(), imageInfo.getImage(), imageInfo.getImage(),
-                                imageInfo.getDescription());
-                        Toast.makeText(FullscreenActivity.this, "Removed from favorites",
-                                Toast.LENGTH_SHORT).show();
-                        fav.setTag("no");
-                        fav.setImageResource(R.drawable.notfav_big);
-                    }
-                    else if (fav.getTag().equals("no")) {
-                        SqlService.handleImageFavs(FullscreenActivity.this, "add",
-                                imageInfo.getTitle(), imageInfo.getImage(), imageInfo.getImage(),
-                                imageInfo.getDescription());
-                        Toast.makeText(FullscreenActivity.this, "Marked as favorite",
-                                Toast.LENGTH_SHORT).show();
-                        fav.setTag("yes");
-                        fav.setImageResource(R.drawable.fav_big);
-                    }
-                }
-            });*/
         }
         Glide.with(this)
                 .load(path)
@@ -150,21 +92,65 @@ public class FullscreenActivity extends AppCompatActivity {
         Helper.setAnimationForAll(this, full_image);
     }
 
-    public void downloadImg(View view) {
-        if (CheckingConnection.isConnected(this)) {
-            Toast.makeText(this, R.string.download, Toast.LENGTH_SHORT).show();
-            new DownloadImage().execute(hdpath);
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.download, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.download:
+                downloadImg();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    public void downloadImg() {
+        if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            if (CheckingConnection.isConnected(this)) {
+                Toast.makeText(this, R.string.download, Toast.LENGTH_SHORT).show();
+                new DownloadImage().execute(hdpath);
+            } else {
+                Toast.makeText(this, "No Internet Connection", Toast.LENGTH_LONG).show();
+            }
+        } else {
+            ActivityCompat.requestPermissions(this,
+                    new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE}, 123);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        if (requestCode == 123) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (CheckingConnection.isConnected(this)) {
+                    Toast.makeText(this, R.string.download, Toast.LENGTH_SHORT).show();
+                    new DownloadImage().execute(hdpath);
+                } else {
+                    Toast.makeText(this, "No Internet Connection", Toast.LENGTH_LONG).show();
+                }
+            } else {
+                Toast.makeText(this, "Can`t download photo due to " +
+                        "insufficient permissions! :(", Toast.LENGTH_LONG).show();
+            }
         }
         else {
-            Toast.makeText(this, "No Internet Connection", Toast.LENGTH_LONG).show();
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
 
     @SuppressLint("StaticFieldLeak")
-    private class DownloadImage extends AsyncTask<String, Void, Bitmap> {
+    private class DownloadImage extends AsyncTask<String, Void, File>{
 
         @Override
-        protected Bitmap doInBackground(String... urls) {
+        protected File doInBackground(String... urls) {
             Bitmap bitmap = null;
 
             HttpURLConnection httpURLConnection = null;
@@ -189,49 +175,44 @@ public class FullscreenActivity extends AppCompatActivity {
                     httpURLConnection.disconnect();
                 }
             }
-            return bitmap;
+            return saveImageToGallery(bitmap);
         }
 
         @Override
-        protected void onPostExecute(Bitmap bitmap) {
-            saveImageToGallery(bitmap);
+        protected void onPostExecute(File file) {
+            Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+            intent.setData(Uri.fromFile(file));
+            sendBroadcast(intent);
+            Toast.makeText(FullscreenActivity.this, R.string.download_complete, Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void saveImageToGallery(Bitmap bitmap){
+    private File saveImageToGallery(Bitmap bitmap){
         FileOutputStream outStream;
-        if (ActivityCompat.checkSelfPermission(FullscreenActivity.this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-            File picturesDir = new File(Environment.getExternalStorageDirectory() +
-                    File.separator + "Pictures");
-            File dir = new File(picturesDir.getAbsolutePath() + File.separator +
-                    "Space Infinity");
-            boolean success;
-            if (!dir.exists()) {
-                success = dir.mkdir();
-                if (success) {
-                    Log.i("Directory", "Created");
-                }
+        File picturesDir = new File(Environment.getExternalStorageDirectory() + File.separator + "Pictures");
+        File dir = new File(picturesDir.getAbsolutePath() + File.separator + "Space Infinity");
+        boolean succes;
+        if (!dir.exists()) {
+            succes = dir.mkdir();
+            if (succes) {
+                Log.i("Directory", "Created");
             }
-            Random r = new Random();
-            String name = full_image_title.getText().toString()
-                    .replace(" ", "")
-                    .concat(Integer.toString(r.nextInt()));
-
-            String fileName = String.format("%s.jpg", name);
-            File outFile = new File(dir, fileName);
-            try {
-                outStream = new FileOutputStream(outFile);
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
-                outStream.flush();
-                outStream.close();
-            } catch (IOException e ) {
-                e.printStackTrace();
-            }
-            Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-            intent.setData(Uri.fromFile(outFile));
-            sendBroadcast(intent);
-            Toast.makeText(this, R.string.download_complete, Toast.LENGTH_SHORT).show();
         }
+        Random r = new Random();
+        String name = full_image_title.getText().toString()
+                .replace(" ", "")
+                .concat(Integer.toString(r.nextInt()));
+
+        String fileName = String.format("%s.jpg", name);
+        File outFile = new File(dir, fileName);
+        try {
+            outStream = new FileOutputStream(outFile);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
+            outStream.flush();
+            outStream.close();
+        } catch (IOException e ) {
+            e.printStackTrace();
+        }
+        return outFile;
     }
 }

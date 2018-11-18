@@ -70,6 +70,9 @@
     <string name="filter">Filter</string>
     <string name="press">Press here to view it</string>
     <string name="share">Share</string>
-    <string name="version">App version: 1.20</string>
+    <string name="rating">Rating</string>
+    <string name="version">App version: 1.23</string>
     <string name="isserror">Please enable location access</string>
+    <string name="try_also">Try Also</string>
+    <string name="space_now">Space Now</string>
 </resources>

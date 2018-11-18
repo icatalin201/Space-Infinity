@@ -47,4 +47,11 @@ public class About extends AppCompatActivity {
         appShareIntent.putExtra(Intent.EXTRA_TEXT, extraText);
         startActivity(appShareIntent);
     }
+
+    public void getSpace(View view) {
+        String packageName = "space.pal.sig";
+        String playStoreLink = "https://play.google.com/store/apps/details?id=" + packageName;
+        Intent spaceApp = new Intent(Intent.ACTION_VIEW, Uri.parse(playStoreLink));
+        startActivity(spaceApp);
+    }
 }

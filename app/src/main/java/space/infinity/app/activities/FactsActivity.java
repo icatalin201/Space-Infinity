@@ -16,9 +16,9 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import java.util.Random;
 
 import space.infinity.app.R;
 import space.infinity.app.models.facts.SpaceFact;
@@ -50,13 +50,8 @@ public class FactsActivity extends AppCompatActivity {
         buttons = findViewById(R.id.buttons);
         spaceFactList = SqlService.getSpaceFactsList(this);
         max = spaceFactList.size() - 1;
-        //index = ThreadLocalRandom.current().nextInt(0, max);
-        try {
-            index = new Random().nextInt(max);
-        }
-        catch (Exception ex) {
-            index = 1;
-        }
+        index = 0;
+        Collections.shuffle(spaceFactList);
         factView.setText(spaceFactList.get(index).getName());
         Helper.customAnimation(this, factView, 700, android.R.anim.fade_in);
         setFavorites(spaceFactList.get(index));
@@ -191,13 +186,8 @@ public class FactsActivity extends AppCompatActivity {
                 else if (c.equals("yes")) {
                     spaceFactList = SqlService.getSpaceFactsList(this);
                     max = spaceFactList.size() - 1;
-                    //index = ThreadLocalRandom.current().nextInt(0, max);
-                    try {
-                        index = new Random().nextInt(max);
-                    }
-                    catch (Exception ex) {
-                        index = 1;
-                    }
+                    index = 0;
+                    Collections.shuffle(spaceFactList);
                     factView.setText(spaceFactList.get(index).getName());
                     Helper.customAnimation(this, factView, 700, android.R.anim.fade_in);
                     setFavorites(spaceFactList.get(index));

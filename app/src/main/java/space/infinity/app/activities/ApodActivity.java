@@ -134,23 +134,51 @@ public class ApodActivity extends AppCompatActivity {
     }
 
     public void downloadImg(View view){
-        if (CheckingConnection.isConnected(this)) {
-            Toast.makeText(this, R.string.download, Toast.LENGTH_SHORT).show();
-            if (apod.getMedia_type().equals("image")){
-                new DownloadImage().execute(apod.getHdurl());
+        if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            if (CheckingConnection.isConnected(this)) {
+                Toast.makeText(this, R.string.download, Toast.LENGTH_SHORT).show();
+                if (apod.getMedia_type().equals("image")) {
+                    new DownloadImage().execute(apod.getHdurl());
+                }
+            } else {
+                Toast.makeText(this, "No Internet Connection", Toast.LENGTH_LONG).show();
+            }
+        } else {
+            ActivityCompat.requestPermissions(this,
+                    new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE}, 123);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        if (requestCode == 123) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (CheckingConnection.isConnected(this)) {
+                    Toast.makeText(this, R.string.download, Toast.LENGTH_SHORT).show();
+                    if (apod.getMedia_type().equals("image")) {
+                        new DownloadImage().execute(apod.getHdurl());
+                    }
+                } else {
+                    Toast.makeText(this, "No Internet Connection", Toast.LENGTH_LONG).show();
+                }
+            } else {
+                Toast.makeText(this, "Can`t download photo due to " +
+                        "insufficient permissions! :(", Toast.LENGTH_LONG).show();
             }
         }
         else {
-            Toast.makeText(this, "No Internet Connection", Toast.LENGTH_LONG).show();
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
-
     }
 
     @SuppressLint("StaticFieldLeak")
-    private class DownloadImage extends AsyncTask<String, Void, Bitmap>{
+    private class DownloadImage extends AsyncTask<String, Void, File>{
 
         @Override
-        protected Bitmap doInBackground(String... urls) {
+        protected File doInBackground(String... urls) {
             Bitmap bitmap = null;
 
             HttpURLConnection httpURLConnection = null;
@@ -175,47 +203,44 @@ public class ApodActivity extends AppCompatActivity {
                     httpURLConnection.disconnect();
                 }
             }
-            return bitmap;
+            return saveImageToGallery(bitmap);
         }
 
         @Override
-        protected void onPostExecute(Bitmap bitmap) {
-            saveImageToGallery(bitmap);
+        protected void onPostExecute(File file) {
+            Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+            intent.setData(Uri.fromFile(file));
+            sendBroadcast(intent);
+            Toast.makeText(ApodActivity.this, R.string.download_complete, Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void saveImageToGallery(Bitmap bitmap){
+    private File saveImageToGallery(Bitmap bitmap){
         FileOutputStream outStream;
-        if (ActivityCompat.checkSelfPermission(ApodActivity.this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-            File picturesDir = new File(Environment.getExternalStorageDirectory() + File.separator + "Pictures");
-            File dir = new File(picturesDir.getAbsolutePath() + File.separator + "Space Infinity");
-            boolean succes;
-            if (!dir.exists()) {
-                succes = dir.mkdir();
-                if (succes) {
-                    Log.i("Directory", "Created");
-                }
+        File picturesDir = new File(Environment.getExternalStorageDirectory() + File.separator + "Pictures");
+        File dir = new File(picturesDir.getAbsolutePath() + File.separator + "Space Infinity");
+        boolean succes;
+        if (!dir.exists()) {
+            succes = dir.mkdir();
+            if (succes) {
+                Log.i("Directory", "Created");
             }
-            Random r = new Random();
-            String name = apodTitle.getText().toString()
-                    .replace(" ", "")
-                    .concat(Integer.toString(r.nextInt()));
-
-            String fileName = String.format("%s.jpg", name);
-            File outFile = new File(dir, fileName);
-            try {
-                outStream = new FileOutputStream(outFile);
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
-                outStream.flush();
-                outStream.close();
-            } catch (IOException e ) {
-                e.printStackTrace();
-            }
-            Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-            intent.setData(Uri.fromFile(outFile));
-            sendBroadcast(intent);
-            Toast.makeText(this, R.string.download_complete, Toast.LENGTH_SHORT).show();
         }
+        Random r = new Random();
+        String name = apodTitle.getText().toString()
+                .replace(" ", "")
+                .concat(Integer.toString(r.nextInt()));
+
+        String fileName = String.format("%s.jpg", name);
+        File outFile = new File(dir, fileName);
+        try {
+            outStream = new FileOutputStream(outFile);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
+            outStream.flush();
+            outStream.close();
+        } catch (IOException e ) {
+            e.printStackTrace();
+        }
+        return outFile;
     }
 }

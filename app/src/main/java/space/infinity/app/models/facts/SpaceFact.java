@@ -10,6 +10,8 @@ public class SpaceFact {
     private String name;
     private String isFav;
 
+    public SpaceFact() { }
+
     public SpaceFact(int id, String name, String isFav) {
         this.id = id;
         this.name = name;

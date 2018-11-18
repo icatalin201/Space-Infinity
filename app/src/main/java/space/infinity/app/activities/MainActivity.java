@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -28,7 +27,6 @@ import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
@@ -93,24 +91,24 @@ public class MainActivity extends AppCompatActivity {
         images.put(factsImage, R.drawable.facts);
         images.put(wikiImage, R.drawable.wiki);
         images.put(flaunches, R.drawable.ulaunches);
-        if (Build.VERSION.SDK_INT < 23){
-            starting();
-        }
-        else {
-            if (ActivityCompat.checkSelfPermission(MainActivity.this,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                    != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(MainActivity.this,
-                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 123);
-            }
-            else {
-                starting();
-            }
-        }
+        starting();
+//        if (Build.VERSION.SDK_INT < 23){
+//            starting();
+//        }
+//        else {
+//            if (ActivityCompat.checkSelfPermission(MainActivity.this,
+//                    Manifest.permission.WRITE_EXTERNAL_STORAGE)
+//                    != PackageManager.PERMISSION_GRANTED) {
+//                ActivityCompat.requestPermissions(MainActivity.this,
+//                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 123);
+//            }
+//            else {
+//                starting();
+//            }
+//        }
     }
 
     private void starting() {
-        generateDb();
         if (CheckingConnection.isConnected(this)) {
             loadData();
             Calendar calendar = Calendar.getInstance();
@@ -135,88 +133,75 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void generateDb() {
-        File directory = new File(Environment.getExternalStorageDirectory() + "/BackupFolder");
-        boolean check = false;
-        if(!directory.exists()) {
-            if(directory.mkdir()) {
-                Log.i("created", "created");
-                check = true;
-            }
-        }
-        else {
-            Log.i("directory", "exists");
-            check = true;
-        }
-        String firstTime = getPreferences(Context.MODE_PRIVATE).getString("updated", "");
-        if (check && !firstTime.equals("yes")) {
-            //exportDB();
-            importDB();
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull
-            String[] permissions, @NonNull int[] grantResults) {
-        if (ActivityCompat.checkSelfPermission(MainActivity.this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-            starting();
-        } else {
-            ActivityCompat.requestPermissions(MainActivity.this,
-                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 123);
-        }
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-    }
-
-    private void importDB() {
-        try {
-            File sd = Environment.getExternalStorageDirectory();
-            if (sd.canWrite()) {
-
-                String dbpath = this.getDatabasePath("space_infinity.db").toString();
-                String dbname  = "space_infinity.db";
-
-                OutputStream myOutput = new FileOutputStream(dbpath);
-                byte[] buffer = new byte[1024];
-                int length;
-                InputStream myInput = getAssets().open(dbname);
-                while ((length = myInput.read(buffer)) > 0) {
-                    myOutput.write(buffer, 0, length);
-                }
-                myInput.close();
-                myOutput.flush();
-                myOutput.close();
-                SharedPreferences preferences = getPreferences(Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = preferences.edit();
-                editor.putString("updated", "yes");
-                editor.apply();
-                Log.i("db", "copied");
-            }
-        } catch (Exception e) {
-            Log.i("exception", e.toString());
-        }
-    }
-
-    private void exportDB() {
-        try {
-            File sd = Environment.getExternalStorageDirectory();
-            if (sd.canWrite()) {
-                String dbpath = this.getDatabasePath("space_infinity.db").toString();
-                String backupDBPath  = "/BackupFolder/space_infinity.db";
-                File currentDB = new File(dbpath);
-                File backupDB = new File(sd, backupDBPath);
-
-                FileChannel src = new FileInputStream(currentDB).getChannel();
-                FileChannel dst = new FileOutputStream(backupDB).getChannel();
-                dst.transferFrom(src, 0, src.size());
-                src.close();
-                dst.close();
-                Log.i("db", "exported");
-            }
-        } catch (Exception e) {
-            Log.i("exception", e.toString());
-        }
-    }
+//    private void generateDb() {
+//        File directory = new File(Environment.getExternalStorageDirectory() + "/BackupFolder");
+//        boolean check = false;
+//        if(!directory.exists()) {
+//            if(directory.mkdir()) {
+//                Log.i("created", "created");
+//                check = true;
+//            }
+//        }
+//        else {
+//            Log.i("directory", "exists");
+//            check = true;
+//        }
+//        String firstTime = getPreferences(Context.MODE_PRIVATE).getString("updated", "");
+//        if (check && !firstTime.equals("yes")) {
+//            //exportDB();
+//            importDB();
+//        }
+//    }
+//
+//    private void importDB() {
+//        try {
+//            File sd = Environment.getExternalStorageDirectory();
+//            if (sd.canWrite()) {
+//
+//                String dbpath = this.getDatabasePath("space_infinity.db").toString();
+//                String dbname  = "space_infinity.db";
+//
+//                OutputStream myOutput = new FileOutputStream(dbpath);
+//                byte[] buffer = new byte[1024];
+//                int length;
+//                InputStream myInput = getAssets().open(dbname);
+//                while ((length = myInput.read(buffer)) > 0) {
+//                    myOutput.write(buffer, 0, length);
+//                }
+//                myInput.close();
+//                myOutput.flush();
+//                myOutput.close();
+//                SharedPreferences preferences = getPreferences(Context.MODE_PRIVATE);
+//                SharedPreferences.Editor editor = preferences.edit();
+//                editor.putString("updated", "yes");
+//                editor.apply();
+//                Log.i("db", "copied");
+//            }
+//        } catch (Exception e) {
+//            Log.i("exception", e.toString());
+//        }
+//    }
+//
+//    private void exportDB() {
+//        try {
+//            File sd = Environment.getExternalStorageDirectory();
+//            if (sd.canWrite()) {
+//                String dbpath = this.getDatabasePath("space_infinity.db").toString();
+//                String backupDBPath  = "/BackupFolder/space_infinity.db";
+//                File currentDB = new File(dbpath);
+//                File backupDB = new File(sd, backupDBPath);
+//
+//                FileChannel src = new FileInputStream(currentDB).getChannel();
+//                FileChannel dst = new FileOutputStream(backupDB).getChannel();
+//                dst.transferFrom(src, 0, src.size());
+//                src.close();
+//                dst.close();
+//                Log.i("db", "exported");
+//            }
+//        } catch (Exception e) {
+//            Log.i("exception", e.toString());
+//        }
+//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -260,8 +245,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<APOD> call, Response<APOD> response) {
                 if (!response.isSuccessful()){
-                    //apodCall = call.clone();
-                    //apodCall.enqueue(this);
                     getImageFromDb();
                     Log.i("main", "getting apod from db");
                     return;
@@ -299,9 +282,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getImageFromDb() {
-        //Date c = Calendar.getInstance().getTime();
-        //SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        //String formattedDate = df.format(c);
         apod = SqlService.getApod(MainActivity.this);
         Glide.with(MainActivity.this)
                 .load(apod.getUrl())

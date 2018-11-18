@@ -22,6 +22,34 @@ import space.infinity.app.models.facts.SpaceFact;
 
 public class SqlService {
 
+    public static void insertApodList(Context context, List<APOD> apodList) {
+        SQLiteDatabase sqLiteDatabase = new SqlHelper(context).getWritableDatabase();
+        for (APOD apod : apodList) {
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(SqlStructure.SqlData.date_column, apod.getDate());
+            contentValues.put(SqlStructure.SqlData.author_column, apod.getCopyright());
+            contentValues.put(SqlStructure.SqlData.hdurl_column, apod.getHdurl());
+            contentValues.put(SqlStructure.SqlData.url_column, apod.getUrl());
+            contentValues.put(SqlStructure.SqlData.title_column, apod.getTitle());
+            contentValues.put(SqlStructure.SqlData.description_column, apod.getExplanation());
+            sqLiteDatabase.insert(SqlStructure.SqlData.IMAGE_DATA_TABLE, null, contentValues);
+            Log.i("apod", "inserted");
+        }
+        sqLiteDatabase.close();
+    }
+
+    public static void insertFactList(Context context, List<SpaceFact> facts) {
+        SQLiteDatabase sqLiteDatabase = new SqlHelper(context).getWritableDatabase();
+        for (SpaceFact fact : facts) {
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(SqlStructure.SqlData.fact_name, fact.getName());
+            contentValues.put(SqlStructure.SqlData.is_fact_fav, "no");
+            sqLiteDatabase.insert(SqlStructure.SqlData.FACTS_TABLE, null, contentValues);
+            Log.i("fact", "inserted");
+        }
+        sqLiteDatabase.close();
+    }
+
     public static List<SpaceFact> getFavoriteFacts(Context context) {
         List<SpaceFact> facts = new ArrayList<>();
         SqlHelper sqlHelper = new SqlHelper(context);
