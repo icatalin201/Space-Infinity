@@ -10,15 +10,12 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,18 +24,14 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Objects;
-import java.util.Random;
 
 import space.infinity.app.R;
-import space.infinity.app.models.apod.APOD;
-import space.infinity.app.models.gallery.ImageInfo;
-import space.infinity.app.models.mars.RoverImages;
+import space.infinity.app.models.APOD;
+import space.infinity.app.models.ImageItem;
 import space.infinity.app.network.CheckingConnection;
 import space.infinity.app.utils.Helper;
 
@@ -52,7 +45,6 @@ public class FullscreenActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setTheme(R.style.AppTheme_NoActionBar);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fullscreen);
         full_image = findViewById(R.id.full_image);
@@ -70,14 +62,8 @@ public class FullscreenActivity extends AppCompatActivity {
             hdpath = apod.getHdurl();
             desc = apod.getExplanation();
         }
-        else if (object instanceof RoverImages){
-            RoverImages roverImages = (RoverImages) object;
-            title = "Photo taken on ".concat(roverImages.getEarth_date());
-            path = roverImages.getImg_src();
-            hdpath = roverImages.getImg_src();
-        }
-        else if (object instanceof ImageInfo) {
-            final ImageInfo imageInfo = (ImageInfo) object;
+        else if (object instanceof ImageItem) {
+            final ImageItem imageInfo = (ImageItem) object;
             title = imageInfo.getTitle();
             path = imageInfo.getImage();
             hdpath = imageInfo.getImage();
@@ -175,7 +161,7 @@ public class FullscreenActivity extends AppCompatActivity {
                     httpURLConnection.disconnect();
                 }
             }
-            return saveImageToGallery(bitmap);
+            return Helper.saveImageToGallery(bitmap, full_image_title.getText().toString());
         }
 
         @Override
@@ -183,36 +169,8 @@ public class FullscreenActivity extends AppCompatActivity {
             Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
             intent.setData(Uri.fromFile(file));
             sendBroadcast(intent);
-            Toast.makeText(FullscreenActivity.this, R.string.download_complete, Toast.LENGTH_SHORT).show();
+            Toast.makeText(FullscreenActivity.this, R.string.download_complete,
+                    Toast.LENGTH_SHORT).show();
         }
-    }
-
-    private File saveImageToGallery(Bitmap bitmap){
-        FileOutputStream outStream;
-        File picturesDir = new File(Environment.getExternalStorageDirectory() + File.separator + "Pictures");
-        File dir = new File(picturesDir.getAbsolutePath() + File.separator + "Space Infinity");
-        boolean succes;
-        if (!dir.exists()) {
-            succes = dir.mkdir();
-            if (succes) {
-                Log.i("Directory", "Created");
-            }
-        }
-        Random r = new Random();
-        String name = full_image_title.getText().toString()
-                .replace(" ", "")
-                .concat(Integer.toString(r.nextInt()));
-
-        String fileName = String.format("%s.jpg", name);
-        File outFile = new File(dir, fileName);
-        try {
-            outStream = new FileOutputStream(outFile);
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
-            outStream.flush();
-            outStream.close();
-        } catch (IOException e ) {
-            e.printStackTrace();
-        }
-        return outFile;
     }
 }

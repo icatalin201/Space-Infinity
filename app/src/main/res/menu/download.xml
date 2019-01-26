@@ -6,6 +6,6 @@
         android:id="@+id/download"
         android:title="@string/download"
         app:showAsAction="always"
-        android:icon="@drawable/ic_file_download_white_18dp" />
+        android:icon="@drawable/ic_baseline_cloud_download_24px" />
 
 </menu>

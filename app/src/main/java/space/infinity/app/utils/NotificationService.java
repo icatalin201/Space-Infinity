@@ -7,14 +7,13 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 
 import space.infinity.app.R;
-import space.infinity.app.activities.Splash;
+import space.infinity.app.activities.SplashActivity;
 
 import static android.content.Context.NOTIFICATION_SERVICE;
 import static space.infinity.app.utils.Constants.CHANNEL_ID;
@@ -48,7 +47,7 @@ public class NotificationService extends BroadcastReceiver {
 
     private void sendNotification(Context context) {
         Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        Intent intent = new Intent(context, Splash.class);
+        Intent intent = new Intent(context, SplashActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
         Notification notification = new NotificationCompat
                 .Builder(context, createNotificationChannel(context))

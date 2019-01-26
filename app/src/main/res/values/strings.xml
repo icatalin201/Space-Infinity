@@ -3,12 +3,18 @@
     <string name="app_short">Space Infinity</string>
     <string name="app_suffix">All About Space</string>
     <string name="credits">Images Credits:  NASA</string>
+    <string name="version">App version: 2.27</string>
+
     <string name="apod">APOD - Astronomy Picture of the Day</string>
     <string name="images">Image Gallery</string>
-    <string name="rover">Mars Rover Images</string>
     <string name="iss">ISS Now</string>
     <string name="facts">Space Facts</string>
     <string name="wiki">Encyclopedia</string>
+    <string name="voyager">Voyager</string>
+    <string name="astronauts">Astronauts</string>
+    <string name="rockets">Rockets</string>
+
+    <string name="rover">Mars Rover Images</string>
     <string name="loading">Loading…</string>
     <string name="exit">Press again to exit</string>
     <string name="info">About</string>
@@ -71,7 +77,7 @@
     <string name="press">Press here to view it</string>
     <string name="share">Share</string>
     <string name="rating">Rating</string>
-    <string name="version">App version: 1.23</string>
+
     <string name="isserror">Please enable location access</string>
     <string name="try_also">Try Also</string>
     <string name="space_now">Space Now</string>

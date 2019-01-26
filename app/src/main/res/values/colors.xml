@@ -4,11 +4,12 @@
     <color name="colorPrimaryDark">#000000</color>
     <color name="colorAccent">#484848</color>
 
-    <color name="primaryTextColor">#ffffff</color>
-
     <color name="transparentBlack">#90000000</color>
     <color name="almostFullBlack">#CC000000</color>
     <color name="transparentWhite">#9fffffff</color>
 
-    <color name="icon_color">#fff</color>
+    <color name="white">#ffffff</color>
+    <color name="primaryTextColor">#ffffff</color>
+    <color name="smokeWhite">#f5f5f6</color>
+    <color name="smokerWhite">#e1e2e1</color>
 </resources>

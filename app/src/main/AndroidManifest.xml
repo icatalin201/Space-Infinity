@@ -20,7 +20,8 @@
             android:value="AIzaSyC6Q7OhqamuUw_pJo8rsEXP-xuKR3CwQlo" />
 
         <activity
-            android:name=".activities.Splash"
+            android:theme="@style/AppTheme.Splash"
+            android:name=".activities.SplashActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -30,61 +31,49 @@
             </intent-filter>
         </activity>
         <activity
+            android:theme="@style/AppTheme"
             android:configChanges="orientation"
             android:screenOrientation="portrait"
             android:name=".activities.MainActivity" />
         <activity
+            android:theme="@style/AppTheme"
             android:configChanges="orientation"
             android:screenOrientation="portrait"
             android:name=".activities.ApodActivity" />
         <activity
-            android:configChanges="orientation"
-            android:screenOrientation="portrait"
-            android:name=".activities.MarsRoverActivity" />
-        <activity
-            android:configChanges="orientation"
-            android:screenOrientation="portrait"
-            android:name=".activities.MarsActivity" />
-        <activity
+            android:theme="@style/AppTheme"
             android:configChanges="orientation"
             android:screenOrientation="portrait"
             android:name=".activities.IssActivity" />
         <activity
             android:configChanges="orientation"
             android:screenOrientation="portrait"
-            android:name=".activities.UpcomingLaunches" />
-        <activity
-            android:configChanges="orientation"
-            android:screenOrientation="portrait"
             android:name=".activities.FullscreenActivity" />
         <activity
+            android:theme="@style/AppTheme"
             android:configChanges="orientation"
             android:screenOrientation="portrait"
             android:name=".activities.GalleryActivity" />
         <activity
+            android:theme="@style/AppTheme"
             android:configChanges="orientation"
             android:screenOrientation="portrait"
             android:name=".activities.FactsActivity" />
         <activity
-            android:configChanges="orientation"
-            android:screenOrientation="portrait"
-            android:name=".activities.PreEncyclopedia" />
-        <activity
+            android:theme="@style/AppTheme"
             android:configChanges="orientation"
             android:screenOrientation="portrait"
             android:name=".activities.ChooseEncyclopedia" />
         <activity
+            android:theme="@style/AppTheme"
             android:configChanges="orientation"
             android:screenOrientation="portrait"
             android:name=".activities.Encyclopedia" />
         <activity
+            android:theme="@style/AppTheme"
             android:configChanges="orientation"
             android:screenOrientation="portrait"
             android:name=".activities.SearchActivity" />
-        <activity
-            android:configChanges="orientation"
-            android:screenOrientation="portrait"
-            android:name=".activities.About" />
 
         <receiver
             android:exported="false"

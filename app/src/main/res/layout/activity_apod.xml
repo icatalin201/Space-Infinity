@@ -1,139 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    tools:context="space.infinity.app.activities.ApodActivity"
-    android:background="@color/primaryTextColor">
+    tools:context="space.infinity.app.activities.ApodActivity">
 
-    <include layout="@layout/main_toolbar" />
-
-    <ProgressBar
-        android:layout_weight="1"
-        android:layout_gravity="center"
-        android:id="@+id/progress_bar"
-        style="?android:attr/progressBarStyle"
+    <include
         android:layout_width="wrap_content"
-        android:layout_height="0dp" />
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        layout="@layout/progress_bar" />
 
-    <ScrollView
-        android:id="@+id/main_layout"
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbar"
+        android:background="@color/transparentBlack"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="visible">
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
 
-        <LinearLayout
-            android:orientation="vertical"
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:visibility="gone"
+            android:background="@android:color/transparent"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="?attr/actionBarSize" />
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="350dp">
+    </android.support.design.widget.AppBarLayout>
 
-                <ImageButton
-                    android:contentDescription="@string/download"
-                    android:onClick="downloadImg"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_margin="5dp"
-                    android:translationZ="5dp"
-                    android:src="@drawable/ic_file_download_white_18dp"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:tint="@color/primaryTextColor"
-                    android:layout_width="40dp"
-                    android:layout_height="wrap_content" />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+        <ImageView
+            android:contentDescription="@string/apod"
+            android:id="@+id/image"
+            android:visibility="gone"
+            android:scaleType="centerCrop"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"/>
 
-                    <android.support.v7.widget.CardView
-                        android:onClick="goFullscreen"
-                        android:clickable="true"
-                        android:foreground="?android:attr/selectableItemBackground"
-                        android:focusable="true"
-                        app:cardCornerRadius="0dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <ImageView
-                            android:contentDescription="@string/loading"
-                            android:id="@+id/apod_image"
-                            android:scaleType="centerCrop"
-                            android:background="@color/colorPrimaryDark"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"/>
-
-                    </android.support.v7.widget.CardView>
-
-                </FrameLayout>
-
-                <TextView
-                    android:id="@+id/apod_title"
-                    android:layout_alignParentBottom="true"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:singleLine="true"
-                    android:ellipsize="marquee"
-                    android:marqueeRepeatLimit ="marquee_forever"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
-                    android:scrollHorizontally="true"
-                    android:background="@color/transparentBlack"
-                    android:textColor="@color/primaryTextColor"/>
-
-            </RelativeLayout>
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none"
+            android:id="@+id/content"
+            android:visibility="gone">
 
             <LinearLayout
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/apod_date"
-                    android:layout_weight="1"
-                    android:layout_width="wrap_content"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="10dp"
-                    android:textStyle="bold"
+                    android:id="@+id/credits"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:textColor="@color/white"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
-
                 <TextView
-                    android:id="@+id/apod_author"
-                    android:layout_weight="1"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="10dp"
-                    android:textStyle="bold"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/date"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:textColor="@color/white"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
-
+                <TextView
+                    android:id="@+id/description"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:textColor="@color/white"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
             </LinearLayout>
 
-            <View
-                android:background="@color/colorPrimaryDark"
-                android:layout_width="match_parent"
-                android:layout_margin="10dp"
-                android:layout_height="1dp">
-            </View>
+        </android.support.v4.widget.NestedScrollView>
 
+    </LinearLayout>
 
-            <TextView
-                android:id="@+id/apod_explanation"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginBottom="10dp"/>
-
-        </LinearLayout>
-
-    </ScrollView>
-
-</LinearLayout>
+</android.support.design.widget.CoordinatorLayout>

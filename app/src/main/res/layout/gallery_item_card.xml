@@ -6,7 +6,9 @@
     android:layout_height="wrap_content"
     android:id="@+id/gallery_card"
     app:cardCornerRadius="4dp"
-    android:layout_margin="3dp"
+    android:layout_margin="4dp"
+    app:cardElevation="2dp"
+    app:cardBackgroundColor="@color/colorPrimary"
     android:clickable="true"
     android:foreground="?android:attr/selectableItemBackground"
     android:focusable="true">
@@ -24,10 +26,13 @@
             android:layout_height="200dp"/>
 
         <TextView
+            android:textColor="@color/white"
+            android:maxLines="1"
+            android:ellipsize="end"
             android:id="@+id/gallery_image_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp" />
+            android:padding="8dp" />
 
     </LinearLayout>
 

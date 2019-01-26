@@ -3,13 +3,20 @@ package space.infinity.app.utils;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.os.Environment;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Random;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -26,6 +33,33 @@ public class Helper {
             viewToAnimate.startAnimation(animation);
             lastPosition = position;
         }
+    }
+
+    public static File saveImageToGallery(Bitmap bitmap, String title){
+        FileOutputStream outStream;
+        File picturesDir = new File(Environment.getExternalStorageDirectory() +
+                File.separator + "Pictures");
+        File dir = new File(picturesDir.getAbsolutePath() +
+                File.separator + "Space Infinity");
+        boolean succes;
+        if (!dir.exists()) {
+            succes = dir.mkdir();
+            if (succes) { Log.i("Directory", "Created"); }
+        }
+        Random r = new Random();
+        String name = title.replace(" ", "")
+                .concat(Integer.toString(r.nextInt()));
+        String fileName = String.format("%s.jpg", name);
+        File outFile = new File(dir, fileName);
+        try {
+            outStream = new FileOutputStream(outFile);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
+            outStream.flush();
+            outStream.close();
+        } catch (IOException e ) {
+            e.printStackTrace();
+        }
+        return outFile;
     }
 
     public static void putInSharedPreferences(String pref_name, Context context, String key, String value) {

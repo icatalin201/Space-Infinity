@@ -1,29 +1,28 @@
 package space.infinity.app.activities;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.eyalbira.loadingdots.LoadingDots;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdate;
@@ -48,7 +47,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.Objects;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -58,289 +56,346 @@ import space.infinity.app.network.CheckingConnection;
 import space.infinity.app.utils.Constants;
 import space.infinity.app.utils.Helper;
 
-public class IssActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class IssActivity extends AppCompatActivity {
 
-    private ProgressBar progressBar;
-    private LinearLayout linearLayout;
+    private class ActivityHelper
+            extends space.infinity.app.models.ActivityHelper
+            implements OnMapReadyCallback {
+
+        @SuppressLint("StaticFieldLeak")
+        private class GetData extends AsyncTask<String, Void, JSONObject> {
+
+            @Override
+            protected JSONObject doInBackground(String... strings) {
+
+                String urlString = null;
+                switch (strings.length) {
+                    case 1:
+                        urlString = strings[0];
+                        break;
+                }
+                StringBuilder stringBuilder = new StringBuilder();
+                HttpURLConnection httpURLConnection;
+                URL url;
+                JSONObject json = null;
+                BufferedReader reader;
+                try {
+                    url = new URL(urlString);
+                    httpURLConnection = (HttpURLConnection) url.openConnection();
+                    reader = new BufferedReader(new InputStreamReader(httpURLConnection
+                            .getInputStream(), "iso-8859-1"), 8);
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        stringBuilder.append(line);
+                    }
+                    reader.close();
+                    httpURLConnection.disconnect();
+                    json = new JSONObject(stringBuilder.toString());
+                } catch (IOException | JSONException e) {
+                    e.printStackTrace();
+                }
+                return json;
+            }
+
+            @Override
+            protected void onPostExecute(JSONObject jsonObject) {
+                super.onPostExecute(jsonObject);
+                try {
+                    DecimalFormat numberFormat = new DecimalFormat("#.00");
+                    String velo = getResources().getString(R.string.velocity).concat(": ")
+                            .concat(numberFormat.format(jsonObject
+                                    .getDouble("velocity")).concat(" km/h"));
+                    String alti = getResources().getString(R.string.altitude).concat(": ")
+                            .concat(numberFormat.format(jsonObject
+                                    .getDouble("altitude")).concat(" km"));
+                    LatLng location = new LatLng(jsonObject.getDouble("latitude"),
+                            jsonObject.getDouble("longitude"));
+                    velocity.setText(velo);
+                    altitude.setText(alti);
+                    Helper.setAnimationForAll(getContext(), velocity);
+                    Helper.setAnimationForAll(getContext(), altitude);
+                    updateLocation(location, googleMap);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Snackbar snackbar = Snackbar
+                        .make(coordinator, "Unexpected error has occured.",
+                                Snackbar.LENGTH_LONG)
+                        .setAction("Retry", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                recreate();
+                            }
+                        });
+                    snackbar.setActionTextColor(getResources().getColor(R.color.primaryTextColor));
+                    snackbar.show();
+                }
+            }
+        }
+
+        private Marker marker;
+        private ScheduledExecutorService executorService;
+        private GoogleMap googleMap;
+
+        ActivityHelper(Context context) {
+            setContext(context);
+            executorService = Executors.newSingleThreadScheduledExecutor();
+        }
+
+        @Override
+        public void onStart() {
+            mapFragment.getMapAsync(this);
+        }
+
+        @Override
+        public void onDestroy() {
+            executorService.shutdown();
+        }
+
+        @Override
+        public void showLayout() {
+            progressBar.setVisibility(View.GONE);
+            content.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        public void onMapReady(GoogleMap googleMap) {
+            showLayout();
+            getSomeData(googleMap);
+            this.googleMap = googleMap;
+        }
+
+        private void getSomeData(final GoogleMap googleMap) {
+            if (CheckingConnection.isConnected(getContext())) {
+                googleMap.getUiSettings().setZoomGesturesEnabled(false);
+                googleMap.getUiSettings().setAllGesturesEnabled(false);
+                executorService.scheduleAtFixedRate(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.i("location", "updated");
+                        new GetData().execute(Constants.ISS_NOW);
+                    }
+                }, 0, 5, TimeUnit.SECONDS);
+            }
+            else {
+                Snackbar snackbar = Snackbar
+                        .make(coordinator, "No Internet Connection", Snackbar.LENGTH_LONG)
+                        .setAction("Retry", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                recreate();
+                            }
+                        });
+                snackbar.setActionTextColor(getResources().getColor(R.color.primaryTextColor));
+                snackbar.show();
+            }
+        }
+
+        void updateLocation(LatLng location, GoogleMap googleMap) {
+            if (googleMap == null) return;
+            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLng(location);
+            googleMap.animateCamera(cameraUpdate);
+            if(marker == null) {
+                marker = googleMap.addMarker(new MarkerOptions().position(location)
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.iss_map))
+                        .zIndex(3.0f).title("International Space Station"));
+            }
+            else {
+                marker.setPosition(location);
+            }
+            marker.setVisible(true);
+        }
+    }
+
+    private LoadingDots progressBar;
+    private RelativeLayout content;
     private SupportMapFragment mapFragment;
     private TextView velocity;
     private TextView altitude;
-    private ScheduledExecutorService executorService;
-    private Marker marker;
     private CoordinatorLayout coordinator;
-
-    private FusedLocationProviderClient mFusedLocationClient;
+    private ActivityHelper activityHelper;
+    private FusedLocationProviderClient fusedLocationProviderClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_iss);
-        TextView toolbar_title = findViewById(R.id.toolbar_title);
-        Toolbar toolbar = findViewById(R.id.my_awesome_toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         progressBar = findViewById(R.id.progress_bar);
-        linearLayout = findViewById(R.id.main_layout);
         velocity = findViewById(R.id.velocity);
         altitude = findViewById(R.id.altitude);
+        content = findViewById(R.id.content);
         coordinator = findViewById(R.id.coordinator);
         setSupportActionBar(toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        toolbar_title.setText(R.string.iss);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_baseline_keyboard_backspace_24px);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
         mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map_view);
-        marker = null;
-        loadAfterTime();
-
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{ Manifest.permission.ACCESS_COARSE_LOCATION }, 1);
-        }
-        else {
-            mFusedLocationClient.getLastLocation()
-                    .addOnSuccessListener(this, new OnSuccessListener<Location>() {
-                        @Override
-                        public void onSuccess(Location location) {
-                            if (location != null) {
-                                Log.i("locationn", location.toString());
-                                SharedPreferences preferences = getPreferences(Context.MODE_PRIVATE);
-                                SharedPreferences.Editor editor = preferences.edit();
-                                editor.putString("lat", Double.toString(location.getLatitude()));
-                                editor.putString("lon", Double.toString(location.getLongitude()));
-                                editor.apply();
-                            }
-                        }
-                    });
-        }
+        activityHelper = new ActivityHelper(this);
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+        activityHelper.onStart();
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
         if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
                     == PackageManager.PERMISSION_GRANTED) {
                 Log.i("location", "granted");
-                mFusedLocationClient.getLastLocation()
-                        .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                fusedLocationProviderClient.getLastLocation()
+                    .addOnSuccessListener(this,
+                        new OnSuccessListener<Location>() {
                             @Override
                             public void onSuccess(Location location) {
-                                // Got last known location. In some rare situations this can be null.
                                 if (location != null) {
                                     Log.i("locationn", location.toString());
-                                    SharedPreferences preferences = getPreferences(Context.MODE_PRIVATE);
-                                    SharedPreferences.Editor editor = preferences.edit();
-                                    editor.putString("lat", Double.toString(location.getLatitude()));
-                                    editor.putString("lon", Double.toString(location.getLongitude()));
-                                    editor.apply();
+                                    issPass(location);
+                                } else {
+                                    Snackbar snackbar = Snackbar
+                                            .make(coordinator, getResources()
+                                                    .getString(R.string.isserror), 8000)
+                                            .setAction("Retry", new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View view) {
+                                                    findIssPass();
+                                                }
+                                            });
+                                    snackbar.setActionTextColor(getResources()
+                                            .getColor(R.color.primaryTextColor));
+                                    snackbar.show();
                                 }
                             }
                         });
             }
         }
         else {
-            ActivityCompat.requestPermissions(this, new String[]{ Manifest.permission.ACCESS_COARSE_LOCATION }, 1);
+            ActivityCompat.requestPermissions(this,
+                    new String[]{ Manifest.permission.ACCESS_COARSE_LOCATION }, 1);
         }
     }
 
-    public void issPass(View view) {
-
-        String lat = getPreferences(Context.MODE_PRIVATE).getString("lat", "");
-        String lon = getPreferences(Context.MODE_PRIVATE).getString("lon", "");
-        String params = "lat=".concat(lat).concat("&lon=").concat(lon).concat("&n=3");
-        try {
-            JSONObject jsonObject = new GetData().execute(Constants.ISS_PASS.concat(params)).get();
-            JSONArray jsonArray = jsonObject.getJSONArray("response");
-            JSONObject object = (JSONObject) jsonArray.get(0);
-            String date = Helper.unixToDate(object.getLong("risetime"));
-
-            Snackbar snackbar = Snackbar
-                    .make(coordinator, getResources().getString(R.string.iss_pass_result)
-                            .concat(":\n").concat(date), 8000);
-            snackbar.show();
-        } catch (Exception e) {
-            Snackbar snackbar = Snackbar
-                    .make(coordinator, getResources().getString(R.string.isserror), 8000)
-                    .setAction("Retry", new View.OnClickListener() {
+    private void findIssPass() {
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{ Manifest.permission.ACCESS_COARSE_LOCATION }, 1);
+        } else {
+            fusedLocationProviderClient.getLastLocation()
+                .addOnSuccessListener(this,
+                    new OnSuccessListener<Location>() {
                         @Override
-                        public void onClick(View view) {
-                            finish();
-                            startActivity(getIntent());
+                        public void onSuccess(Location location) {
+                            if (location != null) {
+                                Log.i("locationn", location.toString());
+                                issPass(location);
+                            } else {
+                                Snackbar snackbar = Snackbar
+                                        .make(coordinator, getResources()
+                                                .getString(R.string.isserror), 8000)
+                                        .setAction("Retry", new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View view) {
+                                                findIssPass();
+                                            }
+                                        });
+                                snackbar.setActionTextColor(getResources()
+                                        .getColor(R.color.primaryTextColor));
+                                snackbar.show();
+                            }
                         }
                     });
-            snackbar.setActionTextColor(getResources().getColor(R.color.primaryTextColor));
-            snackbar.show();
         }
     }
 
-    private void loadAfterTime() {
-        final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
+    private void issPass(Location location) {
+        Double latitude = location.getLatitude();
+        Double longitude = location.getLongitude();
+        final String params = "lat=".concat(latitude.toString())
+                .concat("&lon=").concat(longitude.toString())
+                .concat("&n=3");
+        new Thread(new Runnable() {
             @Override
             public void run() {
-                mapFragment.getMapAsync(IssActivity.this);
-            }
-        }, 300);
-    }
-
-    private LatLng getLocationIss() {
-
-        GetData getData = new GetData();
-        JSONObject jsonObject;
-        LatLng location = null;
-
-        try {
-            jsonObject = getData.execute(Constants.ISS_NOW).get();
-            DecimalFormat numberFormat = new DecimalFormat("#.00");
-            final String velo = getResources().getString(R.string.velocity).concat(": ")
-                    .concat(numberFormat.format(jsonObject.getDouble("velocity")).concat(" km/h"));
-            final String alti = getResources().getString(R.string.altitude).concat(": ")
-                    .concat(numberFormat.format(jsonObject.getDouble("altitude")).concat(" km"));
-            location = new LatLng(jsonObject.getDouble("latitude"), jsonObject.getDouble("longitude"));
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    velocity.setText(velo);
-                    altitude.setText(alti);
-                    progressBar.setVisibility(View.GONE);
-                    linearLayout.setVisibility(View.VISIBLE);
-                    velocity.setVisibility(View.VISIBLE);
-                    altitude.setVisibility(View.VISIBLE);
-                    Helper.setAnimationForAll(IssActivity.this, velocity);
-                    Helper.setAnimationForAll(IssActivity.this, altitude);
+                StringBuilder stringBuilder = new StringBuilder();
+                HttpURLConnection httpURLConnection;
+                URL url;
+                JSONObject json;
+                BufferedReader reader;
+                try {
+                    url = new URL(Constants.ISS_PASS.concat(params));
+                    httpURLConnection = (HttpURLConnection) url.openConnection();
+                    reader = new BufferedReader(new InputStreamReader(httpURLConnection
+                            .getInputStream(), "iso-8859-1"), 8);
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        stringBuilder.append(line);
+                    }
+                    reader.close();
+                    httpURLConnection.disconnect();
+                    json = new JSONObject(stringBuilder.toString());
+                    JSONArray jsonArray = json.getJSONArray("response");
+                    JSONObject object = (JSONObject) jsonArray.get(0);
+                    final String date = Helper.unixToDate(object.getLong("risetime"));
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Snackbar snackbar = Snackbar
+                                    .make(coordinator, getResources().getString(R.string.iss_pass_result)
+                                            .concat(":\n").concat(date), 8000);
+                            snackbar.show();
+                        }
+                    });
+                } catch (IOException | JSONException e) {
+                    e.printStackTrace();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Snackbar snackbar = Snackbar
+                                    .make(coordinator, getResources().getString(R.string.isserror), 8000)
+                                    .setAction("Retry", new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            findIssPass();
+                                        }
+                                    });
+                            snackbar.setActionTextColor(getResources().getColor(R.color.primaryTextColor));
+                            snackbar.show();
+                        }
+                    });
                 }
-            });
-        } catch (InterruptedException | ExecutionException | JSONException e) {
-            e.printStackTrace();
-        }
-
-        return location;
+            }
+        }).start();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
-        return true;
+        getMenuInflater().inflate(R.menu.iss, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.info:
-                Intent aboutIntent = new Intent(getApplicationContext(), About.class);
-                startActivity(aboutIntent);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+            case R.id.pass:
+                findIssPass();
+                break;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
     public boolean onSupportNavigateUp() {
         finish();
-        executorService.shutdown();
         return true;
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (executorService != null) {
-            executorService.shutdown();
-        }
+        activityHelper.onDestroy();
     }
-
-    @Override
-    public void onMapReady(final GoogleMap googleMap) {
-
-        if (CheckingConnection.isConnected(this)) {
-            googleMap.getUiSettings().setZoomGesturesEnabled(false);
-            googleMap.getUiSettings().setAllGesturesEnabled(false);
-            executorService = Executors.newSingleThreadScheduledExecutor();
-            executorService.scheduleAtFixedRate(new Runnable() {
-                @Override
-                public void run() {
-                    Log.i("location", "updated");
-                    final LatLng location = getLocationIss();
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Log.i("map", "updated");
-                            updateLocation(location, googleMap);
-                        }
-                    });
-                }
-            }, 0, 5, TimeUnit.SECONDS);
-        }
-        else {
-            Snackbar snackbar = Snackbar
-                    .make(coordinator, "No Internet Connection", 8000)
-                    .setAction("Retry", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            finish();
-                            startActivity(getIntent());
-                        }
-                    });
-            snackbar.setActionTextColor(getResources().getColor(R.color.primaryTextColor));
-            snackbar.show();
-        }
-    }
-
-    void updateLocation(LatLng location, GoogleMap googleMap) {
-
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLng(location);
-        googleMap.animateCamera(cameraUpdate);
-        if(marker == null) {
-            marker = googleMap.addMarker(new MarkerOptions().position(location)
-                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.iss_map))
-                    .zIndex(3.0f).title("International Space Station"));
-        }
-        else {
-            marker.setPosition(location);
-        }
-        marker.setVisible(true);
-    }
-
-    private static class GetData extends AsyncTask<String, Void, JSONObject> {
-
-        @Override
-        protected JSONObject doInBackground(String... strings) {
-
-            String urlString = null;
-            switch (strings.length) {
-                case 1:
-                    urlString = strings[0];
-                    break;
-            }
-            StringBuilder stringBuilder = new StringBuilder();
-            HttpURLConnection httpURLConnection;
-            URL url;
-            JSONObject json = null;
-            BufferedReader reader;
-            try {
-                url = new URL(urlString);
-                httpURLConnection = (HttpURLConnection) url.openConnection();
-                reader = new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream(), "iso-8859-1"), 8);
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    stringBuilder.append(line);
-                }
-                reader.close();
-                httpURLConnection.disconnect();
-                json = new JSONObject(stringBuilder.toString());
-            } catch (IOException | JSONException e) {
-                e.printStackTrace();
-            }
-            return json;
-        }
-
-        @Override
-        protected void onPostExecute(JSONObject json) {
-            //Log.i("Result", json.toString());
-        }
-    }
-
-
 }

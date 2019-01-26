@@ -11,11 +11,13 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 
+import java.util.Objects;
+
 import space.infinity.app.R;
-import space.infinity.app.models.encyclopedia.Galaxy;
-import space.infinity.app.models.encyclopedia.Moon;
-import space.infinity.app.models.encyclopedia.Other;
-import space.infinity.app.models.encyclopedia.Planet;
+import space.infinity.app.models.Galaxy;
+import space.infinity.app.models.Moon;
+import space.infinity.app.models.Planet;
+import space.infinity.app.models.Star;
 
 public class Encyclopedia extends AppCompatActivity {
 
@@ -48,7 +50,7 @@ public class Encyclopedia extends AppCompatActivity {
         TextView factsView = findViewById(R.id.facts);
         TextView otherFactsView = findViewById(R.id.other_facts);
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         String name = "";
         String image = "";
         Object object = getIntent().getParcelableExtra("object");
@@ -158,8 +160,8 @@ public class Encyclopedia extends AppCompatActivity {
             typeView.setVisibility(View.VISIBLE);
             factsView.setVisibility(View.VISIBLE);
         }
-        else if (object instanceof Other) {
-            Other other = (Other) object;
+        else if (object instanceof Star) {
+            Star other = (Star) object;
             name = other.getName();
             image = other.getImage().split("\\.")[0];
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
@@ -182,9 +184,6 @@ public class Encyclopedia extends AppCompatActivity {
             }
             descriptionView.setText(getResources().getString(R.string.description).
                     concat("\n\n").concat(other.getDescription()));
-            factsView.setText(getResources().getString(R.string.detailed_info).concat("\n\n")
-                    .concat(other.getDetailedInfo()));
-            otherFactsView.setText(other.getOtherInfo());
             descriptionView.setVisibility(View.VISIBLE);
             factsView.setVisibility(View.VISIBLE);
             otherFactsView.setVisibility(View.VISIBLE);
@@ -215,5 +214,10 @@ public class Encyclopedia extends AppCompatActivity {
     public boolean onSupportNavigateUp(){
         finish();
         return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 }
