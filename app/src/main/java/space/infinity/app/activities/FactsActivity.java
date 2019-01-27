@@ -171,6 +171,7 @@ public class FactsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_facts);
         Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle(R.string.facts);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {

@@ -14,16 +14,17 @@
         android:label="@string/app_short"
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyC6Q7OhqamuUw_pJo8rsEXP-xuKR3CwQlo" />
 
         <activity
-            android:theme="@style/AppTheme.Splash"
             android:name=".activities.SplashActivity"
             android:configChanges="orientation"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -31,54 +32,54 @@
             </intent-filter>
         </activity>
         <activity
-            android:theme="@style/AppTheme"
+            android:name=".activities.MainActivity"
             android:configChanges="orientation"
-            android:screenOrientation="portrait"
-            android:name=".activities.MainActivity" />
+            android:screenOrientation="portrait" />
         <activity
-            android:theme="@style/AppTheme"
+            android:name=".activities.ApodActivity"
             android:configChanges="orientation"
-            android:screenOrientation="portrait"
-            android:name=".activities.ApodActivity" />
+            android:screenOrientation="portrait" />
         <activity
-            android:theme="@style/AppTheme"
+            android:name=".activities.IssActivity"
             android:configChanges="orientation"
-            android:screenOrientation="portrait"
-            android:name=".activities.IssActivity" />
+            android:screenOrientation="portrait" />
+        <activity android:name=".activities.FullscreenActivity" />
         <activity
+            android:name=".activities.GalleryActivity"
             android:configChanges="orientation"
-            android:screenOrientation="portrait"
-            android:name=".activities.FullscreenActivity" />
+            android:screenOrientation="portrait" />
         <activity
-            android:theme="@style/AppTheme"
+            android:name=".activities.FactsActivity"
             android:configChanges="orientation"
-            android:screenOrientation="portrait"
-            android:name=".activities.GalleryActivity" />
+            android:screenOrientation="portrait" />
         <activity
-            android:theme="@style/AppTheme"
+            android:name=".activities.ChooseEncyclopedia"
             android:configChanges="orientation"
-            android:screenOrientation="portrait"
-            android:name=".activities.FactsActivity" />
+            android:screenOrientation="portrait" />
         <activity
-            android:theme="@style/AppTheme"
+            android:name=".activities.Encyclopedia"
             android:configChanges="orientation"
-            android:screenOrientation="portrait"
-            android:name=".activities.ChooseEncyclopedia" />
+            android:screenOrientation="portrait" />
         <activity
-            android:theme="@style/AppTheme"
+            android:name=".activities.SearchActivity"
             android:configChanges="orientation"
-            android:screenOrientation="portrait"
-            android:name=".activities.Encyclopedia" />
+            android:screenOrientation="portrait" />
         <activity
-            android:theme="@style/AppTheme"
-            android:configChanges="orientation"
-            android:screenOrientation="portrait"
-            android:name=".activities.SearchActivity" />
+            android:name=".activities.ISSLiveStreamActivity"
+            android:theme="@style/AppTheme.Dialog" />
 
         <receiver
-            android:exported="false"
+            android:name=".utils.NotificationService"
             android:enabled="true"
-            android:name=".utils.NotificationService" />
+            android:exported="false" />
+
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
+
+        <activity android:name=".activities.AstronautsActivity" />
+        <activity android:name=".activities.RocketsActivity" />
+        <activity android:name=".activities.VoyagerActivity"></activity>
     </application>
 
 </manifest>

@@ -14,7 +14,7 @@
     <string name="astronauts">Astronauts</string>
     <string name="rockets">Rockets</string>
 
-    <string name="rover">Mars Rover Images</string>
+    <string name="iss_live">Live stream</string>
     <string name="loading">Loading…</string>
     <string name="exit">Press again to exit</string>
     <string name="info">About</string>
@@ -23,24 +23,13 @@
     <string name="author">Author:</string>
     <string name="download">Downloading Image…</string>
     <string name="download_complete">Download completed!</string>
-    <string name="curiosity">Curiosity Rover</string>
-    <string name="opportunity">Opportunity Rover</string>
-    <string name="spirit">Spirit Rover</string>
     <string name="iss_pass">When will ISS pass by my location?</string>
     <string name="velocity">Velocity</string>
     <string name="altitude">Altitude</string>
     <string name="spacex_flaunches">Upcoming Rocket Launches</string>
     <string name="rocket_info">Rocket Info</string>
     <string name="payload_info">Payload Info</string>
-    <string name="iss_pass_result">ISS will pass through your sky at </string>
-    <string name="launch_info">Launch informations</string>
-    <string name="rocket_type">Rocket Type:</string>
-    <string name="rocket_name">Rocket Name:</string>
-    <string name="payload_id">Payload ID:</string>
-    <string name="payload_type">Payload Type:</string>
-    <string name="payload_customer">Payload Customer:</string>
-    <string name="launch_date">Launch Date:</string>
-    <string name="launch_site">Launch Site:</string>
+    <string name="iss_pass_result">ISS will pass through your sky on </string>
     <string name="searchk">search ex: apollo, orion etc</string>
     <string name="search_error">Insert a word for searching</string>
     <string name="favs">Favorites</string>
@@ -77,7 +66,6 @@
     <string name="press">Press here to view it</string>
     <string name="share">Share</string>
     <string name="rating">Rating</string>
-
     <string name="isserror">Please enable location access</string>
     <string name="try_also">Try Also</string>
     <string name="space_now">Space Now</string>

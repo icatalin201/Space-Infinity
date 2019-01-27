@@ -55,27 +55,8 @@ public class EncyclopediaAdapter
     @Override
     public void onBindViewHolder(@NonNull EncyclopediaViewHolder encyclopediaViewHolder, int i) {
         CosmicItem cosmicItem = cosmicItemList.get(i);
-        String type = cosmicItem.getType();
-        String name = "";
-        String image = "";
-        switch (type) {
-            case CosmicItem.CosmicType.PLANET:
-                name = ((Planet) cosmicItem).getName();
-                image = ((Planet) cosmicItem).getImage();
-                break;
-            case CosmicItem.CosmicType.MOON:
-                name = ((Moon) cosmicItem).getName();
-                image = ((Moon) cosmicItem).getImage();
-                break;
-            case CosmicItem.CosmicType.STAR:
-                name = ((Star) cosmicItem).getName();
-                image = ((Star) cosmicItem).getImage();
-                break;
-            case CosmicItem.CosmicType.GALAXY:
-                name = ((Galaxy) cosmicItem).getName();
-                image = ((Galaxy) cosmicItem).getImage();
-                break;
-        }
+        String name = cosmicItem.getName();
+        String image = cosmicItem.getImage();
         encyclopediaViewHolder.name.setText(name);
         Glide.with(context)
                 .load(image)

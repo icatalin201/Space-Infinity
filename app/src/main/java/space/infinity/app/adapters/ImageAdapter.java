@@ -41,6 +41,11 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ApodViewHold
         notifyDataSetChanged();
     }
 
+    public void remove() {
+        this.imageItemList.clear();
+        notifyDataSetChanged();
+    }
+
     @NonNull
     @Override
     public ApodViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -79,8 +84,11 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ApodViewHold
             galleryCard.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    ImageItem imageItem = imageItemList.get(getAdapterPosition());
                     Intent intent = new Intent(context, FullscreenActivity.class);
-                    intent.putExtra(Constants.IMAGE, imageItemList.get(getAdapterPosition()));
+                    intent.putExtra("path", imageItem.getImage());
+                    intent.putExtra("desc", imageItem.getDescription());
+                    intent.putExtra("name", imageItem.getTitle());
                     context.startActivity(intent);
                 }
             });

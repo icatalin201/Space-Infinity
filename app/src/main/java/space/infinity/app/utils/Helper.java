@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Random;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -26,7 +27,8 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class Helper {
 
-    public static void setAnimationForAdapter(Context mContext, View viewToAnimate, int position, int lastPosition) {
+    public static void setAnimationForAdapter(Context mContext, View viewToAnimate,
+                                              int position, int lastPosition) {
         if (position > lastPosition)
         {
             Animation animation = AnimationUtils.loadAnimation(mContext, android.R.anim.slide_in_left);
@@ -62,6 +64,11 @@ public class Helper {
         return outFile;
     }
 
+    public static int getDP(int dp, Context context) {
+        float d = context.getResources().getDisplayMetrics().density;
+        return (int) (dp * d);
+    }
+
     public static void putInSharedPreferences(String pref_name, Context context, String key, String value) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(pref_name, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -86,8 +93,9 @@ public class Helper {
     }
 
     public static String unixToDate(Long unix_date){
-        Date d = new Date(unix_date*1000);
-        @SuppressLint("SimpleDateFormat") DateFormat dateFormat = new SimpleDateFormat("HH:mm dd-MM-yyyy");
-        return dateFormat.format(d);
+        Date d = new Date(unix_date * 1000);
+        DateFormat date = new SimpleDateFormat("dd MMMM", Locale.getDefault());
+        DateFormat hour = new SimpleDateFormat("HH:mm", Locale.getDefault());
+        return date.format(d).concat(" at ").concat(hour.format(d));
     }
 }

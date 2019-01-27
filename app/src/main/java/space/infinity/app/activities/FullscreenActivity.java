@@ -1,9 +1,12 @@
 package space.infinity.app.activities;
 
 import android.Manifest;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -11,17 +14,31 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.AnimationUtils;
+import android.view.animation.Transformation;
+import android.view.animation.TranslateAnimation;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
+import com.jsibbold.zoomage.ZoomageView;
 
 import java.io.File;
 import java.io.IOException;
@@ -37,45 +54,102 @@ import space.infinity.app.utils.Helper;
 
 public class FullscreenActivity extends AppCompatActivity {
 
-    private ImageView full_image;
-    private TextView full_image_title;
-    private String hdpath;
+    private ZoomageView image;
     private String path;
-    private String desc;
+    private String name;
+    private ScrollView scrollView;
+    private ImageButton hide;
+    private ImageButton show;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fullscreen);
-        full_image = findViewById(R.id.full_image);
         Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getWindow().setStatusBarColor(getResources().getColor(android.R.color.transparent));
-        full_image_title = findViewById(R.id.toolbar_title);
         TextView description = findViewById(R.id.description);
-        Object object = getIntent().getParcelableExtra("imageObject");
-        String title = "";
-        if (object instanceof APOD) {
-            APOD apod = (APOD) object;
-            title = apod.getTitle();
-            path = apod.getUrl();
-            hdpath = apod.getHdurl();
-            desc = apod.getExplanation();
-        }
-        else if (object instanceof ImageItem) {
-            final ImageItem imageInfo = (ImageItem) object;
-            title = imageInfo.getTitle();
-            path = imageInfo.getImage();
-            hdpath = imageInfo.getImage();
-            desc = imageInfo.getDescription();
-        }
+        image = findViewById(R.id.full_image);
+        hide = findViewById(R.id.hide);
+        show = findViewById(R.id.show);
+        scrollView = findViewById(R.id.scroll);
+        path = getIntent().getStringExtra("path");
+        String desc = getIntent().getStringExtra("desc");
+        name = getIntent().getStringExtra("name");
         Glide.with(this)
                 .load(path)
                 .transition(DrawableTransitionOptions.withCrossFade())
-                .into(full_image);
-        full_image_title.setText(title);
-        description.setText(desc);
-        Helper.setAnimationForAll(this, full_image);
+                .into(image);
+        description.setText(Html.fromHtml(desc));
+        toolbar.setTitle(name);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_baseline_keyboard_backspace_24px);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+        getWindow().setStatusBarColor(getResources().getColor(android.R.color.transparent));
+    }
+
+    public void showDesc(View view) {
+        Animation animation = AnimationUtils.loadAnimation(this, R.anim.bottom_up);
+        animation.setDuration(300);
+        scrollView.startAnimation(animation);
+        animation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                scrollView.setVisibility(View.VISIBLE);
+                show.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                hide.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+    }
+
+    public void hideDesc(View view) {
+        Animation animation = AnimationUtils.loadAnimation(this, R.anim.bottom_down);
+        animation.setDuration(300);
+        scrollView.startAnimation(animation);
+        animation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                hide.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                scrollView.setVisibility(View.GONE);
+                show.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        int orientation = getResources().getConfiguration().orientation;
+        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            image.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        } else {
+            image.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        }
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return super.onSupportNavigateUp();
     }
 
     @Override
@@ -100,7 +174,7 @@ public class FullscreenActivity extends AppCompatActivity {
                 Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
             if (CheckingConnection.isConnected(this)) {
                 Toast.makeText(this, R.string.download, Toast.LENGTH_SHORT).show();
-                new DownloadImage().execute(hdpath);
+                new DownloadImage().execute(path);
             } else {
                 Toast.makeText(this, "No Internet Connection", Toast.LENGTH_LONG).show();
             }
@@ -118,7 +192,7 @@ public class FullscreenActivity extends AppCompatActivity {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 if (CheckingConnection.isConnected(this)) {
                     Toast.makeText(this, R.string.download, Toast.LENGTH_SHORT).show();
-                    new DownloadImage().execute(hdpath);
+                    new DownloadImage().execute(path);
                 } else {
                     Toast.makeText(this, "No Internet Connection", Toast.LENGTH_LONG).show();
                 }
@@ -146,7 +220,7 @@ public class FullscreenActivity extends AppCompatActivity {
                 httpURLConnection = (HttpURLConnection) url.openConnection();
                 int status_code = httpURLConnection.getResponseCode();
                 if (status_code != 200){
-                    bitmap = ((BitmapDrawable)full_image.getDrawable()).getBitmap();
+                    bitmap = ((BitmapDrawable) image.getDrawable()).getBitmap();
                 }
                 InputStream inputStream = httpURLConnection.getInputStream();
                 if (inputStream != null){
@@ -161,7 +235,7 @@ public class FullscreenActivity extends AppCompatActivity {
                     httpURLConnection.disconnect();
                 }
             }
-            return Helper.saveImageToGallery(bitmap, full_image_title.getText().toString());
+            return Helper.saveImageToGallery(bitmap, name);
         }
 
         @Override

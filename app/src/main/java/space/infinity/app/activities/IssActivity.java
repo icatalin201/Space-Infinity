@@ -3,6 +3,7 @@ package space.infinity.app.activities;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.AsyncTask;
@@ -225,6 +226,7 @@ public class IssActivity extends AppCompatActivity {
         altitude = findViewById(R.id.altitude);
         content = findViewById(R.id.content);
         coordinator = findViewById(R.id.coordinator);
+        toolbar.setTitle(R.string.iss);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -343,9 +345,16 @@ public class IssActivity extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Snackbar snackbar = Snackbar
+                            final Snackbar snackbar = Snackbar
                                     .make(coordinator, getResources().getString(R.string.iss_pass_result)
-                                            .concat(":\n").concat(date), 8000);
+                                            .concat("\n").concat(date), Snackbar.LENGTH_INDEFINITE);
+                            snackbar.setAction("OK", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    snackbar.dismiss();
+                                }
+                            });
+                            snackbar.setActionTextColor(getResources().getColor(R.color.primaryTextColor));
                             snackbar.show();
                         }
                     });
@@ -382,6 +391,9 @@ public class IssActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.pass:
                 findIssPass();
+                break;
+            case R.id.live:
+                startActivity(new Intent(this, ISSLiveStreamActivity.class));
                 break;
         }
         return super.onOptionsItemSelected(item);

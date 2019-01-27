@@ -9,14 +9,11 @@
     android:id="@+id/coordinator">
 
     <android.support.design.widget.AppBarLayout
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
 
     <android.support.v7.widget.Toolbar
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:theme="@style/AppTheme.Toolbar"
@@ -219,6 +216,7 @@
                 <android.support.v7.widget.CardView
                     android:layout_marginEnd="5dp"
                     android:layout_weight="1"
+                    android:onClick="goAstronauts"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:cardCornerRadius="4dp"
@@ -257,6 +255,7 @@
                 <android.support.v7.widget.CardView
                     android:layout_marginStart="5dp"
                     android:layout_weight="1"
+                    android:onClick="goVoyager"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:cardCornerRadius="4dp"
@@ -305,6 +304,7 @@
                     android:layout_height="wrap_content"
                     app:cardCornerRadius="4dp"
                     app:cardElevation="2dp"
+                    android:onClick="goRockets"
                     android:layout_marginEnd="5dp"
                     android:layout_weight="1">
 

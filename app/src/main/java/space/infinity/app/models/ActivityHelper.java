@@ -14,6 +14,9 @@ public abstract class ActivityHelper {
         this.context = context;
     }
 
+    public void onStop() { }
+    public void onPause() { }
+    public void onResume() { }
     public abstract void onStart();
     public abstract void onDestroy();
     public abstract void showLayout();

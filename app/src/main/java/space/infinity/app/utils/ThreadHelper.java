@@ -4,8 +4,10 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import space.infinity.app.models.Astronaut;
 import space.infinity.app.models.CosmicItem;
 import space.infinity.app.models.ImageItem;
+import space.infinity.app.models.Rocket;
 import space.infinity.app.models.SpaceFact;
 
 public class ThreadHelper {
@@ -20,6 +22,14 @@ public class ThreadHelper {
 
     public interface FactsInterface {
         void onResult(List<SpaceFact> spaceFactList);
+    }
+
+    public interface AstronautsInterface {
+        void onResult(List<Astronaut> astronautList);
+    }
+
+    public interface RocketsInterface {
+        void onResult(List<Rocket> rocketList);
     }
 
     private Thread thread;

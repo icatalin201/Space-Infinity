@@ -6,7 +6,9 @@ import android.content.Context;
 public class AppDatabaseHelper {
 
     public static AppDatabase getDatabase(Context context) {
-        return Room.databaseBuilder(context, AppDatabase.class, "infinity.db").build();
+        return Room.databaseBuilder(context, AppDatabase.class, "infinity.db")
+                .fallbackToDestructiveMigration()
+                .build();
     }
 
 }

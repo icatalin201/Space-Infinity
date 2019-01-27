@@ -133,6 +133,10 @@ public class SearchActivity extends AppCompatActivity {
         }
 
         void onSearch(String query) {
+            setTitle(query);
+            recyclerView.setLayoutAnimation(AnimationUtils
+                    .loadLayoutAnimation(getContext(), R.anim.layout_animation_down));
+            imageAdapter.remove();
             progressBar.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.GONE);
             String url = Constants.NASA_IMAGE_URL.concat("search?q=").concat(query);
@@ -163,8 +167,6 @@ public class SearchActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         recyclerView.setHasFixedSize(true);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setLayoutAnimation(AnimationUtils
-                .loadLayoutAnimation(this, R.anim.layout_animation_down));
         String query = getIntent().getStringExtra("query");
         activityHelper = new ActivityHelper(this);
         if (query != null) {

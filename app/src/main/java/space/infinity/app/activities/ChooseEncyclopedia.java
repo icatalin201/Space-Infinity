@@ -26,6 +26,8 @@ import space.infinity.app.dao.CosmicDao;
 import space.infinity.app.database.AppDatabase;
 import space.infinity.app.database.AppDatabaseHelper;
 import space.infinity.app.models.CosmicItem;
+import space.infinity.app.models.Moon;
+import space.infinity.app.models.Planet;
 import space.infinity.app.utils.ThreadHelper;
 
 public class ChooseEncyclopedia extends AppCompatActivity {
@@ -50,21 +52,39 @@ public class ChooseEncyclopedia extends AppCompatActivity {
             if (threadHelper != null) {
                 threadHelper.stopExecutor();
             }
+            recyclerView.setVisibility(View.GONE);
+            progressBar.setVisibility(View.VISIBLE);
             threadHelper = new ThreadHelper(new Runnable() {
                 @Override
                 public void run() {
                     List<? extends CosmicItem> cosmicItems = new ArrayList<>();
                     switch (pos) {
+                        case 0:
+                            List<Planet> planets = cosmicDao.getPlanetList();
+                            for (int i = 0; i < 10; i++) {
+                                Planet planet = new Planet();
+                                planet.setName("Planeta");
+                                planet.setImage("https://i1.wp.com/res.cloudinary.com/aleteia/image/fetch/c_fill,g_auto,w_620,h_310/https://aleteiaen.files.wordpress.com/2017/05/web3-planet-earth-space-nasa-space-stars-sun-shutterstock_526255060-shutterstock.jpg%3Fw%3D1200?quality=100&strip=all&ssl=1");
+                                planet.setType(CosmicItem.CosmicType.PLANET);
+                                planets.add(planet);
+                            }
+                            cosmicItems = planets;
+                            break;
                         case 1:
-                            cosmicItems = cosmicDao.getPlanetList();
+                            List<Moon> moons = cosmicDao.getMoonList();
+                            for (int i = 0; i < 10; i++) {
+                                Moon planet = new Moon();
+                                planet.setName("Luna");
+                                planet.setImage("https://img.purch.com/rc/300x200/aHR0cDovL3d3dy5zcGFjZS5jb20vaW1hZ2VzL2kvMDAwLzAyOS81MzMvb3JpZ2luYWwvZnVsbC1tb29uLWp1YXJlei1tZXhpY28uanBn");
+                                planet.setType(CosmicItem.CosmicType.MOON);
+                                moons.add(planet);
+                            }
+                            cosmicItems = moons;
                             break;
                         case 2:
-                            cosmicItems = cosmicDao.getMoonList();
-                            break;
-                        case 3:
                             cosmicItems = cosmicDao.getStarList();
                             break;
-                        case 4:
+                        case 3:
                             cosmicItems = cosmicDao.getGalaxyList();
                             break;
                     }
@@ -91,6 +111,9 @@ public class ChooseEncyclopedia extends AppCompatActivity {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
+                    recyclerView.setLayoutAnimation(AnimationUtils
+                            .loadLayoutAnimation(getContext(), R.anim.layout_animation_down));
+                    encyclopediaAdapter.remove();
                     encyclopediaAdapter.add(cosmicItemList);
                     showLayout();
                 }
@@ -130,8 +153,6 @@ public class ChooseEncyclopedia extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setLayoutAnimation(AnimationUtils
-                .loadLayoutAnimation(this, R.anim.layout_animation_down));
         activityHelper = new ActivityHelper(this);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

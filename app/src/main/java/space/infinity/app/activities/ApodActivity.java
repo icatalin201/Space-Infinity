@@ -48,7 +48,6 @@ public class ApodActivity extends AppCompatActivity {
 
     private ImageView image;
     private TextView credits;
-    private TextView date;
     private TextView description;
     private LoadingDots progressBar;
     private NestedScrollView scrollView;
@@ -64,11 +63,10 @@ public class ApodActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         image = findViewById(R.id.image);
         credits = findViewById(R.id.credits);
-        date = findViewById(R.id.date);
         description = findViewById(R.id.description);
         progressBar = findViewById(R.id.progress_bar);
         scrollView = findViewById(R.id.content);
-        ImageItem imageItem = getIntent().getParcelableExtra(Constants.IMAGE);
+        final ImageItem imageItem = getIntent().getParcelableExtra(Constants.IMAGE);
         img = imageItem.getImage();
         name = imageItem.getTitle();
         toolbar.setTitle(name);
@@ -79,15 +77,20 @@ public class ApodActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
         setContent(imageItem);
+        image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ApodActivity.this, FullscreenActivity.class);
+                intent.putExtra("path", imageItem.getImage());
+                intent.putExtra("desc", imageItem.getDescription());
+                intent.putExtra("name", imageItem.getTitle());
+                startActivity(intent);
+            }
+        });
     }
 
     private void setContent(ImageItem imageItem) {
         description.setText(imageItem.getDescription());
-        if (imageItem.getDateCreated() != null) {
-            String d = getResources().getString(R.string.date).concat(" ")
-                    .concat(imageItem.getDateCreated());
-            date.setText(d);
-        }
         if (imageItem.getPhotographer() != null) {
             String copyright = getResources().getString(R.string.author).concat(" ")
                     .concat(imageItem.getPhotographer());

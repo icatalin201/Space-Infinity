@@ -7,18 +7,6 @@ import android.arch.persistence.room.PrimaryKey;
 @Entity(tableName = "stars")
 public class Star extends CosmicItem {
 
-    @PrimaryKey(autoGenerate = true)
-    private long id;
-
-    @ColumnInfo(name = "name")
-    private String name;
-
-    @ColumnInfo(name = "description")
-    private String description;
-
-    @ColumnInfo(name = "image")
-    private String image;
-
     @ColumnInfo(name = "age")
     private String age;
 
@@ -45,38 +33,6 @@ public class Star extends CosmicItem {
 
     public void setFacts(String facts) {
         this.facts = facts;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
     }
 
     public String getAge() {

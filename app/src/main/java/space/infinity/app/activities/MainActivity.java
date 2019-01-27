@@ -67,6 +67,18 @@ public class MainActivity extends AppCompatActivity {
         startActivity(new Intent(this, ChooseEncyclopedia.class));
     }
 
+    public void goVoyager(View view) {
+        startActivity(new Intent(this, VoyagerActivity.class));
+    }
+
+    public void goRockets(View view) {
+        startActivity(new Intent(this, RocketsActivity.class));
+    }
+
+    public void goAstronauts(View view) {
+        startActivity(new Intent(this, AstronautsActivity.class));
+    }
+
     public void goFacts(View view) {
         startActivity(new Intent(this, FactsActivity.class));
     }
