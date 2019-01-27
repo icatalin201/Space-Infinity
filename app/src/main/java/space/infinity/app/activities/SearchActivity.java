@@ -115,7 +115,7 @@ public class SearchActivity extends AppCompatActivity {
         }
 
         ActivityHelper(Context context) {
-            setContext(context);
+            super(context);
         }
 
         @Override

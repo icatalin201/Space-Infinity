@@ -66,6 +66,14 @@ public class FullscreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fullscreen);
         Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_baseline_keyboard_backspace_24px);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+        getWindow().setStatusBarColor(getResources().getColor(android.R.color.transparent));
+        TextView toolbarTitle = findViewById(R.id.toolbar_title);
         TextView description = findViewById(R.id.description);
         image = findViewById(R.id.full_image);
         hide = findViewById(R.id.hide);
@@ -79,14 +87,7 @@ public class FullscreenActivity extends AppCompatActivity {
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(image);
         description.setText(Html.fromHtml(desc));
-        toolbar.setTitle(name);
-        setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setHomeAsUpIndicator(R.drawable.ic_baseline_keyboard_backspace_24px);
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        }
-        getWindow().setStatusBarColor(getResources().getColor(android.R.color.transparent));
+        toolbarTitle.setText(name);
     }
 
     public void showDesc(View view) {

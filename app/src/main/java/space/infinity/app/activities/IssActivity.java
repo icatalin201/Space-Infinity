@@ -138,7 +138,7 @@ public class IssActivity extends AppCompatActivity {
         private GoogleMap googleMap;
 
         ActivityHelper(Context context) {
-            setContext(context);
+            super(context);
             executorService = Executors.newSingleThreadScheduledExecutor();
         }
 

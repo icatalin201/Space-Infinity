@@ -42,7 +42,7 @@ public class FactsActivity extends AppCompatActivity {
         private int max = 0;
 
         ActivityHelper(Context context) {
-            setContext(context);
+            super(context);
             appDatabase = AppDatabaseHelper.getDatabase(context);
             spaceFactDao = appDatabase.getSpaceFactDao();
             threadHelper = new ThreadHelper(new Runnable() {

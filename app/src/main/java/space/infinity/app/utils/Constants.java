@@ -17,4 +17,7 @@ public class Constants {
     public final static String SPACEX_API = "https://api.spacexdata.com/v2/launches/upcoming";
 
     public final static String IMAGE = "image";
+    public final static String ENCYCLOPEDIA = "encyclopedia";
+    public final static String ASTRONAUT = "astronaut";
+    public final static String ROCKET = "rocket";
 }

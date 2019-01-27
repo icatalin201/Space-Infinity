@@ -37,7 +37,7 @@
         android:layout_height="wrap_content">
 
         <LinearLayout
-            android:padding="10dp"
+            android:padding="8dp"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -57,7 +57,6 @@
 
                     <ImageView
                         android:id="@+id/apod_image"
-                        android:visibility="visible"
                         android:scaleType="centerCrop"
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
@@ -82,7 +81,7 @@
             </android.support.v7.widget.CardView>
 
             <LinearLayout
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="8dp"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -92,7 +91,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:onClick="goEncyclopedia"
-                    android:layout_marginEnd="5dp"
+                    android:layout_marginEnd="4dp"
                     app:cardCornerRadius="4dp"
                     app:cardElevation="2dp">
 
@@ -132,7 +131,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:onClick="goFacts"
-                    android:layout_marginStart="5dp"
+                    android:layout_marginStart="4dp"
                     app:cardCornerRadius="4dp"
                     app:cardElevation="2dp">
 
@@ -168,8 +167,15 @@
 
             </LinearLayout>
 
+        <LinearLayout
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
             <android.support.v7.widget.CardView
-                android:layout_marginTop="10dp"
+                android:layout_marginEnd="4dp"
+                android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="4dp"
@@ -187,7 +193,7 @@
                         android:id="@+id/iss_image"
                         android:scaleType="centerCrop"
                         android:layout_width="match_parent"
-                        android:layout_height="150dp"/>
+                        android:layout_height="130dp"/>
 
                     <TextView
                         android:layout_width="match_parent"
@@ -207,14 +213,56 @@
 
             </android.support.v7.widget.CardView>
 
+            <android.support.v7.widget.CardView
+                android:layout_marginStart="4dp"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="4dp"
+                android:onClick="goNewsFeed"
+                app:cardElevation="2dp">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:contentDescription="@string/news_feed"
+                        android:src="@drawable/menu_news"
+                        android:id="@+id/news_image"
+                        android:scaleType="centerCrop"
+                        android:layout_width="match_parent"
+                        android:layout_height="130dp"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="8dp"
+                        android:singleLine="true"
+                        android:ellipsize="marquee"
+                        android:marqueeRepeatLimit ="marquee_forever"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:scrollHorizontally="true"
+                        android:background="@color/colorPrimary"
+                        android:textColor="@color/primaryTextColor"
+                        android:text="@string/news_feed" />
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+        </LinearLayout>
+
             <LinearLayout
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="8dp"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <android.support.v7.widget.CardView
-                    android:layout_marginEnd="5dp"
+                    android:layout_marginEnd="4dp"
                     android:layout_weight="1"
                     android:onClick="goAstronauts"
                     android:layout_width="match_parent"
@@ -253,7 +301,7 @@
                 </android.support.v7.widget.CardView>
 
                 <android.support.v7.widget.CardView
-                    android:layout_marginStart="5dp"
+                    android:layout_marginStart="4dp"
                     android:layout_weight="1"
                     android:onClick="goVoyager"
                     android:layout_width="match_parent"
@@ -294,7 +342,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="8dp"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -305,7 +353,7 @@
                     app:cardCornerRadius="4dp"
                     app:cardElevation="2dp"
                     android:onClick="goRockets"
-                    android:layout_marginEnd="5dp"
+                    android:layout_marginEnd="4dp"
                     android:layout_weight="1">
 
                     <LinearLayout
@@ -344,7 +392,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:onClick="goGallery"
-                    android:layout_marginStart="5dp"
+                    android:layout_marginStart="4dp"
                     app:cardCornerRadius="4dp"
                     app:cardElevation="2dp">
 

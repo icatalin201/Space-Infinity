@@ -2,10 +2,11 @@ package space.infinity.app.models;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.PrimaryKey;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 @Entity(tableName = "galaxies")
-public class Galaxy extends CosmicItem {
+public class Galaxy extends CosmicItem implements Parcelable {
 
     @ColumnInfo(name = "designation")
     private String designation;
@@ -34,7 +35,61 @@ public class Galaxy extends CosmicItem {
     @ColumnInfo(name = "facts")
     private String facts;
 
-    public Galaxy() { }
+    public Galaxy() {
+        super();
+    }
+
+    protected Galaxy(Parcel in) {
+        setType(in.readString());
+        setId(in.readLong());
+        setName(in.readString());
+        setDescription(in.readString());
+        setImage(in.readString());
+        designation = in.readString();
+        diameter = in.readString();
+        distance = in.readString();
+        mass = in.readString();
+        constellation = in.readString();
+        galaxyGroup = in.readString();
+        numberOfStars = in.readString();
+        galaxyType = in.readString();
+        facts = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(getType());
+        dest.writeLong(getId());
+        dest.writeString(getName());
+        dest.writeString(getDescription());
+        dest.writeString(getImage());
+        dest.writeString(designation);
+        dest.writeString(diameter);
+        dest.writeString(distance);
+        dest.writeString(mass);
+        dest.writeString(constellation);
+        dest.writeString(galaxyGroup);
+        dest.writeString(numberOfStars);
+        dest.writeString(galaxyType);
+        dest.writeString(facts);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<Galaxy> CREATOR = new Creator<Galaxy>() {
+        @Override
+        public Galaxy createFromParcel(Parcel in) {
+            return new Galaxy(in);
+        }
+
+        @Override
+        public Galaxy[] newArray(int size) {
+            return new Galaxy[size];
+        }
+    };
 
     public String getDesignation() {
         return designation;

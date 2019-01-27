@@ -3,9 +3,11 @@ package space.infinity.app.models;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 @Entity(tableName = "astronauts")
-public class Astronaut {
+public class Astronaut implements Parcelable {
 
     @PrimaryKey(autoGenerate = true)
     private long id;
@@ -32,6 +34,46 @@ public class Astronaut {
     private String image;
 
     public Astronaut() { }
+
+    protected Astronaut(Parcel in) {
+        id = in.readLong();
+        name = in.readString();
+        personalData = in.readString();
+        summary = in.readString();
+        education = in.readString();
+        experience = in.readString();
+        nasaExperience = in.readString();
+        image = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(id);
+        dest.writeString(name);
+        dest.writeString(personalData);
+        dest.writeString(summary);
+        dest.writeString(education);
+        dest.writeString(experience);
+        dest.writeString(nasaExperience);
+        dest.writeString(image);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<Astronaut> CREATOR = new Creator<Astronaut>() {
+        @Override
+        public Astronaut createFromParcel(Parcel in) {
+            return new Astronaut(in);
+        }
+
+        @Override
+        public Astronaut[] newArray(int size) {
+            return new Astronaut[size];
+        }
+    };
 
     public long getId() {
         return id;

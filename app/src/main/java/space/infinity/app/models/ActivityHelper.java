@@ -6,6 +6,10 @@ public abstract class ActivityHelper {
 
     private Context context;
 
+    public ActivityHelper(Context context) {
+        this.context = context;
+    }
+
     public Context getContext() {
         return context;
     }

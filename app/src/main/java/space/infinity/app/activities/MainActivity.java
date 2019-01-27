@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -21,6 +22,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
+import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.eyalbira.loadingdots.LoadingDots;
@@ -64,11 +66,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void goEncyclopedia(View view) {
-        startActivity(new Intent(this, ChooseEncyclopedia.class));
+        startActivity(new Intent(this, EncyclopediasActivity.class));
     }
 
     public void goVoyager(View view) {
         startActivity(new Intent(this, VoyagerActivity.class));
+    }
+
+    public void goNewsFeed(View view) {
+        startActivity(new Intent(this, NewsFeedActivity.class));
     }
 
     public void goRockets(View view) {
@@ -102,7 +108,9 @@ public class MainActivity extends AppCompatActivity {
             imageItem.setTitle(apod.getTitle());
             intent.putExtra(Constants.IMAGE, imageItem);
         }
-        startActivity(intent);
+        ActivityOptionsCompat activityOptionsCompat = ActivityOptionsCompat
+                .makeSceneTransitionAnimation(this, apodImage, "image");
+        startActivity(intent, activityOptionsCompat.toBundle());
     }
 
     @Override
@@ -151,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
     private class ActivityHelper extends space.infinity.app.models.ActivityHelper {
 
         ActivityHelper(Context context) {
-            setContext(context);
+            super(context);
         }
 
         @Override
@@ -189,8 +197,9 @@ public class MainActivity extends AppCompatActivity {
                     apod = response.body();
                     if (apod.getMedia_type().equals("image")) {
                         Glide.with(MainActivity.this)
-                                .load(apod.getUrl())
+                                .load(apod.getHdurl())
                                 .transition(DrawableTransitionOptions.withCrossFade())
+                                .apply(RequestOptions.centerCropTransform())
                                 .into(new SimpleTarget<Drawable>() {
                                     @Override
                                     public void onResourceReady(@NonNull Drawable resource,

@@ -15,7 +15,7 @@ public class SplashActivity extends AppCompatActivity {
     private class ActivityHelper extends space.infinity.app.models.ActivityHelper {
 
         ActivityHelper(Context context) {
-            setContext(context);
+            super(context);
         }
 
         @Override

@@ -30,7 +30,7 @@ import space.infinity.app.models.Moon;
 import space.infinity.app.models.Planet;
 import space.infinity.app.utils.ThreadHelper;
 
-public class ChooseEncyclopedia extends AppCompatActivity {
+public class EncyclopediasActivity extends AppCompatActivity {
 
     private class ActivityHelper
             extends space.infinity.app.models.ActivityHelper
@@ -41,7 +41,7 @@ public class ChooseEncyclopedia extends AppCompatActivity {
         private ThreadHelper threadHelper;
 
         ActivityHelper(Context context) {
-            setContext(context);
+            super(context);
             appDatabase = AppDatabaseHelper.getDatabase(context);
             cosmicDao = appDatabase.getCosmicDao();
         }

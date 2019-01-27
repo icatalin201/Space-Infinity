@@ -19,8 +19,6 @@ public class ISSLiveStreamActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_isslive_stream);
-        getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT);
         WebView videoView = findViewById(R.id.video);
         videoView.getSettings().setJavaScriptEnabled(true);
         videoView.loadUrl("http://www.ustream.tv/embed/17074538?html5ui");

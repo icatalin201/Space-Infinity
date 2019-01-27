@@ -49,7 +49,7 @@ public class AstronautsActivity extends AppCompatActivity {
         astronautAdapter = new AstronautAdapter(this, new ArrayList<Astronaut>());
         recyclerView.setAdapter(astronautAdapter);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setLayoutAnimation(AnimationUtils
                 .loadLayoutAnimation(this, R.anim.layout_animation_down));
@@ -78,7 +78,7 @@ public class AstronautsActivity extends AppCompatActivity {
         private ThreadHelper threadHelper;
 
         ActivityHelper(Context context) {
-            setContext(context);
+            super(context);
             appDatabase = AppDatabaseHelper.getDatabase(context);
             astronautDao = appDatabase.getAstronautDao();
             threadHelper = new ThreadHelper(new Runnable() {

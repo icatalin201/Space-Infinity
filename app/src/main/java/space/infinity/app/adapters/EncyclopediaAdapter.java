@@ -1,7 +1,10 @@
 package space.infinity.app.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -17,11 +20,13 @@ import com.bumptech.glide.request.RequestOptions;
 import java.util.List;
 
 import space.infinity.app.R;
+import space.infinity.app.activities.EncyclopediaActivity;
 import space.infinity.app.models.CosmicItem;
 import space.infinity.app.models.Galaxy;
 import space.infinity.app.models.Moon;
 import space.infinity.app.models.Planet;
 import space.infinity.app.models.Star;
+import space.infinity.app.utils.Constants;
 
 public class EncyclopediaAdapter
         extends RecyclerView.Adapter<EncyclopediaAdapter.EncyclopediaViewHolder> {
@@ -84,7 +89,28 @@ public class EncyclopediaAdapter
             item.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
+                    CosmicItem cosmicItem = cosmicItemList.get(getAdapterPosition());
+                    Intent intent = new Intent(context, EncyclopediaActivity.class);
+                    switch (cosmicItem.getType()) {
+                        case CosmicItem.CosmicType.GALAXY:
+                            intent.putExtra(Constants.ENCYCLOPEDIA, ((Galaxy) cosmicItem));
+                            break;
+                        case CosmicItem.CosmicType.MOON:
+                            intent.putExtra(Constants.ENCYCLOPEDIA, ((Moon) cosmicItem));
+                            break;
+                        case CosmicItem.CosmicType.PLANET:
+                            intent.putExtra(Constants.ENCYCLOPEDIA, ((Planet) cosmicItem));
+                            break;
+                        case CosmicItem.CosmicType.STAR:
+                            intent.putExtra(Constants.ENCYCLOPEDIA, ((Star) cosmicItem));
+                            break;
+                        case CosmicItem.CosmicType.OTHER:
+                            break;
+                    }
+                    ActivityOptionsCompat activityOptionsCompat = ActivityOptionsCompat
+                            .makeSceneTransitionAnimation((AppCompatActivity) context,
+                                    image, "image");
+                    context.startActivity(intent, activityOptionsCompat.toBundle());
                 }
             });
         }

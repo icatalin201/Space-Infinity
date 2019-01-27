@@ -49,9 +49,6 @@ public class ApodActivity extends AppCompatActivity {
     private ImageView image;
     private TextView credits;
     private TextView description;
-    private LoadingDots progressBar;
-    private NestedScrollView scrollView;
-    private Toolbar toolbar;
 
     private String img;
     private String name;
@@ -60,16 +57,15 @@ public class ApodActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_apod);
-        toolbar = findViewById(R.id.toolbar);
+        TextView toolbartitle = findViewById(R.id.toolbar_title);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         image = findViewById(R.id.image);
         credits = findViewById(R.id.credits);
         description = findViewById(R.id.description);
-        progressBar = findViewById(R.id.progress_bar);
-        scrollView = findViewById(R.id.content);
         final ImageItem imageItem = getIntent().getParcelableExtra(Constants.IMAGE);
         img = imageItem.getImage();
         name = imageItem.getTitle();
-        toolbar.setTitle(name);
+        toolbartitle.setText(name);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -91,32 +87,29 @@ public class ApodActivity extends AppCompatActivity {
 
     private void setContent(ImageItem imageItem) {
         description.setText(imageItem.getDescription());
+        String copyright = "";
         if (imageItem.getPhotographer() != null) {
-            String copyright = getResources().getString(R.string.author).concat(" ")
+            copyright = getResources().getString(R.string.author).concat(" ")
                     .concat(imageItem.getPhotographer());
-            credits.setText(copyright);
         }
+        credits.setText(copyright);
         Glide.with(this)
                 .load(imageItem.getImage())
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .apply(RequestOptions.centerCropTransform())
-                .into(new SimpleTarget<Drawable>() {
-            @Override
-            public void onResourceReady(@NonNull Drawable resource,
-                                        Transition<? super Drawable> glideAnimation) {
-                image.setImageDrawable(resource);
-                progressBar.setVisibility(View.GONE);
-                image.setVisibility(View.VISIBLE);
-                toolbar.setVisibility(View.VISIBLE);
-                scrollView.setVisibility(View.VISIBLE);
-            }
-        });
+                .into(image);
     }
 
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return super.onSupportNavigateUp();
+    }
+
+    @Override
+    public void onBackPressed() {
+        supportFinishAfterTransition();
+        super.onBackPressed();
     }
 
     @Override

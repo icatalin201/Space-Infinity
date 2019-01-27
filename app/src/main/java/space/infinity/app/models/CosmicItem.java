@@ -10,6 +10,7 @@ public class CosmicItem {
         String MOON = "moon";
         String GALAXY = "galaxy";
         String STAR = "star";
+        String OTHER = "other";
     }
 
     @ColumnInfo(name = "cosmic_type")
@@ -26,6 +27,8 @@ public class CosmicItem {
 
     @ColumnInfo(name = "image")
     private String image;
+
+    CosmicItem() { }
 
     public String getType() {
         return type;

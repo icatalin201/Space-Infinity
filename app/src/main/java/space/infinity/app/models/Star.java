@@ -2,10 +2,11 @@ package space.infinity.app.models;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.PrimaryKey;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 @Entity(tableName = "stars")
-public class Star extends CosmicItem {
+public class Star extends CosmicItem implements Parcelable {
 
     @ColumnInfo(name = "age")
     private String age;
@@ -25,7 +26,55 @@ public class Star extends CosmicItem {
     @ColumnInfo(name = "facts")
     private String facts;
 
-    public Star() { }
+    public Star() {
+        super();
+    }
+
+    protected Star(Parcel in) {
+        setType(in.readString());
+        setId(in.readLong());
+        setName(in.readString());
+        setDescription(in.readString());
+        setImage(in.readString());
+        age = in.readString();
+        starType = in.readString();
+        diameter = in.readString();
+        mass = in.readString();
+        surfaceTemperature = in.readString();
+        facts = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(getType());
+        dest.writeLong(getId());
+        dest.writeString(getName());
+        dest.writeString(getDescription());
+        dest.writeString(getImage());
+        dest.writeString(age);
+        dest.writeString(starType);
+        dest.writeString(diameter);
+        dest.writeString(mass);
+        dest.writeString(surfaceTemperature);
+        dest.writeString(facts);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<Star> CREATOR = new Creator<Star>() {
+        @Override
+        public Star createFromParcel(Parcel in) {
+            return new Star(in);
+        }
+
+        @Override
+        public Star[] newArray(int size) {
+            return new Star[size];
+        }
+    };
 
     public String getFacts() {
         return facts;

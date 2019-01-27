@@ -51,7 +51,7 @@ public class RocketsActivity extends AppCompatActivity {
         rocketAdapter = new RocketAdapter(this, new ArrayList<Rocket>());
         recyclerView.setAdapter(rocketAdapter);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setLayoutAnimation(AnimationUtils
                 .loadLayoutAnimation(this, R.anim.layout_animation_down));
@@ -80,7 +80,7 @@ public class RocketsActivity extends AppCompatActivity {
         private ThreadHelper threadHelper;
 
         ActivityHelper(Context context) {
-            setContext(context);
+            super(context);
             appDatabase = AppDatabaseHelper.getDatabase(context);
             rocketDao = appDatabase.getRocketDao();
             threadHelper = new ThreadHelper(new Runnable() {

@@ -43,7 +43,7 @@ public class GalleryActivity extends AppCompatActivity {
         private ThreadHelper threadHelper;
 
         ActivityHelper(Context context) {
-            setContext(context);
+            super(context);
             appDatabase = AppDatabaseHelper.getDatabase(context);
             imageItemDao = appDatabase.getImageItemDao();
             threadHelper = new ThreadHelper(new Runnable() {

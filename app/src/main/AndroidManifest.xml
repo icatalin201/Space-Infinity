@@ -53,11 +53,11 @@
             android:configChanges="orientation"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.ChooseEncyclopedia"
+            android:name=".activities.EncyclopediasActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.Encyclopedia"
+            android:name=".activities.EncyclopediaActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait" />
         <activity
@@ -65,8 +65,7 @@
             android:configChanges="orientation"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.ISSLiveStreamActivity"
-            android:theme="@style/AppTheme.Dialog" />
+            android:name=".activities.ISSLiveStreamActivity" />
 
         <receiver
             android:name=".utils.NotificationService"
@@ -77,9 +76,22 @@
             android:name="org.apache.http.legacy"
             android:required="false" />
 
-        <activity android:name=".activities.AstronautsActivity" />
-        <activity android:name=".activities.RocketsActivity" />
-        <activity android:name=".activities.VoyagerActivity"></activity>
+        <activity
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
+            android:name=".activities.AstronautsActivity" />
+        <activity
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
+            android:name=".activities.RocketsActivity" />
+        <activity
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
+            android:name=".activities.VoyagerActivity" />
+        <activity
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
+            android:name=".activities.NewsFeedActivity"/>
     </application>
 
 </manifest>
