@@ -148,11 +148,13 @@
             <TextView
                 android:id="@+id/description"
                 android:layout_marginTop="8dp"
+                android:textColor="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <TextView
                 android:id="@+id/facts"
+                android:textColor="@color/white"
                 android:layout_marginTop="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />

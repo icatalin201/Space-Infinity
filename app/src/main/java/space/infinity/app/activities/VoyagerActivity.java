@@ -1,7 +1,7 @@
 package space.infinity.app.activities;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
 import space.infinity.app.R;
 

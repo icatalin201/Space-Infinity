@@ -24,6 +24,7 @@
             android:layout_marginTop="4dp"
             android:contentDescription="@string/astronauts"
             android:id="@+id/image"
+            android:transitionName="image"
             android:layout_width="match_parent"
             android:layout_height="100dp" />
 

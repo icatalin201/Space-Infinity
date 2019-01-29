@@ -20,7 +20,6 @@ import java.util.List;
 import space.infinity.app.R;
 import space.infinity.app.activities.FullscreenActivity;
 import space.infinity.app.models.ImageItem;
-import space.infinity.app.utils.Constants;
 
 /**
  * Created by icatalin on 11.02.2018.

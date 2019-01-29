@@ -1,9 +1,9 @@
 package space.infinity.app.activities;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,7 +21,6 @@ import space.infinity.app.adapters.AstronautAdapter;
 import space.infinity.app.dao.AstronautDao;
 import space.infinity.app.database.AppDatabase;
 import space.infinity.app.database.AppDatabaseHelper;
-import space.infinity.app.models.ActivityHelper;
 import space.infinity.app.models.Astronaut;
 import space.infinity.app.utils.ThreadHelper;
 
@@ -89,6 +88,7 @@ public class AstronautsActivity extends AppCompatActivity {
                         Astronaut astronaut = new Astronaut();
                         astronaut.setName("ASTRONAUTUL");
                         astronaut.setImage("https://www.nasa.gov/sites/default/files/styles/side_image/public/thumbnails/image/jsc2017e129183.jpg?itok=xghgiK03");
+                        astronaut.setPersonalData("Born in Syracuse, New York. Enjoys traveling, reading, running, mentoring, scuba diving and family.");
                         astronautList.add(astronaut);
                     }
                     onResult(astronautList);

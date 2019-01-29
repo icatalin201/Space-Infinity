@@ -1,6 +1,5 @@
 package space.infinity.app.utils;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -15,6 +14,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Random;
@@ -97,5 +97,11 @@ public class Helper {
         DateFormat date = new SimpleDateFormat("dd MMMM", Locale.getDefault());
         DateFormat hour = new SimpleDateFormat("HH:mm", Locale.getDefault());
         return date.format(d).concat(" at ").concat(hour.format(d));
+    }
+
+    public static String dateToString(Calendar calendar) {
+        DateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy HH:mm:ss",
+                Locale.getDefault());
+        return dateFormat.format(calendar.getTime());
     }
 }

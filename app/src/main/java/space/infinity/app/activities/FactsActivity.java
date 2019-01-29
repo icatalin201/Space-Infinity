@@ -17,7 +17,6 @@ import com.eyalbira.loadingdots.LoadingDots;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 import space.infinity.app.R;
 import space.infinity.app.dao.SpaceFactDao;

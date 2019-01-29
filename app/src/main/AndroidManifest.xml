@@ -64,8 +64,7 @@
             android:name=".activities.SearchActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".activities.ISSLiveStreamActivity" />
+        <activity android:name=".activities.ISSLiveStreamActivity" />
 
         <receiver
             android:name=".utils.NotificationService"
@@ -77,21 +76,38 @@
             android:required="false" />
 
         <activity
+            android:name=".activities.AstronautsActivity"
             android:configChanges="orientation"
-            android:screenOrientation="portrait"
-            android:name=".activities.AstronautsActivity" />
+            android:screenOrientation="portrait" />
         <activity
+            android:name=".activities.RocketsActivity"
             android:configChanges="orientation"
-            android:screenOrientation="portrait"
-            android:name=".activities.RocketsActivity" />
+            android:screenOrientation="portrait" />
         <activity
+            android:name=".activities.VoyagerActivity"
             android:configChanges="orientation"
-            android:screenOrientation="portrait"
-            android:name=".activities.VoyagerActivity" />
+            android:screenOrientation="portrait" />
         <activity
+            android:name=".activities.NewsFeedActivity"
             android:configChanges="orientation"
-            android:screenOrientation="portrait"
-            android:name=".activities.NewsFeedActivity"/>
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.AstronautActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.RocketActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.SpaceXActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.LaunchSitesActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
+        <activity android:name=".activities.RocketLaunchesActivity"></activity>
     </application>
 
 </manifest>

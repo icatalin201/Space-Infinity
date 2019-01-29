@@ -1,14 +1,10 @@
 package space.infinity.app.activities;
 
 import android.annotation.SuppressLint;
-import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.ViewGroup;
+import android.support.v7.app.AppCompatActivity;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
-import android.widget.MediaController;
-import android.widget.VideoView;
 
 import space.infinity.app.R;
 

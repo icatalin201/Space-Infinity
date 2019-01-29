@@ -14,6 +14,11 @@
     <string name="astronauts">Astronauts</string>
     <string name="rockets">Rockets</string>
     <string name="news_feed">News Feed</string>
+    <string name="launch_sites">Launch Sites</string>
+    <string name="rocket_launches">Rocket Launches</string>
+    <string name="spacex_roadster">SpaceX Roadster</string>
+
+    <string name="spacex_roadster_error">There is a problem receiving SpaceX Roadster data. Please try again. :(</string>
 
     <string name="iss_live">Live stream</string>
     <string name="loading">Loading…</string>
@@ -27,7 +32,6 @@
     <string name="iss_pass">When will ISS pass by my location?</string>
     <string name="velocity">Velocity</string>
     <string name="altitude">Altitude</string>
-    <string name="spacex_flaunches">Upcoming Rocket Launches</string>
     <string name="rocket_info">Rocket Info</string>
     <string name="payload_info">Payload Info</string>
     <string name="iss_pass_result">ISS will pass through your sky on </string>
@@ -70,4 +74,10 @@
     <string name="isserror">Please enable location access</string>
     <string name="try_also">Try Also</string>
     <string name="space_now">Space Now</string>
+    <string name="summary">Summary</string>
+    <string name="telemetry">Telemetry</string>
+    <string name="crew">Crew</string>
+    <string name="try_again">Try again</string>
+    <string name="details">Details</string>
+    <string name="see_on_wikipedia">See on wikipedia</string>
 </resources>

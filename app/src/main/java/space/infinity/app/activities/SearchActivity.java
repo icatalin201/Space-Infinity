@@ -1,11 +1,9 @@
 package space.infinity.app.activities;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -18,7 +16,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AnimationUtils;
-import android.widget.ProgressBar;
 
 import com.eyalbira.loadingdots.LoadingDots;
 
@@ -36,12 +33,8 @@ import java.util.List;
 
 import space.infinity.app.R;
 import space.infinity.app.adapters.ImageAdapter;
-import space.infinity.app.dao.ImageItemDao;
-import space.infinity.app.database.AppDatabase;
-import space.infinity.app.database.AppDatabaseHelper;
 import space.infinity.app.models.ImageItem;
 import space.infinity.app.utils.Constants;
-import space.infinity.app.utils.ThreadHelper;
 
 public class SearchActivity extends AppCompatActivity {
 

@@ -7,6 +7,7 @@ import java.util.concurrent.Executors;
 import space.infinity.app.models.Astronaut;
 import space.infinity.app.models.CosmicItem;
 import space.infinity.app.models.ImageItem;
+import space.infinity.app.models.LaunchSite;
 import space.infinity.app.models.Rocket;
 import space.infinity.app.models.SpaceFact;
 
@@ -30,6 +31,10 @@ public class ThreadHelper {
 
     public interface RocketsInterface {
         void onResult(List<Rocket> rocketList);
+    }
+
+    public interface LaunchSitesInterface {
+        void onResult(List<LaunchSite> launchSiteList);
     }
 
     private Thread thread;

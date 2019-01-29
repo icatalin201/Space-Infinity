@@ -2,7 +2,6 @@ package space.infinity.app.activities;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -11,8 +10,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -24,14 +21,12 @@ import com.eyalbira.loadingdots.LoadingDots;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import space.infinity.app.R;
 import space.infinity.app.adapters.EncyclopediaAdapter;
 import space.infinity.app.dao.CosmicDao;
 import space.infinity.app.database.AppDatabase;
 import space.infinity.app.database.AppDatabaseHelper;
-import space.infinity.app.models.ActivityHelper;
 import space.infinity.app.models.CosmicItem;
 import space.infinity.app.models.Galaxy;
 import space.infinity.app.models.Moon;
@@ -105,14 +100,13 @@ public class EncyclopediaActivity extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp(){
-        onBackPressed();
-        return true;
+        supportFinishAfterTransition();
+        return super.onSupportNavigateUp();
     }
 
     @Override
     public void onBackPressed() {
-        supportFinishAfterTransition();
-        super.onBackPressed();
+        onSupportNavigateUp();
     }
 
     private class ActivityHelper

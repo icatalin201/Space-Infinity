@@ -1,7 +1,10 @@
 package space.infinity.app.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -17,7 +20,9 @@ import com.bumptech.glide.request.RequestOptions;
 import java.util.List;
 
 import space.infinity.app.R;
+import space.infinity.app.activities.RocketActivity;
 import space.infinity.app.models.Rocket;
+import space.infinity.app.utils.Constants;
 
 public class RocketAdapter extends RecyclerView.Adapter<RocketAdapter.RocketViewHolder> {
 
@@ -72,7 +77,12 @@ public class RocketAdapter extends RecyclerView.Adapter<RocketAdapter.RocketView
             item.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
+                    Intent intent = new Intent(context, RocketActivity.class);
+                    intent.putExtra(Constants.ROCKET, rocketList.get(getAdapterPosition()));
+                    ActivityOptionsCompat activityOptionsCompat = ActivityOptionsCompat
+                            .makeSceneTransitionAnimation((AppCompatActivity) context, image,
+                                    "image");
+                    context.startActivity(intent, activityOptionsCompat.toBundle());
                 }
             });
         }

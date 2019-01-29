@@ -15,12 +15,15 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.eyalbira.loadingdots.LoadingDots;
@@ -47,12 +50,15 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.DecimalFormat;
-import java.util.Objects;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import space.infinity.app.R;
+import space.infinity.app.adapters.ISSCrewAdapter;
 import space.infinity.app.network.CheckingConnection;
 import space.infinity.app.utils.Constants;
 import space.infinity.app.utils.Helper;
@@ -65,6 +71,12 @@ public class IssActivity extends AppCompatActivity {
 
         @SuppressLint("StaticFieldLeak")
         private class GetData extends AsyncTask<String, Void, JSONObject> {
+
+            private GoogleMap googleMap;
+
+            GetData(GoogleMap googleMap) {
+                this.googleMap = googleMap;
+            }
 
             @Override
             protected JSONObject doInBackground(String... strings) {
@@ -111,10 +123,13 @@ public class IssActivity extends AppCompatActivity {
                                     .getDouble("altitude")).concat(" km"));
                     LatLng location = new LatLng(jsonObject.getDouble("latitude"),
                             jsonObject.getDouble("longitude"));
+                    String date = "Updated at: ".concat(Helper.dateToString(Calendar.getInstance()));
                     velocity.setText(velo);
                     altitude.setText(alti);
+                    updatedAt.setText(date);
                     Helper.setAnimationForAll(getContext(), velocity);
                     Helper.setAnimationForAll(getContext(), altitude);
+                    Helper.setAnimationForAll(getContext(), updatedAt);
                     updateLocation(location, googleMap);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -135,7 +150,6 @@ public class IssActivity extends AppCompatActivity {
 
         private Marker marker;
         private ScheduledExecutorService executorService;
-        private GoogleMap googleMap;
 
         ActivityHelper(Context context) {
             super(context);
@@ -160,20 +174,71 @@ public class IssActivity extends AppCompatActivity {
 
         @Override
         public void onMapReady(GoogleMap googleMap) {
-            showLayout();
+            googleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+            googleMap.getUiSettings().setZoomGesturesEnabled(false);
+//            googleMap.getUiSettings().setAllGesturesEnabled(false);
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    StringBuilder stringBuilder = new StringBuilder();
+                    HttpURLConnection httpURLConnection;
+                    URL url;
+                    JSONObject json;
+                    BufferedReader reader;
+                    try {
+                        url = new URL(Constants.ISS_CREW);
+                        httpURLConnection = (HttpURLConnection) url.openConnection();
+                        reader = new BufferedReader(new InputStreamReader(httpURLConnection
+                                .getInputStream(), "iso-8859-1"), 8);
+                        String line;
+                        while ((line = reader.readLine()) != null) {
+                            stringBuilder.append(line);
+                        }
+                        reader.close();
+                        httpURLConnection.disconnect();
+                        json = new JSONObject(stringBuilder.toString());
+                        JSONArray jsonArray = json.getJSONArray("people");
+                        final List<String> crewList = new ArrayList<>();
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            crewList.add(jsonArray.getJSONObject(i).getString("name"));
+                        }
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                issCrewAdapter.add(crewList);
+                                showLayout();
+                            }
+                        });
+                    } catch (IOException | JSONException e) {
+                        e.printStackTrace();
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                            Snackbar snackbar = Snackbar
+                                .make(coordinator, getResources().getString(R.string.isserror), 8000)
+                                .setAction("Retry", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        findIssPass();
+                                    }
+                                });
+                            snackbar.setActionTextColor(getResources().getColor(R.color.primaryTextColor));
+                            snackbar.show();
+                            }
+                        });
+                    }
+                }
+            }).start();
             getSomeData(googleMap);
-            this.googleMap = googleMap;
         }
 
         private void getSomeData(final GoogleMap googleMap) {
             if (CheckingConnection.isConnected(getContext())) {
-                googleMap.getUiSettings().setZoomGesturesEnabled(false);
-                googleMap.getUiSettings().setAllGesturesEnabled(false);
                 executorService.scheduleAtFixedRate(new Runnable() {
                     @Override
                     public void run() {
                         Log.i("location", "updated");
-                        new GetData().execute(Constants.ISS_NOW);
+                        new GetData(googleMap).execute(Constants.ISS_NOW);
                     }
                 }, 0, 5, TimeUnit.SECONDS);
             }
@@ -193,11 +258,11 @@ public class IssActivity extends AppCompatActivity {
 
         void updateLocation(LatLng location, GoogleMap googleMap) {
             if (googleMap == null) return;
-            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLng(location);
+            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(location, 3.0f);
             googleMap.animateCamera(cameraUpdate);
             if(marker == null) {
                 marker = googleMap.addMarker(new MarkerOptions().position(location)
-                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.iss_map))
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.iss))
                         .zIndex(3.0f).title("International Space Station"));
             }
             else {
@@ -208,12 +273,14 @@ public class IssActivity extends AppCompatActivity {
     }
 
     private LoadingDots progressBar;
-    private RelativeLayout content;
+    private LinearLayout content;
     private SupportMapFragment mapFragment;
     private TextView velocity;
     private TextView altitude;
+    private TextView updatedAt;
     private CoordinatorLayout coordinator;
     private ActivityHelper activityHelper;
+    private ISSCrewAdapter issCrewAdapter;
     private FusedLocationProviderClient fusedLocationProviderClient;
 
     @Override
@@ -225,7 +292,15 @@ public class IssActivity extends AppCompatActivity {
         velocity = findViewById(R.id.velocity);
         altitude = findViewById(R.id.altitude);
         content = findViewById(R.id.content);
+        updatedAt = findViewById(R.id.updated_at);
         coordinator = findViewById(R.id.coordinator);
+        RecyclerView crewRecycler = findViewById(R.id.crew_recycler);
+        crewRecycler.setItemAnimator(new DefaultItemAnimator());
+        crewRecycler.setLayoutManager(new LinearLayoutManager(this,
+                LinearLayoutManager.HORIZONTAL, false));
+        crewRecycler.setHasFixedSize(true);
+        issCrewAdapter = new ISSCrewAdapter(this, new ArrayList<String>());
+        crewRecycler.setAdapter(issCrewAdapter);
         toolbar.setTitle(R.string.iss);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();

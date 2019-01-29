@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
     private NestedScrollView mainLayout;
     private Boolean pressed;
     private ImageView apodImage;
+    private ImageView spacexImage;
     private APOD apod;
 
     private ActivityHelper activityHelper;
@@ -58,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         pressed = false;
+        spacexImage = findViewById(R.id.spacex_roadster);
         mainLayout = findViewById(R.id.scrollView);
         mProgressBar = findViewById(R.id.progress_bar);
         apodImage = findViewById(R.id.apod_image);
@@ -67,6 +69,13 @@ public class MainActivity extends AppCompatActivity {
 
     public void goEncyclopedia(View view) {
         startActivity(new Intent(this, EncyclopediasActivity.class));
+    }
+
+    public void goSpaceXRoadster(View view) {
+        Intent intent = new Intent(this, SpaceXActivity.class);
+        ActivityOptionsCompat activityOptionsCompat = ActivityOptionsCompat
+                .makeSceneTransitionAnimation(this, spacexImage, "image");
+        startActivity(intent, activityOptionsCompat.toBundle());
     }
 
     public void goVoyager(View view) {
@@ -83,6 +92,14 @@ public class MainActivity extends AppCompatActivity {
 
     public void goAstronauts(View view) {
         startActivity(new Intent(this, AstronautsActivity.class));
+    }
+
+    public void goLaunchSites(View view) {
+        startActivity(new Intent(this, LaunchSitesActivity.class));
+    }
+
+    public void goFutureLaunches(View view) {
+        startActivity(new Intent(this, RocketLaunchesActivity.class));
     }
 
     public void goFacts(View view) {
@@ -108,9 +125,7 @@ public class MainActivity extends AppCompatActivity {
             imageItem.setTitle(apod.getTitle());
             intent.putExtra(Constants.IMAGE, imageItem);
         }
-        ActivityOptionsCompat activityOptionsCompat = ActivityOptionsCompat
-                .makeSceneTransitionAnimation(this, apodImage, "image");
-        startActivity(intent, activityOptionsCompat.toBundle());
+        startActivity(intent);
     }
 
     @Override

@@ -18,7 +18,6 @@ import com.eyalbira.loadingdots.LoadingDots;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import space.infinity.app.R;
 import space.infinity.app.adapters.EncyclopediaAdapter;

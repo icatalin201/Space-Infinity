@@ -1,9 +1,9 @@
 package space.infinity.app.activities;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,13 +17,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import space.infinity.app.R;
-import space.infinity.app.adapters.AstronautAdapter;
 import space.infinity.app.adapters.RocketAdapter;
-import space.infinity.app.dao.AstronautDao;
 import space.infinity.app.dao.RocketDao;
 import space.infinity.app.database.AppDatabase;
 import space.infinity.app.database.AppDatabaseHelper;
-import space.infinity.app.models.Astronaut;
 import space.infinity.app.models.Rocket;
 import space.infinity.app.utils.ThreadHelper;
 
