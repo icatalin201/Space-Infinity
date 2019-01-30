@@ -34,7 +34,7 @@
 
     <LinearLayout
         android:id="@+id/content"
-        android:visibility="visible"
+        android:visibility="gone"
         android:orientation="vertical"
         android:layout_marginTop="?attr/actionBarSize"
         android:layout_width="match_parent"

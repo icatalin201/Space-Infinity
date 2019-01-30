@@ -30,7 +30,7 @@ import space.infinity.app.models.Star;
 @Database(entities = {Galaxy.class, ImageItem.class, Moon.class,
         Planet.class, SpaceFact.class, Star.class, Astronaut.class,
         Rocket.class, RocketStage.class, LaunchSite.class, LaunchSiteLocation.class},
-        version = 7, exportSchema = false)
+        version = 8, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     public abstract GalaxyDao getGalaxyDao();

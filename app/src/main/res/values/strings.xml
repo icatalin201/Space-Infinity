@@ -80,4 +80,8 @@
     <string name="try_again">Try again</string>
     <string name="details">Details</string>
     <string name="see_on_wikipedia">See on wikipedia</string>
+    <string name="status">Status</string>
+    <string name="location">Location</string>
+    <string name="missions">Missions</string>
+    <string name="rocket">Rocket</string>
 </resources>

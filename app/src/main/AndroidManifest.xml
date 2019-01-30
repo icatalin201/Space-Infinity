@@ -107,7 +107,14 @@
             android:name=".activities.LaunchSitesActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait" />
-        <activity android:name=".activities.RocketLaunchesActivity"></activity>
+        <activity
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
+            android:name=".activities.RocketLaunchesActivity" />
+        <activity
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
+            android:name=".activities.LaunchActivity" />
     </application>
 
 </manifest>

@@ -27,4 +27,5 @@ public class Constants {
     public final static String ENCYCLOPEDIA = "encyclopedia";
     public final static String ASTRONAUT = "astronaut";
     public final static String ROCKET = "rocket";
+    public final static String LAUNCH = "launch";
 }

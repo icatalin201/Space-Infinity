@@ -1,8 +1,11 @@
 package space.infinity.app.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.List;
 
-public class LaunchPad {
+public class LaunchPad implements Parcelable {
 
     public interface PadType {
         String LAUNCH = "Launch";
@@ -21,6 +24,77 @@ public class LaunchPad {
     private List<LaunchAgency> agencies;
 
     public LaunchPad() { }
+
+    private LaunchPad(Parcel in) {
+        if (in.readByte() == 0) {
+            id = null;
+        } else {
+            id = in.readInt();
+        }
+        name = in.readString();
+        if (in.readByte() == 0) {
+            padType = null;
+        } else {
+            padType = in.readInt();
+        }
+        latitude = in.readString();
+        longitude = in.readString();
+        mapURL = in.readString();
+        if (in.readByte() == 0) {
+            locationid = null;
+        } else {
+            locationid = in.readInt();
+        }
+        wikiURL = in.readString();
+        infoURLs = in.createStringArray();
+        agencies = in.createTypedArrayList(LaunchAgency.CREATOR);
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        if (id == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(id);
+        }
+        dest.writeString(name);
+        if (padType == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(padType);
+        }
+        dest.writeString(latitude);
+        dest.writeString(longitude);
+        dest.writeString(mapURL);
+        if (locationid == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(locationid);
+        }
+        dest.writeString(wikiURL);
+        dest.writeStringArray(infoURLs);
+        dest.writeTypedList(agencies);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<LaunchPad> CREATOR = new Creator<LaunchPad>() {
+        @Override
+        public LaunchPad createFromParcel(Parcel in) {
+            return new LaunchPad(in);
+        }
+
+        @Override
+        public LaunchPad[] newArray(int size) {
+            return new LaunchPad[size];
+        }
+    };
 
     public Integer getId() {
         return id;

@@ -20,8 +20,12 @@ public interface Service {
     @GET("roadster")
     Call<SpaceXRoadster> getSpaceXRoadster();
 
-    @GET("launch")
-    Call<LaunchResponse> getLaunches(@Query("offset") int offset, @Query("count") int count);
+    @GET("launch/")
+    Call<LaunchResponse> getLaunches(@Query("offset") int offset,
+                                     @Query("limit") int count,
+                                     @Query("sort") String sort,
+                                     @Query("startdate") String startdate,
+                                     @Query("enddate") String enddate);
 
     @GET("launch/next/{count}")
     Call<LaunchResponse> getNextLaunches(@Path("count") int count);
