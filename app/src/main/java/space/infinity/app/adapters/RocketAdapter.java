@@ -79,10 +79,7 @@ public class RocketAdapter extends RecyclerView.Adapter<RocketAdapter.RocketView
                 public void onClick(View view) {
                     Intent intent = new Intent(context, RocketActivity.class);
                     intent.putExtra(Constants.ROCKET, rocketList.get(getAdapterPosition()));
-                    ActivityOptionsCompat activityOptionsCompat = ActivityOptionsCompat
-                            .makeSceneTransitionAnimation((AppCompatActivity) context, image,
-                                    "image");
-                    context.startActivity(intent, activityOptionsCompat.toBundle());
+                    context.startActivity(intent);
                 }
             });
         }

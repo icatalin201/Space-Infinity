@@ -41,13 +41,13 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:drawablePadding="16dp"
+            android:drawablePadding="8dp"
             android:drawableStart="@drawable/icons8_astronaut_helmet_24"
             android:text="@string/crew"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
             android:textStyle="bold"
             android:gravity="center_vertical"
             android:textColor="@color/white"
@@ -61,10 +61,10 @@
             android:layout_height="wrap_content" />
 
         <TextView
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
             android:textColor="@color/white"
             android:text="@string/telemetry"
             android:textSize="16sp"
@@ -77,31 +77,31 @@
 
         <TextView
             android:id="@+id/altitude"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
             android:textColor="@color/white"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
         <TextView
             android:id="@+id/velocity"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
             android:textColor="@color/white"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
         <TextView
             android:id="@+id/updated_at"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
             android:textColor="@color/white"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
         <android.support.v7.widget.CardView
             app:cardCornerRadius="4dp"
-            android:layout_margin="16dp"
+            android:layout_margin="8dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 

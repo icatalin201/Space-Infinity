@@ -48,7 +48,7 @@ public class LaunchSitesActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recycler);
         recyclerView.setAdapter(launchSitesAdapter);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setLayoutAnimation(AnimationUtils
                 .loadLayoutAnimation(this, R.anim.layout_animation_down));

@@ -1,9 +1,11 @@
 package space.infinity.app.activities;
 
+import android.content.Intent;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -24,9 +26,11 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import space.infinity.app.R;
+import space.infinity.app.adapters.MissionsAdapter;
 import space.infinity.app.models.Launch;
 import space.infinity.app.models.LaunchLocation;
 import space.infinity.app.models.LaunchMission;
@@ -58,7 +62,13 @@ public class LaunchActivity extends AppCompatActivity implements OnMapReadyCallb
         }
         loadingDots = findViewById(R.id.progress_bar);
         nestedScrollView = findViewById(R.id.scroll);
+        TextView missionsLabel = findViewById(R.id.missions);
+        MissionsAdapter missionsAdapter = new MissionsAdapter(this, new ArrayList<LaunchMission>());
         RecyclerView recyclerView = findViewById(R.id.missions_recycler);
+        recyclerView.setAdapter(missionsAdapter);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this,
+                LinearLayoutManager.HORIZONTAL, false));
         SupportMapFragment mapFragment = (SupportMapFragment)
                 getSupportFragmentManager().findFragmentById(R.id.map_view);
         ImageView launchImage = findViewById(R.id.image);
@@ -68,9 +78,6 @@ public class LaunchActivity extends AppCompatActivity implements OnMapReadyCallb
         TextView launchRocketName = findViewById(R.id.rocket_name);
         TextView launchRocketWiki = findViewById(R.id.rocket_wiki_url);
         TextView launchLocationName = findViewById(R.id.location_name);
-        if (mapFragment != null) {
-            mapFragment.getMapAsync(this);
-        }
         Glide.with(this)
                 .load(rocket.getImageURL())
                 .apply(RequestOptions.centerCropTransform())
@@ -103,8 +110,24 @@ public class LaunchActivity extends AppCompatActivity implements OnMapReadyCallb
         }
         launchDate.setText(launch.getNet());
         launchRocketName.setText(rocket.getName());
-        launchRocketWiki.setText(rocket.getWikiURL());
+        launchRocketWiki.setTag(rocket.getWikiURL());
+        launchRocketWiki.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(LaunchActivity.this, InternalWebActivity.class);
+                intent.putExtra("url", view.getTag().toString());
+                startActivity(intent);
+            }
+        });
         launchLocationName.setText(launchPads.get(0).getName());
+        missionsAdapter.add(launchMissionList);
+        if (launchMissionList != null && launchMissionList.size() > 0) {
+            missionsLabel.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.VISIBLE);
+        }
+        if (mapFragment != null) {
+            mapFragment.getMapAsync(this);
+        }
     }
 
     @Override
@@ -127,7 +150,7 @@ public class LaunchActivity extends AppCompatActivity implements OnMapReadyCallb
                             .position(latLng)
                             .title(title));
             marker.setVisible(true);
-            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 10.0f);
+            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 13.0f);
             googleMap.animateCamera(cameraUpdate);
         }
         loadingDots.setVisibility(View.GONE);

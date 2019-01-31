@@ -125,9 +125,9 @@ public class SpaceXActivity extends AppCompatActivity {
                         wikipedia.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                Intent browserIntent = new Intent(Intent.ACTION_VIEW,
-                                        Uri.parse(spaceXRoadster.getWikipedia()));
-                                startActivity(browserIntent);
+                                Intent intent = new Intent(SpaceXActivity.this, InternalWebActivity.class);
+                                intent.putExtra("url", spaceXRoadster.getWikipedia());
+                                startActivity(intent);
                             }
                         });
                     } else {

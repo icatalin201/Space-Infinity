@@ -137,7 +137,7 @@ public class RocketLaunchesActivity extends AppCompatActivity {
 
         void makeFutureCall() {
             Call<LaunchResponse> launchResponseCall = Client.getRetrofitClient(Constants.LAUNCH_LIBRARY_API)
-                    .create(Service.class).getNextLaunches(20);
+                    .create(Service.class).getNextLaunches(50);
             launchResponseCall.enqueue(new Callback<LaunchResponse>() {
                 @Override
                 public void onResponse(Call<LaunchResponse> call, Response<LaunchResponse> response) {
@@ -177,7 +177,7 @@ public class RocketLaunchesActivity extends AppCompatActivity {
             progressBar.setVisibility(View.VISIBLE);
             recyclerView.setAlpha(0.3f);
             Call<LaunchResponse> launchResponseCall = Client.getRetrofitClient(Constants.LAUNCH_LIBRARY_API)
-                    .create(Service.class).getLaunches(offset, 20, "desc",
+                    .create(Service.class).getLaunches(offset, 50, "desc",
                             "2000-01-01", "2019-01-01");
             launchResponseCall.enqueue(new Callback<LaunchResponse>() {
                 @Override
@@ -190,7 +190,7 @@ public class RocketLaunchesActivity extends AppCompatActivity {
                             launchList.add(launch);
                         }
                         rocketLaunchesAdapter.add(launchList);
-                        offset += 20;
+                        offset += 50;
                     } else {
                         pagesOver = true;
                     }

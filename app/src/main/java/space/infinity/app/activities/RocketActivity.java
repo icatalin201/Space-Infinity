@@ -65,12 +65,12 @@ public class RocketActivity extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-        supportFinishAfterTransition();
+        onBackPressed();
         return super.onSupportNavigateUp();
     }
 
     @Override
     public void onBackPressed() {
-        onSupportNavigateUp();
+        super.onBackPressed();
     }
 }

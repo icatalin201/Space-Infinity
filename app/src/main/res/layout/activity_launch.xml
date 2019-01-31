@@ -45,10 +45,11 @@
                 android:textStyle="bold"
                 android:textSize="18sp"
                 android:textColor="@color/white"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
+                android:gravity="center"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -57,18 +58,18 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:textColor="@color/white"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <android.support.v7.widget.CardView
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
                 app:cardCornerRadius="4dp"
                 app:cardElevation="2dp"
                 android:layout_width="match_parent"
@@ -103,18 +104,22 @@
             </android.support.v7.widget.CardView>
 
             <TextView
+                android:id="@+id/missions"
                 android:text="@string/missions"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:textColor="@color/white"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <android.support.v7.widget.RecyclerView
+                android:padding="4dp"
+                android:visibility="gone"
                 android:id="@+id/missions_recycler"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -124,51 +129,62 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:textColor="@color/white"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <android.support.v7.widget.CardView
                 app:cardCornerRadius="4dp"
                 app:cardElevation="2dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <RelativeLayout
+                <LinearLayout
+                    android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content">
 
                     <ImageView
                         android:contentDescription="@string/rocket_launches"
                         android:id="@+id/image"
-                        android:layout_width="150dp"
-                        android:layout_height="150dp" />
+                        android:layout_width="120dp"
+                        android:layout_height="match_parent" />
 
-                    <TextView
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:id="@+id/rocket_name"
-                        android:padding="8dp"
-                        android:layout_toEndOf="@id/image"
+                    <LinearLayout
+                        android:orientation="vertical"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content">
 
-                    <TextView
-                        android:layout_alignParentBottom="true"
-                        android:id="@+id/rocket_wiki_url"
-                        android:padding="8dp"
-                        android:layout_toEndOf="@id/image"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        <TextView
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:id="@+id/rocket_name"
+                            android:padding="8dp"
+                            android:textColor="@color/colorAccent"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
 
-                </RelativeLayout>
+                        <TextView
+                            android:id="@+id/rocket_wiki_url"
+                            android:padding="8dp"
+                            android:drawableStart="@drawable/viewdetails"
+                            android:drawablePadding="8dp"
+                            android:gravity="center_vertical"
+                            android:text="@string/details"
+                            android:textColor="@color/colorAccent"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
 
             </android.support.v7.widget.CardView>
 
@@ -177,18 +193,18 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:textColor="@color/white"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <android.support.v7.widget.CardView
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
                 app:cardCornerRadius="4dp"
                 app:cardElevation="2dp"
                 android:layout_width="match_parent"
@@ -197,11 +213,10 @@
                 <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content">
 
                     <TextView
                         android:id="@+id/location_name"
-                        android:text="STATUS LANSARE"
                         android:textSize="14sp"
                         android:padding="8dp"
                         android:textStyle="bold"

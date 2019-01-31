@@ -23,6 +23,7 @@
     </android.support.design.widget.AppBarLayout>
 
     <WebView
+        android:scrollbars="none"
         android:layout_marginTop="-17dp"
         android:id="@+id/webview"
         android:layout_width="match_parent"
