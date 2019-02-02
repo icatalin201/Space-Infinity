@@ -81,7 +81,6 @@
             <ImageButton
                 android:id="@+id/fav"
                 android:contentDescription="@string/facts"
-                android:onClick="doFav"
                 android:padding="10dp"
                 android:layout_gravity="center"
                 android:src="@drawable/ic_baseline_favorite_border_24px"

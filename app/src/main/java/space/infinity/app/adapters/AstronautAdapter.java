@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
@@ -55,7 +54,7 @@ public class AstronautAdapter extends RecyclerView.Adapter<AstronautAdapter.Astr
                 .apply(RequestOptions.circleCropTransform())
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(astronautsViewHolder.image);
-        astronautsViewHolder.name.setText(astronaut.getName());
+//        astronautsViewHolder.name.setText(astronaut.getName());
     }
 
     @Override
@@ -67,13 +66,13 @@ public class AstronautAdapter extends RecyclerView.Adapter<AstronautAdapter.Astr
 
         private CardView item;
         private ImageView image;
-        private TextView name;
+//        private TextView name;
 
         AstronautsViewHolder(@NonNull View itemView) {
             super(itemView);
             item = itemView.findViewById(R.id.item);
             image = itemView.findViewById(R.id.image);
-            name = itemView.findViewById(R.id.name);
+//            name = itemView.findViewById(R.id.name);
             item.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

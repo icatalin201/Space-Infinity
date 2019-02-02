@@ -215,7 +215,7 @@ public class IssActivity extends AppCompatActivity {
                             @Override
                             public void run() {
                             Snackbar snackbar = Snackbar
-                                .make(coordinator, getResources().getString(R.string.isserror), 8000)
+                                .make(coordinator, getResources().getString(R.string.isserror), Snackbar.LENGTH_INDEFINITE)
                                 .setAction("Retry", new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
@@ -244,7 +244,7 @@ public class IssActivity extends AppCompatActivity {
             }
             else {
                 Snackbar snackbar = Snackbar
-                        .make(coordinator, "No Internet Connection", Snackbar.LENGTH_LONG)
+                        .make(coordinator, "No Internet Connection", Snackbar.LENGTH_INDEFINITE)
                         .setAction("Retry", new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {

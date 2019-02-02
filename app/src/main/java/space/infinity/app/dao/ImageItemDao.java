@@ -3,6 +3,7 @@ package space.infinity.app.dao;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
+import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
@@ -13,7 +14,7 @@ import space.infinity.app.models.ImageItem;
 @Dao
 public interface ImageItemDao {
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(ImageItem... imageItems);
 
     @Insert
@@ -33,6 +34,9 @@ public interface ImageItemDao {
 
     @Query(value = "select * from images where id = :id;")
     ImageItem getImage(long id);
+
+    @Query(value = "select * from images order by id desc limit 1")
+    ImageItem getLastImage();
 
     @Query(value = "select * from images;")
     List<ImageItem> getImageList();

@@ -5,41 +5,24 @@ import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
-import com.eyalbira.loadingdots.LoadingDots;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import space.infinity.app.R;
-import space.infinity.app.adapters.EncyclopediaAdapter;
-import space.infinity.app.dao.CosmicDao;
-import space.infinity.app.database.AppDatabase;
-import space.infinity.app.database.AppDatabaseHelper;
 import space.infinity.app.models.CosmicItem;
 import space.infinity.app.models.Galaxy;
 import space.infinity.app.models.Moon;
 import space.infinity.app.models.Planet;
 import space.infinity.app.models.Star;
 import space.infinity.app.utils.Constants;
-import space.infinity.app.utils.ThreadHelper;
 
 public class EncyclopediaActivity extends AppCompatActivity {
 
-    private RecyclerView recyclerView;
-    private LoadingDots progressBar;
-    private EncyclopediaAdapter encyclopediaAdapter;
     private ActivityHelper activityHelper;
     private ImageView imageView;
     private TextView facts;
@@ -56,8 +39,6 @@ public class EncyclopediaActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_encyclopedia);
-        progressBar = findViewById(R.id.progress_bar);
-        recyclerView = findViewById(R.id.recycler);
         Toolbar toolbar = findViewById(R.id.toolbar);
         CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.collapsing_toolbar);
         imageView = findViewById(R.id.image);
@@ -77,14 +58,6 @@ public class EncyclopediaActivity extends AppCompatActivity {
             actionBar.setHomeAsUpIndicator(R.drawable.ic_baseline_keyboard_backspace_24px);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-        encyclopediaAdapter = new EncyclopediaAdapter(this, new ArrayList<CosmicItem>());
-        recyclerView.setAdapter(encyclopediaAdapter);
-        recyclerView.setLayoutAnimation(AnimationUtils
-                .loadLayoutAnimation(this, R.anim.layout_animation_down));
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this,
-                LinearLayoutManager.HORIZONTAL, false));
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
         CosmicItem cosmicItem = getIntent().getParcelableExtra(Constants.ENCYCLOPEDIA);
         collapsingToolbarLayout.setTitle(cosmicItem.getName());
         description.setText(cosmicItem.getDescription());
@@ -110,19 +83,13 @@ public class EncyclopediaActivity extends AppCompatActivity {
     }
 
     private class ActivityHelper
-            extends space.infinity.app.models.ActivityHelper
-            implements ThreadHelper.CosmicInterface {
+            extends space.infinity.app.models.ActivityHelper {
 
-        private AppDatabase appDatabase;
-        private CosmicDao cosmicDao;
-        private ThreadHelper threadHelper;
         private CosmicItem cosmicItem;
 
         ActivityHelper(Context context, CosmicItem cosmicItem) {
             super(context);
             this.cosmicItem = cosmicItem;
-            appDatabase = AppDatabaseHelper.getDatabase(context);
-            cosmicDao = appDatabase.getCosmicDao();
         }
 
         private void setTexts() {
@@ -138,44 +105,44 @@ public class EncyclopediaActivity extends AppCompatActivity {
             switch (cosmicItem.getType()) {
                 case CosmicItem.CosmicType.GALAXY:
                     factsString = ((Galaxy) cosmicItem).getFacts();
-                    info1String = ((Galaxy) cosmicItem).getConstellation();
-                    info2String = ((Galaxy) cosmicItem).getDesignation();
-                    info3String = ((Galaxy) cosmicItem).getDiameter();
-                    info4String = ((Galaxy) cosmicItem).getDistance();
-                    info5String = ((Galaxy) cosmicItem).getGalaxyGroup();
-                    info6String = ((Galaxy) cosmicItem).getGalaxyType();
-                    info7String = ((Galaxy) cosmicItem).getMass();
-                    info8String = ((Galaxy) cosmicItem).getNumberOfStars();
+                    info1String = "Constellation\n".concat(((Galaxy) cosmicItem).getConstellation());
+                    info2String = "Designation\n".concat(((Galaxy) cosmicItem).getDesignation());
+                    info3String = "Diameter\n".concat(((Galaxy) cosmicItem).getDiameter());
+                    info4String = "Distance\n".concat(((Galaxy) cosmicItem).getDistance());
+                    info5String = "Galaxy Group\n".concat(((Galaxy) cosmicItem).getGalaxyGroup());
+                    info6String = "Galaxy Type\n".concat(((Galaxy) cosmicItem).getGalaxyType());
+                    info7String = "Mass\n".concat(((Galaxy) cosmicItem).getMass());
+                    info8String = "Number of Stars\n".concat(((Galaxy) cosmicItem).getNumberOfStars());
                     break;
                 case CosmicItem.CosmicType.MOON:
                     factsString = ((Moon) cosmicItem).getFacts();
-                    info1String = ((Moon) cosmicItem).getDiameter();
-                    info2String = ((Moon) cosmicItem).getMass();
-                    info3String = ((Moon) cosmicItem).getFirstRecord();
-                    info4String = ((Moon) cosmicItem).getRecordedBy();
-                    info5String = ((Moon) cosmicItem).getOrbits();
-                    info6String = ((Moon) cosmicItem).getOrbitPeriod();
-                    info7String = ((Moon) cosmicItem).getOrbitDistance();
-                    info8String = ((Moon) cosmicItem).getSurfaceTemperature();
+                    info1String = "Diameter\n".concat(((Moon) cosmicItem).getDiameter());
+                    info2String = "Mass\n".concat(((Moon) cosmicItem).getMass());
+                    info3String = "First Record\n".concat(((Moon) cosmicItem).getFirstRecord());
+                    info4String = "Recorded by\n".concat(((Moon) cosmicItem).getRecordedBy());
+                    info5String = "Orbits\n".concat(((Moon) cosmicItem).getOrbits());
+                    info6String = "Orbit Period\n".concat(((Moon) cosmicItem).getOrbitPeriod());
+                    info7String = "Orbit Distance\n".concat(((Moon) cosmicItem).getOrbitDistance());
+                    info8String = "Surface Temperature\n".concat(((Moon) cosmicItem).getSurfaceTemperature());
                     break;
                 case CosmicItem.CosmicType.PLANET:
                     factsString = ((Planet) cosmicItem).getFacts();
-                    info1String = ((Planet) cosmicItem).getDiameter();
-                    info2String = ((Planet) cosmicItem).getMass();
-                    info3String = ((Planet) cosmicItem).getFirstRecord();
-                    info4String = ((Planet) cosmicItem).getRecordedBy();
-                    info5String = ((Planet) cosmicItem).getMoons();
-                    info6String = ((Planet) cosmicItem).getOrbitDistance();
-                    info7String = ((Planet) cosmicItem).getOrbitPeriod();
-                    info8String = ((Planet) cosmicItem).getSurfaceTemperature();
+                    info1String = "Diameter\n".concat(((Planet) cosmicItem).getDiameter());
+                    info2String = "Mass\n".concat(((Planet) cosmicItem).getMass());
+                    info3String = "First Record\n".concat(((Planet) cosmicItem).getFirstRecord());
+                    info4String = "Recorded by\n".concat(((Planet) cosmicItem).getRecordedBy());
+                    info5String = "Moons\n".concat(((Planet) cosmicItem).getMoons());
+                    info6String = "Orbit Distance\n".concat(((Planet) cosmicItem).getOrbitDistance());
+                    info7String = "Orbit Period\n".concat(((Planet) cosmicItem).getOrbitPeriod());
+                    info8String = "Surface Temperature\n".concat(((Planet) cosmicItem).getSurfaceTemperature());
                     break;
                 case CosmicItem.CosmicType.STAR:
                     factsString = ((Star) cosmicItem).getFacts();
-                    info1String = ((Star) cosmicItem).getStarType();
-                    info2String = ((Star) cosmicItem).getDiameter();
-                    info3String = ((Star) cosmicItem).getMass();
-                    info4String = ((Star) cosmicItem).getAge();
-                    info5String = ((Star) cosmicItem).getSurfaceTemperature();
+                    info1String = "Star Type\n".concat(((Star) cosmicItem).getStarType());
+                    info2String = "Diameter\n".concat(((Star) cosmicItem).getDiameter());
+                    info3String = "Mass\n".concat(((Star) cosmicItem).getMass());
+                    info4String = "Age\n".concat(((Star) cosmicItem).getAge());
+                    info5String = "Surface Temperature\n".concat(((Star) cosmicItem).getSurfaceTemperature());
                     break;
                 case CosmicItem.CosmicType.OTHER:
                     break;
@@ -200,53 +167,15 @@ public class EncyclopediaActivity extends AppCompatActivity {
                     .apply(RequestOptions.centerCropTransform())
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .into(imageView);
-            threadHelper = new ThreadHelper(new Runnable() {
-                @Override
-                public void run() {
-                    List<? extends CosmicItem> cosmicItemList = new ArrayList<>();
-                    switch (cosmicItem.getType()) {
-                        case CosmicItem.CosmicType.GALAXY:
-                            cosmicItemList = cosmicDao.getGalaxyList();
-                            break;
-                        case CosmicItem.CosmicType.MOON:
-                            cosmicItemList = cosmicDao.getMoonList();
-                            break;
-                        case CosmicItem.CosmicType.PLANET:
-                            cosmicItemList = cosmicDao.getPlanetList();
-                            break;
-                        case CosmicItem.CosmicType.STAR:
-                            cosmicItemList = cosmicDao.getStarList();
-                            break;
-                        case CosmicItem.CosmicType.OTHER:
-                            break;
-                    }
-                    onResult(cosmicItemList);
-                }
-            });
-            threadHelper.startExecutor();
         }
 
         @Override
         public void onDestroy() {
-            appDatabase.close();
+            
         }
 
         @Override
         public void showLayout() {
-            progressBar.setVisibility(View.GONE);
-            recyclerView.setVisibility(View.VISIBLE);
-        }
-
-        @Override
-        public void onResult(final List<? extends CosmicItem> cosmicItemList) {
-            threadHelper.stopExecutor();
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    encyclopediaAdapter.add(cosmicItemList);
-                    showLayout();
-                }
-            });
         }
     }
 }

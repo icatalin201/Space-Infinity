@@ -34,11 +34,6 @@
                     android:layout_height="230dp"
                     android:contentDescription="@string/wiki" />
 
-                <TextView
-                    android:background="@drawable/gradient"
-                    android:layout_width="match_parent"
-                    android:layout_height="230dp" />
-
             </android.support.constraint.ConstraintLayout>
 
             <android.support.v7.widget.Toolbar
@@ -75,6 +70,7 @@
 
                 <TextView
                     android:id="@+id/info1"
+                    android:gravity="center"
                     android:layout_weight="1"
                     android:textColor="@color/white"
                     android:layout_width="match_parent"
@@ -82,11 +78,18 @@
                 <TextView
                     android:id="@+id/info2"
                     android:layout_weight="1"
+                    android:gravity="center"
                     android:textColor="@color/white"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
             </LinearLayout>
+            <View
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:background="@color/smokerWhite"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp" />
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
@@ -95,17 +98,25 @@
                 <TextView
                     android:id="@+id/info3"
                     android:layout_weight="1"
+                    android:gravity="center"
                     android:textColor="@color/white"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
                 <TextView
                     android:id="@+id/info4"
                     android:layout_weight="1"
+                    android:gravity="center"
                     android:textColor="@color/white"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
             </LinearLayout>
+            <View
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:background="@color/smokerWhite"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp" />
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
@@ -114,17 +125,25 @@
                 <TextView
                     android:id="@+id/info5"
                     android:layout_weight="1"
+                    android:gravity="center"
                     android:textColor="@color/white"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
                 <TextView
                     android:id="@+id/info6"
                     android:layout_weight="1"
+                    android:gravity="center"
                     android:textColor="@color/white"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
             </LinearLayout>
+            <View
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:background="@color/smokerWhite"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp" />
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
@@ -133,18 +152,28 @@
                 <TextView
                     android:id="@+id/info7"
                     android:layout_weight="1"
+                    android:gravity="center"
                     android:textColor="@color/white"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
                 <TextView
                     android:id="@+id/info8"
                     android:layout_weight="1"
+                    android:gravity="center"
                     android:textColor="@color/white"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
             </LinearLayout>
 
+            <TextView
+                android:text="@string/description"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
             <TextView
                 android:id="@+id/description"
                 android:layout_marginTop="8dp"
@@ -153,25 +182,19 @@
                 android:layout_height="wrap_content" />
 
             <TextView
+                android:text="@string/info_facts"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginTop="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
                 android:id="@+id/facts"
                 android:textColor="@color/white"
                 android:layout_marginTop="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
-
-            <include
-                android:layout_marginTop="8dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                layout="@layout/progress_bar" />
-
-            <android.support.v7.widget.RecyclerView
-                android:layout_marginTop="8dp"
-                android:id="@+id/recycler"
-                android:visibility="gone"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
 
         </LinearLayout>
 

@@ -25,8 +25,6 @@ import space.infinity.app.dao.CosmicDao;
 import space.infinity.app.database.AppDatabase;
 import space.infinity.app.database.AppDatabaseHelper;
 import space.infinity.app.models.CosmicItem;
-import space.infinity.app.models.Moon;
-import space.infinity.app.models.Planet;
 import space.infinity.app.utils.ThreadHelper;
 
 public class EncyclopediasActivity extends AppCompatActivity {
@@ -59,26 +57,10 @@ public class EncyclopediasActivity extends AppCompatActivity {
                     List<? extends CosmicItem> cosmicItems = new ArrayList<>();
                     switch (pos) {
                         case 0:
-                            List<Planet> planets = cosmicDao.getPlanetList();
-                            for (int i = 0; i < 10; i++) {
-                                Planet planet = new Planet();
-                                planet.setName("Planeta");
-                                planet.setImage("https://i1.wp.com/res.cloudinary.com/aleteia/image/fetch/c_fill,g_auto,w_620,h_310/https://aleteiaen.files.wordpress.com/2017/05/web3-planet-earth-space-nasa-space-stars-sun-shutterstock_526255060-shutterstock.jpg%3Fw%3D1200?quality=100&strip=all&ssl=1");
-                                planet.setType(CosmicItem.CosmicType.PLANET);
-                                planets.add(planet);
-                            }
-                            cosmicItems = planets;
+                            cosmicItems = cosmicDao.getPlanetList();
                             break;
                         case 1:
-                            List<Moon> moons = cosmicDao.getMoonList();
-                            for (int i = 0; i < 10; i++) {
-                                Moon planet = new Moon();
-                                planet.setName("Luna");
-                                planet.setImage("https://img.purch.com/rc/300x200/aHR0cDovL3d3dy5zcGFjZS5jb20vaW1hZ2VzL2kvMDAwLzAyOS81MzMvb3JpZ2luYWwvZnVsbC1tb29uLWp1YXJlei1tZXhpY28uanBn");
-                                planet.setType(CosmicItem.CosmicType.MOON);
-                                moons.add(planet);
-                            }
-                            cosmicItems = moons;
+                            cosmicItems = cosmicDao.getMoonList();
                             break;
                         case 2:
                             cosmicItems = cosmicDao.getStarList();
@@ -126,7 +108,7 @@ public class EncyclopediasActivity extends AppCompatActivity {
     private Spinner spinner;
     private RecyclerView recyclerView;
     private final String[] items = new String[]{
-        "Planets", "Moons", "Stars", "Galaxies", "Others"
+        "Planets", "Moons", "Stars", "Galaxies"
     };
 
     @Override

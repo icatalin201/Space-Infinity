@@ -4,30 +4,19 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class JSONHandler {
 
-    public JSONObject makeHttpRequest(String urlString, String method, JSONObject request) {
+    public JSONObject makeHttpRequest(String urlString) {
         try {
             URL url = new URL(urlString);
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-            httpURLConnection.setDoOutput(true);
-            httpURLConnection.setDoInput(true);
-            httpURLConnection.setRequestMethod(method);
+            httpURLConnection.setRequestMethod("GET");
             httpURLConnection.setRequestProperty("Content-Type", "application/json");
-            OutputStream os = httpURLConnection.getOutputStream();
-            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os));
-            writer.write(request.toString());
-            writer.flush();
-            writer.close();
-            os.close();
             httpURLConnection.connect();
             BufferedReader bufferedReader = new BufferedReader(new
                     InputStreamReader(httpURLConnection.getInputStream()));

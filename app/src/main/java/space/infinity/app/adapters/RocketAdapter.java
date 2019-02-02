@@ -3,8 +3,6 @@ package space.infinity.app.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -21,20 +19,20 @@ import java.util.List;
 
 import space.infinity.app.R;
 import space.infinity.app.activities.RocketActivity;
-import space.infinity.app.models.Rocket;
+import space.infinity.app.models.LaunchRocket;
 import space.infinity.app.utils.Constants;
 
 public class RocketAdapter extends RecyclerView.Adapter<RocketAdapter.RocketViewHolder> {
 
     private Context context;
-    private List<Rocket> rocketList;
+    private List<LaunchRocket> rocketList;
 
-    public RocketAdapter(Context context, List<Rocket> rocketList) {
+    public RocketAdapter(Context context, List<LaunchRocket> rocketList) {
         this.context = context;
         this.rocketList = rocketList;
     }
 
-    public void add(List<Rocket> rocketList) {
+    public void add(List<LaunchRocket> rocketList) {
         this.rocketList.addAll(rocketList);
         notifyDataSetChanged();
     }
@@ -49,9 +47,9 @@ public class RocketAdapter extends RecyclerView.Adapter<RocketAdapter.RocketView
 
     @Override
     public void onBindViewHolder(@NonNull RocketViewHolder rocketViewHolder, int i) {
-        Rocket rocket = rocketList.get(i);
+        LaunchRocket rocket = rocketList.get(i);
         Glide.with(context)
-                .load(rocket.getImage())
+                .load(rocket.getImageURL())
                 .apply(RequestOptions.centerCropTransform())
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(rocketViewHolder.image);

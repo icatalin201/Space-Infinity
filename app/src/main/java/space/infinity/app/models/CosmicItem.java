@@ -13,7 +13,7 @@ public class CosmicItem {
         String OTHER = "other";
     }
 
-    @ColumnInfo(name = "cosmic_type")
+    @ColumnInfo(name = "local_type")
     private String type;
 
     @PrimaryKey(autoGenerate = true)

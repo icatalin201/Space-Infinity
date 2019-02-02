@@ -1,10 +1,10 @@
 package space.infinity.app.activities;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -21,7 +21,6 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -32,11 +31,9 @@ import java.util.List;
 import space.infinity.app.R;
 import space.infinity.app.adapters.MissionsAdapter;
 import space.infinity.app.models.Launch;
-import space.infinity.app.models.LaunchLocation;
 import space.infinity.app.models.LaunchMission;
 import space.infinity.app.models.LaunchPad;
 import space.infinity.app.models.LaunchRocket;
-import space.infinity.app.models.Rocket;
 import space.infinity.app.utils.Constants;
 
 public class LaunchActivity extends AppCompatActivity implements OnMapReadyCallback {
@@ -66,9 +63,7 @@ public class LaunchActivity extends AppCompatActivity implements OnMapReadyCallb
         MissionsAdapter missionsAdapter = new MissionsAdapter(this, new ArrayList<LaunchMission>());
         RecyclerView recyclerView = findViewById(R.id.missions_recycler);
         recyclerView.setAdapter(missionsAdapter);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this,
-                LinearLayoutManager.HORIZONTAL, false));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         SupportMapFragment mapFragment = (SupportMapFragment)
                 getSupportFragmentManager().findFragmentById(R.id.map_view);
         ImageView launchImage = findViewById(R.id.image);
@@ -150,7 +145,7 @@ public class LaunchActivity extends AppCompatActivity implements OnMapReadyCallb
                             .position(latLng)
                             .title(title));
             marker.setVisible(true);
-            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 13.0f);
+            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 15.0f);
             googleMap.animateCamera(cameraUpdate);
         }
         loadingDots.setVisibility(View.GONE);

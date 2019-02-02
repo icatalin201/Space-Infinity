@@ -1,14 +1,13 @@
 package space.infinity.app.activities;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -28,7 +27,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import space.infinity.app.R;
 import space.infinity.app.adapters.RocketLaunchesAdapter;
-import space.infinity.app.models.ActivityHelper;
 import space.infinity.app.models.Launch;
 import space.infinity.app.models.LaunchResponse;
 import space.infinity.app.network.Client;

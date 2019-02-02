@@ -6,6 +6,7 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 import space.infinity.app.models.APOD;
 import space.infinity.app.models.LaunchResponse;
+import space.infinity.app.models.LaunchRocketsResponse;
 import space.infinity.app.models.SpaceXRoadster;
 
 /**
@@ -29,4 +30,7 @@ public interface Service {
 
     @GET("launch/next/{count}")
     Call<LaunchResponse> getNextLaunches(@Path("count") int count);
+
+    @GET("rocket/")
+    Call<LaunchRocketsResponse> getRockets(@Query("offset") int offset, @Query("limit") int count);
 }

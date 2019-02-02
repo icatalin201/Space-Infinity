@@ -24,7 +24,6 @@ import space.infinity.app.models.LaunchAgency;
 import space.infinity.app.models.LaunchLocation;
 import space.infinity.app.models.LaunchPad;
 import space.infinity.app.models.LaunchRocket;
-import space.infinity.app.models.Rocket;
 import space.infinity.app.utils.Constants;
 
 public class RocketLaunchesAdapter

@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -90,12 +89,6 @@ public class LaunchSitesActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     List<LaunchSite> launchSites = launchSiteDao.getLaunchSites();
-                    for (int i = 0; i < 10; i++) {
-                        LaunchSite launchSite = new LaunchSite();
-                        launchSite.setImage("https://img.purch.com/w/660/aHR0cDovL3d3dy5zcGFjZS5jb20vaW1hZ2VzL2kvMDAwLzAxOS84Njcvb3JpZ2luYWwvcnVzc2lhLXNveXV6LWZnLWxhdW5jaC5qcGc=");
-                        launchSite.setName("LAUNCH SITE");
-                        launchSites.add(launchSite);
-                    }
                     onResult(launchSites);
                 }
             });

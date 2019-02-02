@@ -1,5 +1,7 @@
 package space.infinity.app.utils;
 
+import org.json.JSONObject;
+
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -35,6 +37,10 @@ public class ThreadHelper {
 
     public interface LaunchSitesInterface {
         void onResult(List<LaunchSite> launchSiteList);
+    }
+
+    public interface OnRequestCompleted {
+        void onResult(JSONObject jsonObject, String model);
     }
 
     private Thread thread;

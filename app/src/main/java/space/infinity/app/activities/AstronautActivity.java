@@ -30,7 +30,6 @@ public class AstronautActivity extends AppCompatActivity {
         TextView personalData = findViewById(R.id.personal_data);
         TextView summary = findViewById(R.id.summary);
         TextView experience = findViewById(R.id.experience);
-        TextView education = findViewById(R.id.education);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -43,10 +42,9 @@ public class AstronautActivity extends AppCompatActivity {
                 .apply(RequestOptions.circleCropTransform())
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(imageView);
-        personalData.setText(astronaut.getName().concat("\n").concat(astronaut.getPersonalData()));
+        personalData.setText(astronaut.getName().concat("\n\n").concat(astronaut.getPersonalData()));
         summary.setText(astronaut.getSummary());
         experience.setText(astronaut.getExperience());
-        education.setText(astronaut.getEducation());
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {

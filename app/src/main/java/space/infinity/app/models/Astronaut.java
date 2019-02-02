@@ -27,9 +27,6 @@ public class Astronaut implements Parcelable {
     @ColumnInfo(name = "experience")
     private String experience;
 
-    @ColumnInfo(name = "nasa_experience")
-    private String nasaExperience;
-
     @ColumnInfo(name = "image")
     private String image;
 
@@ -42,7 +39,6 @@ public class Astronaut implements Parcelable {
         summary = in.readString();
         education = in.readString();
         experience = in.readString();
-        nasaExperience = in.readString();
         image = in.readString();
     }
 
@@ -54,7 +50,6 @@ public class Astronaut implements Parcelable {
         dest.writeString(summary);
         dest.writeString(education);
         dest.writeString(experience);
-        dest.writeString(nasaExperience);
         dest.writeString(image);
     }
 
@@ -121,14 +116,6 @@ public class Astronaut implements Parcelable {
 
     public void setExperience(String experience) {
         this.experience = experience;
-    }
-
-    public String getNasaExperience() {
-        return nasaExperience;
-    }
-
-    public void setNasaExperience(String nasaExperience) {
-        this.nasaExperience = nasaExperience;
     }
 
     public String getImage() {

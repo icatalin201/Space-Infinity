@@ -2,24 +2,24 @@ package space.infinity.app.models;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.List;
-
 @Entity(tableName = "launch_sites")
 public class LaunchSite implements Parcelable {
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     private long id;
 
     @ColumnInfo(name = "name")
     private String name;
 
-    @Ignore
-    private List<LaunchSiteLocation> launchSiteLocations;
+    @ColumnInfo(name = "latitude")
+    private double latitude;
+
+    @ColumnInfo(name = "longitude")
+    private double longitude;
 
     @ColumnInfo(name = "image")
     private String image;
@@ -29,7 +29,8 @@ public class LaunchSite implements Parcelable {
     private LaunchSite(Parcel in) {
         id = in.readLong();
         name = in.readString();
-        launchSiteLocations = in.createTypedArrayList(LaunchSiteLocation.CREATOR);
+        latitude = in.readDouble();
+        longitude = in.readDouble();
         image = in.readString();
     }
 
@@ -37,7 +38,8 @@ public class LaunchSite implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeLong(id);
         dest.writeString(name);
-        dest.writeTypedList(launchSiteLocations);
+        dest.writeDouble(latitude);
+        dest.writeDouble(longitude);
         dest.writeString(image);
     }
 
@@ -74,12 +76,20 @@ public class LaunchSite implements Parcelable {
         this.name = name;
     }
 
-    public List<LaunchSiteLocation> getLaunchSiteLocations() {
-        return launchSiteLocations;
+    public double getLatitude() {
+        return latitude;
     }
 
-    public void setLaunchSiteLocations(List<LaunchSiteLocation> launchSiteLocations) {
-        this.launchSiteLocations = launchSiteLocations;
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 
     public String getImage() {

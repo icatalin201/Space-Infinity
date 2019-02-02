@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.eyalbira.loadingdots.LoadingDots;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import space.infinity.app.R;
@@ -72,6 +73,7 @@ public class GalleryActivity extends AppCompatActivity {
 
         @Override
         public void onResult(final List<ImageItem> imageItemList) {
+            Collections.shuffle(imageItemList);
             threadHelper.stopExecutor();
             runOnUiThread(new Runnable() {
                 @Override

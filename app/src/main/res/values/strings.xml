@@ -3,7 +3,9 @@
     <string name="app_short">Space Infinity</string>
     <string name="app_suffix">All About Space</string>
     <string name="credits">Credits: NASA</string>
-    <string name="version">App version: 2.2.7</string>
+    <string name="version">App version: 2.2.8</string>
+
+    <string name="funny">Searching for alien life…</string>
 
     <string name="apod">APOD - Astronomy Picture of the Day</string>
     <string name="images">Image Gallery</string>
@@ -85,6 +87,7 @@
     <string name="missions">Missions</string>
     <string name="rocket">Rocket</string>
     <string name="see_more">See more</string>
-    <string name="voyager_1">Voyager 1</string>
-    <string name="voyager_2">Voyager 2</string>
+    <string name="experience">Experience</string>
+    <string name="info_facts">Facts</string>
+    <string name="follow_on_twitter">Follow on Twitter</string>
 </resources>

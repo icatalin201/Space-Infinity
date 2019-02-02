@@ -12,11 +12,8 @@ public class ImageItem implements Parcelable {
     @PrimaryKey(autoGenerate = true)
     private long id;
 
-    @ColumnInfo(name = "dateCreated")
+    @ColumnInfo(name = "date_created")
     private String dateCreated;
-
-    @ColumnInfo(name = "mediaType")
-    private String mediaType;
 
     @ColumnInfo(name = "description")
     private String description;
@@ -35,7 +32,6 @@ public class ImageItem implements Parcelable {
     private ImageItem(Parcel in) {
         id = in.readLong();
         dateCreated = in.readString();
-        mediaType = in.readString();
         description = in.readString();
         title = in.readString();
         photographer = in.readString();
@@ -46,7 +42,6 @@ public class ImageItem implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeLong(id);
         dest.writeString(dateCreated);
-        dest.writeString(mediaType);
         dest.writeString(description);
         dest.writeString(title);
         dest.writeString(photographer);
@@ -84,14 +79,6 @@ public class ImageItem implements Parcelable {
 
     public void setDateCreated(String dateCreated) {
         this.dateCreated = dateCreated;
-    }
-
-    public String getMediaType() {
-        return mediaType;
-    }
-
-    public void setMediaType(String mediaType) {
-        this.mediaType = mediaType;
     }
 
     public String getDescription() {

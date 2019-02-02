@@ -84,13 +84,6 @@ public class AstronautsActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     List<Astronaut> astronautList = astronautDao.getAstronautList();
-                    for (int i = 0; i < 10; i++) {
-                        Astronaut astronaut = new Astronaut();
-                        astronaut.setName("ASTRONAUTUL");
-                        astronaut.setImage("https://www.nasa.gov/sites/default/files/styles/side_image/public/thumbnails/image/jsc2017e129183.jpg?itok=xghgiK03");
-                        astronaut.setPersonalData("Born in Syracuse, New York. Enjoys traveling, reading, running, mentoring, scuba diving and family.");
-                        astronautList.add(astronaut);
-                    }
                     onResult(astronautList);
                 }
             });
