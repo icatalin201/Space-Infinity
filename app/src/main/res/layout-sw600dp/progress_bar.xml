@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.eyalbira.loadingdots.LoadingDots
+    android:id="@+id/progress_bar"
+    android:layout_margin="16dp"
+    app:LoadingDots_dots_color="@color/white"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:LoadingDots_dots_count="3"
+    app:LoadingDots_dots_size="16dp"
+    app:LoadingDots_dots_space="6dp"
+    app:LoadingDots_auto_play="true"
+    app:LoadingDots_loop_duration="1400"
+    app:LoadingDots_loop_start_delay="100"
+    app:LoadingDots_jump_duration="400"
+    app:LoadingDots_jump_height="8dp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" />

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark"
+    android:fitsSystemWindows="true"
+    tools:context="space.infinity.app.activities.FullscreenActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:theme="@style/AppTheme.Toolbar"
+        android:fitsSystemWindows="true"
+        android:translationZ="1dp"
+        android:minHeight="?attr/actionBarSize"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent">
+
+        <TextView
+            android:id="@+id/toolbar_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="22sp"
+            android:singleLine="true"
+            android:ellipsize="marquee"
+            android:marqueeRepeatLimit ="marquee_forever"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:scrollHorizontally="true"
+            android:textColor="@color/primaryTextColor"/>
+
+    </android.support.v7.widget.Toolbar>
+
+    <com.jsibbold.zoomage.ZoomageView
+        android:id="@+id/full_image"
+        android:fitsSystemWindows="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:zoomage_restrictBounds="false"
+        app:zoomage_animateOnReset="true"
+        app:zoomage_autoResetMode="UNDER"
+        app:zoomage_autoCenter="true"
+        app:zoomage_zoomable="true"
+        app:zoomage_translatable="true"
+        app:zoomage_minScale="0.6"
+        app:zoomage_maxScale="8" />
+
+    <ImageButton
+        android:id="@+id/show"
+        android:contentDescription="@string/description"
+        android:src="@drawable/ic_baseline_keyboard_arrow_up_24px"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:padding="16dp"
+        android:translationZ="1dp"
+        android:onClick="showDesc"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <ImageButton
+        android:id="@+id/hide"
+        app:layout_anchor="@id/scroll"
+        app:layout_anchorGravity="top|center_horizontal"
+        android:contentDescription="@string/description"
+        android:src="@drawable/ic_baseline_keyboard_arrow_down_24px"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:padding="16dp"
+        android:translationZ="1dp"
+        android:visibility="gone"
+        android:onClick="hideDesc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <ScrollView
+        android:layout_gravity="bottom"
+        android:id="@+id/scroll"
+        android:visibility="gone"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:paddingStart="32dp"
+        android:paddingEnd="32dp"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        tools:ignore="UselessParent">
+
+        <TextView
+            android:textIsSelectable="true"
+            android:id="@+id/description"
+            android:textSize="16sp"
+            android:textColor="@color/primaryTextColor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </ScrollView>
+
+</android.support.design.widget.CoordinatorLayout>
