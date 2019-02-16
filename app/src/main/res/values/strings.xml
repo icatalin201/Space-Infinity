@@ -3,7 +3,7 @@
     <string name="app_short">Space Infinity</string>
     <string name="app_suffix">All About Space</string>
     <string name="credits">Credits: NASA</string>
-    <string name="version">App version: 2.2.8</string>
+    <string name="version">App version: 2.2.9</string>
 
     <string name="funny">Searching for alien life…</string>
 
@@ -43,7 +43,7 @@
     <string name="planets">Planets</string>
     <string name="moons">Moons</string>
     <string name="galaxies">Galaxies</string>
-    <string name="others">Others</string>
+    <string name="stars">Stars</string>
     <string name="name">Name:</string>
     <string name="description">Description</string>
     <string name="diameter">Diameter:</string>
@@ -68,7 +68,7 @@
     <string name="detailed_info">Detailed Information</string>
     <string name="search_result">Search Result</string>
     <string name="about">About</string>
-    <string name="no_fav">No favorite facts</string>
+    <string name="no_facts">No space facts here</string>
     <string name="filter">Filter</string>
     <string name="press">Press here to view it</string>
     <string name="share">Share</string>
@@ -90,4 +90,6 @@
     <string name="experience">Experience</string>
     <string name="info_facts">Facts</string>
     <string name="follow_on_twitter">Follow on Twitter</string>
+    <string name="all_facts">All Space Facts</string>
+    <string name="fav_facts">Favorites Space Facts</string>
 </resources>

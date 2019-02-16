@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="favorites">
+        <item>@string/all_facts</item>
+        <item>@string/fav_facts</item>
+    </array>
+</resources>
