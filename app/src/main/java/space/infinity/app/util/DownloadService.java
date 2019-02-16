@@ -73,7 +73,6 @@ public class DownloadService extends IntentService {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        appDatabase.close();
     }
 
     @Override
@@ -224,6 +223,7 @@ public class DownloadService extends IntentService {
                 JSONObject jsonObject1 = jsonArray.getJSONObject(i);
                 ImageItem imageItem = new ImageItem();
                 imageItem.setImage(jsonObject1.getString("image"));
+                imageItem.setHdImage(jsonObject1.getString("hd_image"));
                 imageItem.setTitle(jsonObject1.getString("title"));
                 imageItem.setDescription(jsonObject1.getString("description"));
                 imageItem.setDateCreated(jsonObject1.getString("date_created"));

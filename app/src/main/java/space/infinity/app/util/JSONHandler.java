@@ -26,6 +26,7 @@ public class JSONHandler {
                 stringBuilder.append(line);
             }
             bufferedReader.close();
+            httpURLConnection.disconnect();
             return new JSONObject(stringBuilder.toString());
         } catch (IOException | JSONException e) {
             e.printStackTrace();

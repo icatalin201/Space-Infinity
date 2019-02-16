@@ -22,7 +22,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import space.infinity.app.R;
 import space.infinity.app.model.entity.ImageItem;
-import space.infinity.app.model.network.CheckingConnection;
+import space.infinity.app.util.CheckingConnection;
 import space.infinity.app.util.Constants;
 import space.infinity.app.util.DownloadImage;
 
@@ -31,10 +31,6 @@ public class ApodActivity extends AppCompatActivity {
     private ImageView image;
     private TextView credits;
     private TextView description;
-
-    private String img;
-    private String name;
-
     private ImageItem imageItem;
 
     @Override
@@ -51,9 +47,7 @@ public class ApodActivity extends AppCompatActivity {
         } else {
             imageItem = savedInstanceState.getParcelable(Constants.IMAGE);
         }
-        img = imageItem.getImage();
-        name = imageItem.getTitle();
-        toolbartitle.setText(name);
+        toolbartitle.setText(imageItem.getTitle());
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -66,6 +60,7 @@ public class ApodActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(ApodActivity.this, FullscreenActivity.class);
                 intent.putExtra("path", imageItem.getImage());
+                intent.putExtra("hdpath", imageItem.getHdImage());
                 intent.putExtra("desc", imageItem.getDescription());
                 intent.putExtra("name", imageItem.getTitle());
                 startActivity(intent);
@@ -84,7 +79,7 @@ public class ApodActivity extends AppCompatActivity {
         String copyright = getResources().getString(R.string.author);
         if (imageItem.getPhotographer() != null) {
             copyright = copyright.concat(" ")
-                    .concat(imageItem.getPhotographer());
+                    .concat(imageItem.getPhotographer().replace("\n", " "));
         }
         credits.setText(copyright);
         Glide.with(this)
@@ -127,7 +122,7 @@ public class ApodActivity extends AppCompatActivity {
                 Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
             if (CheckingConnection.isConnected(this)) {
                 Toast.makeText(this, R.string.download, Toast.LENGTH_SHORT).show();
-                new DownloadImage(getApplication(), img, name).execute();
+                new DownloadImage(getApplication(), imageItem.getHdImage(), imageItem.getTitle()).execute();
             } else {
                 Toast.makeText(this, "No Internet Connection", Toast.LENGTH_LONG).show();
             }
@@ -145,7 +140,7 @@ public class ApodActivity extends AppCompatActivity {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 if (CheckingConnection.isConnected(this)) {
                     Toast.makeText(this, R.string.download, Toast.LENGTH_SHORT).show();
-                    new DownloadImage(getApplication(), img, name).execute();
+                    new DownloadImage(getApplication(), imageItem.getHdImage(), imageItem.getTitle()).execute();
                 } else {
                     Toast.makeText(this, "No Internet Connection", Toast.LENGTH_LONG).show();
                 }

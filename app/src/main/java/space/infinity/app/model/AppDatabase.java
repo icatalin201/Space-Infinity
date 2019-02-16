@@ -8,7 +8,6 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 import space.infinity.app.model.dao.AstronautDao;
-import space.infinity.app.model.dao.CosmicDao;
 import space.infinity.app.model.dao.GalaxyDao;
 import space.infinity.app.model.dao.ImageItemDao;
 import space.infinity.app.model.dao.LaunchSiteDao;
@@ -41,7 +40,6 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract PlanetDao getPlanetDao();
     public abstract SpaceFactDao getSpaceFactDao();
     public abstract StarDao getStarDao();
-    public abstract CosmicDao getCosmicDao();
     public abstract AstronautDao getAstronautDao();
     public abstract LaunchSiteDao getLaunchSiteDao();
     public abstract VoyagerDao getVoyagerDao();

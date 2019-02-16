@@ -37,5 +37,8 @@ public interface SpaceFactDao {
 
     @Query(value = "select * from space_facts;")
     LiveData<List<SpaceFact>> getSpaceFactList();
+
+    @Query(value = "select * from space_facts where is_favorite = 1;")
+    LiveData<List<SpaceFact>> getFavoriteSpaceFactList();
     
 }

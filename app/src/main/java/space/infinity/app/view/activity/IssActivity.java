@@ -1,12 +1,9 @@
 package space.infinity.app.view.activity;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -18,28 +15,13 @@ import android.widget.TextView;
 import com.eyalbira.loadingdots.LoadingDots;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdate;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -58,230 +40,91 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import space.infinity.app.R;
-import space.infinity.app.model.network.CheckingConnection;
-import space.infinity.app.util.Constants;
+import space.infinity.app.util.CheckingConnection;
+import space.infinity.app.model.repository.ISSRepository;
 import space.infinity.app.util.Helper;
 import space.infinity.app.viewmodel.adapters.ISSCrewAdapter;
 
-public class IssActivity extends AppCompatActivity {
+public class IssActivity extends AppCompatActivity
+        implements ISSRepository.ISSCallback, OnMapReadyCallback {
 
-    private class ActivityHelper
-            extends space.infinity.app.model.entity.ActivityHelper
-            implements OnMapReadyCallback {
-
-        @SuppressLint("StaticFieldLeak")
-        private class GetData extends AsyncTask<String, Void, JSONObject> {
-
-            private GoogleMap googleMap;
-
-            GetData(GoogleMap googleMap) {
-                this.googleMap = googleMap;
-            }
-
+    @Override
+    public void onIssPass(String date) {
+        final Snackbar snackbar = Snackbar
+                .make(coordinator, getResources().getString(R.string.iss_pass_result)
+                        .concat("\n").concat(date), Snackbar.LENGTH_INDEFINITE);
+        snackbar.setAction("OK", new View.OnClickListener() {
             @Override
-            protected JSONObject doInBackground(String... strings) {
-
-                String urlString = null;
-                switch (strings.length) {
-                    case 1:
-                        urlString = strings[0];
-                        break;
-                }
-                StringBuilder stringBuilder = new StringBuilder();
-                HttpURLConnection httpURLConnection;
-                URL url;
-                JSONObject json = null;
-                BufferedReader reader;
-                try {
-                    url = new URL(urlString);
-                    httpURLConnection = (HttpURLConnection) url.openConnection();
-                    reader = new BufferedReader(new InputStreamReader(httpURLConnection
-                            .getInputStream(), "iso-8859-1"), 8);
-                    String line;
-                    while ((line = reader.readLine()) != null) {
-                        stringBuilder.append(line);
-                    }
-                    reader.close();
-                    httpURLConnection.disconnect();
-                    json = new JSONObject(stringBuilder.toString());
-                } catch (IOException | JSONException e) {
-                    e.printStackTrace();
-                }
-                return json;
+            public void onClick(View view) {
+                snackbar.dismiss();
             }
+        });
+        snackbar.setActionTextColor(getResources().getColor(R.color.primaryTextColor));
+        snackbar.show();
+    }
 
-            @Override
-            protected void onPostExecute(JSONObject jsonObject) {
-                super.onPostExecute(jsonObject);
-                try {
-                    DecimalFormat numberFormat = new DecimalFormat("#.00");
-                    String velo = getResources().getString(R.string.velocity).concat(": ")
-                            .concat(numberFormat.format(jsonObject
-                                    .getDouble("velocity")).concat(" km/h"));
-                    String alti = getResources().getString(R.string.altitude).concat(": ")
-                            .concat(numberFormat.format(jsonObject
-                                    .getDouble("altitude")).concat(" km"));
-                    LatLng location = new LatLng(jsonObject.getDouble("latitude"),
-                            jsonObject.getDouble("longitude"));
-                    String date = "Updated at: ".concat(Helper.dateToString(Calendar.getInstance()));
-                    velocity.setText(velo);
-                    altitude.setText(alti);
-                    updatedAt.setText(date);
-                    Helper.setAnimationForAll(getContext(), velocity);
-                    Helper.setAnimationForAll(getContext(), altitude);
-                    Helper.setAnimationForAll(getContext(), updatedAt);
-                    updateLocation(location, googleMap);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    Snackbar snackbar = Snackbar
-                        .make(coordinator, "Unexpected error has occured.",
-                                Snackbar.LENGTH_LONG)
-                        .setAction("Retry", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                recreate();
-                            }
-                        });
-                    snackbar.setActionTextColor(getResources().getColor(R.color.primaryTextColor));
-                    snackbar.show();
-                }
-            }
-        }
-
-        private Marker marker;
-        private ScheduledExecutorService executorService;
-
-        ActivityHelper(Context context) {
-            super(context);
-            executorService = Executors.newSingleThreadScheduledExecutor();
-        }
-
-        @Override
-        public void onStart() {
-            mapFragment.getMapAsync(this);
-        }
-
-        @Override
-        public void onDestroy() {
-            executorService.shutdown();
-        }
-
-        @Override
-        public void showLayout() {
-            progressBar.setVisibility(View.GONE);
-            content.setVisibility(View.VISIBLE);
-        }
-
-        @Override
-        public void onMapReady(GoogleMap googleMap) {
-            googleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
-            googleMap.getUiSettings().setZoomGesturesEnabled(false);
-//            googleMap.getUiSettings().setAllGesturesEnabled(false);
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    StringBuilder stringBuilder = new StringBuilder();
-                    HttpURLConnection httpURLConnection;
-                    URL url;
-                    JSONObject json;
-                    BufferedReader reader;
-                    try {
-                        url = new URL(Constants.ISS_CREW);
-                        httpURLConnection = (HttpURLConnection) url.openConnection();
-                        reader = new BufferedReader(new InputStreamReader(httpURLConnection
-                                .getInputStream(), "iso-8859-1"), 8);
-                        String line;
-                        while ((line = reader.readLine()) != null) {
-                            stringBuilder.append(line);
-                        }
-                        reader.close();
-                        httpURLConnection.disconnect();
-                        json = new JSONObject(stringBuilder.toString());
-                        JSONArray jsonArray = json.getJSONArray("people");
-                        final List<String> crewList = new ArrayList<>();
-                        for (int i = 0; i < jsonArray.length(); i++) {
-                            crewList.add(jsonArray.getJSONObject(i).getString("name"));
-                        }
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                issCrewAdapter.add(crewList);
-                                showLayout();
-                            }
-                        });
-                    } catch (IOException | JSONException e) {
-                        e.printStackTrace();
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                            Snackbar snackbar = Snackbar
-                                .make(coordinator, getResources().getString(R.string.isserror), Snackbar.LENGTH_INDEFINITE)
-                                .setAction("Retry", new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
-                                        findIssPass();
-                                    }
-                                });
-                            snackbar.setActionTextColor(getResources().getColor(R.color.primaryTextColor));
-                            snackbar.show();
-                            }
-                        });
-                    }
-                }
-            }).start();
-            getSomeData(googleMap);
-        }
-
-        private void getSomeData(final GoogleMap googleMap) {
-            if (CheckingConnection.isConnected(getContext())) {
-                executorService.scheduleAtFixedRate(new Runnable() {
+    @Override
+    public void onIssPassFailure() {
+        Snackbar snackbar = Snackbar
+                .make(coordinator, getResources().getString(R.string.isserror), 8000)
+                .setAction("Retry", new View.OnClickListener() {
                     @Override
-                    public void run() {
-                        Log.i("location", "updated");
-                        new GetData(googleMap).execute(Constants.ISS_NOW);
+                    public void onClick(View view) {
+                        findIssPass();
                     }
-                }, 0, 5, TimeUnit.SECONDS);
-            }
-            else {
-                Snackbar snackbar = Snackbar
-                        .make(coordinator, "No Internet Connection", Snackbar.LENGTH_INDEFINITE)
-                        .setAction("Retry", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                recreate();
-                            }
-                        });
-                snackbar.setActionTextColor(getResources().getColor(R.color.primaryTextColor));
-                snackbar.show();
-            }
-        }
+                });
+        snackbar.setActionTextColor(getResources().getColor(R.color.primaryTextColor));
+        snackbar.show();
+    }
 
-        void updateLocation(LatLng location, GoogleMap googleMap) {
-            if (googleMap == null) return;
-            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(location, 3.0f);
-            googleMap.animateCamera(cameraUpdate);
-            if(marker == null) {
-                marker = googleMap.addMarker(new MarkerOptions().position(location)
-                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.iss))
-                        .zIndex(3.0f).title("International Space Station"));
+    @Override
+    public void onGetAstronauts(final List<String> crewList) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                issCrewAdapter.add(crewList);
+                progressBar.setVisibility(View.GONE);
+                content.setVisibility(View.VISIBLE);
             }
-            else {
-                marker.setPosition(location);
-            }
-            marker.setVisible(true);
-        }
+        });
+    }
+
+    @Override
+    public void onFailure() {
+        Snackbar snackbar = Snackbar
+                .make(coordinator, "Unexpected error has occured.",
+                        Snackbar.LENGTH_LONG)
+                .setAction("Retry", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        recreate();
+                    }
+                });
+        snackbar.setActionTextColor(getResources().getColor(R.color.primaryTextColor));
+        snackbar.show();
+    }
+
+    @Override
+    public void onUpdatePosition(LatLng latLng, String v, String a) {
+        String date = "Updated at: ".concat(Helper.dateToString(Calendar.getInstance()));
+        velocity.setText(String.format("%s: %s km/h", getString(R.string.velocity), v));
+        altitude.setText(String.format("%s: %s km", getString(R.string.altitude), a));
+        updatedAt.setText(date);
+        Helper.setAnimationForAll(this, velocity);
+        Helper.setAnimationForAll(this, altitude);
+        Helper.setAnimationForAll(this, updatedAt);
     }
 
     private LoadingDots progressBar;
     private LinearLayout content;
-    private SupportMapFragment mapFragment;
     private TextView velocity;
     private TextView altitude;
     private TextView updatedAt;
     private CoordinatorLayout coordinator;
-    private ActivityHelper activityHelper;
     private ISSCrewAdapter issCrewAdapter;
     private FusedLocationProviderClient fusedLocationProviderClient;
+    private ISSRepository issRepository;
+    private ScheduledExecutorService executorService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -308,11 +151,14 @@ public class IssActivity extends AppCompatActivity {
             actionBar.setHomeAsUpIndicator(R.drawable.ic_baseline_keyboard_backspace_24px);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-        mapFragment = (SupportMapFragment) getSupportFragmentManager()
+        executorService = Executors.newSingleThreadScheduledExecutor();
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map_view);
-        activityHelper = new ActivityHelper(this);
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-        activityHelper.onStart();
+        issRepository = new ISSRepository(this);
+        if (mapFragment != null) {
+            mapFragment.getMapAsync(this);
+        }
     }
 
     @Override
@@ -327,23 +173,7 @@ public class IssActivity extends AppCompatActivity {
                         new OnSuccessListener<Location>() {
                             @Override
                             public void onSuccess(Location location) {
-                                if (location != null) {
-                                    Log.i("locationn", location.toString());
-                                    issPass(location);
-                                } else {
-                                    Snackbar snackbar = Snackbar
-                                            .make(coordinator, getResources()
-                                                    .getString(R.string.isserror), 8000)
-                                            .setAction("Retry", new View.OnClickListener() {
-                                                @Override
-                                                public void onClick(View view) {
-                                                    findIssPass();
-                                                }
-                                            });
-                                    snackbar.setActionTextColor(getResources()
-                                            .getColor(R.color.primaryTextColor));
-                                    snackbar.show();
-                                }
+                                issRepository.issPass(location);
                             }
                         });
             }
@@ -366,93 +196,10 @@ public class IssActivity extends AppCompatActivity {
                     new OnSuccessListener<Location>() {
                         @Override
                         public void onSuccess(Location location) {
-                            if (location != null) {
-                                Log.i("locationn", location.toString());
-                                issPass(location);
-                            } else {
-                                Snackbar snackbar = Snackbar
-                                        .make(coordinator, getResources()
-                                                .getString(R.string.isserror), 8000)
-                                        .setAction("Retry", new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View view) {
-                                                findIssPass();
-                                            }
-                                        });
-                                snackbar.setActionTextColor(getResources()
-                                        .getColor(R.color.primaryTextColor));
-                                snackbar.show();
-                            }
+                            issRepository.issPass(location);
                         }
                     });
         }
-    }
-
-    private void issPass(Location location) {
-        Double latitude = location.getLatitude();
-        Double longitude = location.getLongitude();
-        final String params = "lat=".concat(latitude.toString())
-                .concat("&lon=").concat(longitude.toString())
-                .concat("&n=3");
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                StringBuilder stringBuilder = new StringBuilder();
-                HttpURLConnection httpURLConnection;
-                URL url;
-                JSONObject json;
-                BufferedReader reader;
-                try {
-                    url = new URL(Constants.ISS_PASS.concat(params));
-                    httpURLConnection = (HttpURLConnection) url.openConnection();
-                    reader = new BufferedReader(new InputStreamReader(httpURLConnection
-                            .getInputStream(), "iso-8859-1"), 8);
-                    String line;
-                    while ((line = reader.readLine()) != null) {
-                        stringBuilder.append(line);
-                    }
-                    reader.close();
-                    httpURLConnection.disconnect();
-                    json = new JSONObject(stringBuilder.toString());
-                    JSONArray jsonArray = json.getJSONArray("response");
-                    JSONObject object = (JSONObject) jsonArray.get(0);
-                    final String date = Helper.unixToDate(object.getLong("risetime"));
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            final Snackbar snackbar = Snackbar
-                                    .make(coordinator, getResources().getString(R.string.iss_pass_result)
-                                            .concat("\n").concat(date), Snackbar.LENGTH_INDEFINITE);
-                            snackbar.setAction("OK", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    snackbar.dismiss();
-                                }
-                            });
-                            snackbar.setActionTextColor(getResources().getColor(R.color.primaryTextColor));
-                            snackbar.show();
-                        }
-                    });
-                } catch (IOException | JSONException e) {
-                    e.printStackTrace();
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Snackbar snackbar = Snackbar
-                                    .make(coordinator, getResources().getString(R.string.isserror), 8000)
-                                    .setAction("Retry", new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View view) {
-                                            findIssPass();
-                                        }
-                                    });
-                            snackbar.setActionTextColor(getResources().getColor(R.color.primaryTextColor));
-                            snackbar.show();
-                        }
-                    });
-                }
-            }
-        }).start();
     }
 
     @Override
@@ -476,13 +223,39 @@ public class IssActivity extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-        finish();
+        onBackPressed();
         return true;
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        activityHelper.onDestroy();
+        executorService.shutdown();
+    }
+
+    @Override
+    public void onMapReady(final GoogleMap googleMap) {
+        googleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+        googleMap.getUiSettings().setZoomGesturesEnabled(false);
+        if (CheckingConnection.isConnected(this)) {
+            issRepository.getAstronautsInSpace();
+            executorService.scheduleAtFixedRate(new Runnable() {
+                @Override
+                public void run() {
+                    issRepository.updatePosition(googleMap);
+                }
+            }, 0, 5, TimeUnit.SECONDS);
+        } else {
+            Snackbar snackbar = Snackbar
+                    .make(coordinator, "No Internet Connection", Snackbar.LENGTH_INDEFINITE)
+                    .setAction("Retry", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            recreate();
+                        }
+                    });
+            snackbar.setActionTextColor(getResources().getColor(R.color.primaryTextColor));
+            snackbar.show();
+        }
     }
 }

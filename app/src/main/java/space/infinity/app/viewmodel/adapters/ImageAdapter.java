@@ -86,6 +86,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ApodViewHold
                     ImageItem imageItem = imageItemList.get(getAdapterPosition());
                     Intent intent = new Intent(context, FullscreenActivity.class);
                     intent.putExtra("path", imageItem.getImage());
+                    intent.putExtra("hdpath", imageItem.getHdImage());
                     intent.putExtra("desc", imageItem.getDescription());
                     intent.putExtra("name", imageItem.getTitle());
                     context.startActivity(intent);

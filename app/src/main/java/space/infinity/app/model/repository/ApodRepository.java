@@ -1,6 +1,8 @@
 package space.infinity.app.model.repository;
 
 import android.app.Application;
+import android.os.Handler;
+import android.os.Looper;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -20,12 +22,11 @@ public class ApodRepository {
         void onFailure(String message);
     }
 
-    private ImageItemDao imageItemDao;
+    private ImageItemRepository imageItemRepository;
     private ApodCallback apodCallback;
 
     public ApodRepository(Application application, ApodCallback apodCallback) {
-        AppDatabase appDatabase = AppDatabase.getInstance(application);
-        imageItemDao = appDatabase.getImageItemDao();
+        imageItemRepository = new ImageItemRepository(application);
         this.apodCallback = apodCallback;
     }
 
@@ -52,6 +53,7 @@ public class ApodRepository {
                     imageItem.setHdImage(apod.getHdurl());
                     imageItem.setPhotographer(apod.getCopyright());
                     imageItem.setTitle(apod.getTitle());
+                    imageItemRepository.insert(imageItem);
                     apodCallback.onSuccess(imageItem);
                 } else {
                     getImageFromDb();
@@ -69,8 +71,14 @@ public class ApodRepository {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                ImageItem imageItem = imageItemDao.getLastImage();
-                apodCallback.onSuccess(imageItem);
+                final ImageItem imageItem = imageItemRepository.getLastImage();
+                Handler handler = new Handler(Looper.getMainLooper());
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        apodCallback.onSuccess(imageItem);
+                    }
+                });
             }
         }).start();
     }

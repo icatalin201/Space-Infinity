@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.eyalbira.loadingdots.LoadingDots;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import androidx.appcompat.app.ActionBar;
@@ -25,7 +26,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import space.infinity.app.R;
 import space.infinity.app.model.entity.ImageItem;
-import space.infinity.app.model.network.CheckingConnection;
+import space.infinity.app.util.CheckingConnection;
 import space.infinity.app.viewmodel.ImageItemViewModel;
 import space.infinity.app.viewmodel.adapters.ImageAdapter;
 
@@ -61,6 +62,7 @@ public class GalleryActivity extends AppCompatActivity {
         imageItemViewModel.getImageItems().observe(this, new Observer<List<ImageItem>>() {
             @Override
             public void onChanged(List<ImageItem> imageItems) {
+                Collections.shuffle(imageItems);
                 imageAdapter.add(imageItems);
                 progressBar.setVisibility(View.GONE);
                 recyclerView.setVisibility(View.VISIBLE);

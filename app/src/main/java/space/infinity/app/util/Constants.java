@@ -7,7 +7,7 @@ package space.infinity.app.util;
 public class Constants {
 
     public static final String CHANNEL_ID = "space_infinity_channel_01";
-    public static final String FIRST_TIME_FLAG = "is_first_time_app";
+    public static final String FIRST_TIME_FLAG = "is_first_time_app_1";
     public final static String API_KEY = "BST2Npgb7FKgBIVzIW2Dd3qARcQbwgk1jdY5Hc28";
     public final static String NASA_URL = "https://api.nasa.gov/";
     public final static String NASA_IMAGE_URL = "https://images-api.nasa.gov/";

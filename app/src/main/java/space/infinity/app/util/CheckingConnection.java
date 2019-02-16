@@ -1,4 +1,4 @@
-package space.infinity.app.model.network;
+package space.infinity.app.util;
 
 import android.content.Context;
 import android.net.ConnectivityManager;

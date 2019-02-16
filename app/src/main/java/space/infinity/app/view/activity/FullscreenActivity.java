@@ -1,15 +1,8 @@
 package space.infinity.app.view.activity;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.Menu;
@@ -27,25 +20,19 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.jsibbold.zoomage.ZoomageView;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import space.infinity.app.R;
-import space.infinity.app.model.network.CheckingConnection;
+import space.infinity.app.util.CheckingConnection;
 import space.infinity.app.util.DownloadImage;
-import space.infinity.app.util.Helper;
 
 public class FullscreenActivity extends AppCompatActivity {
 
     private ZoomageView image;
+    private String hdpath;
     private String path;
     private String name;
     private ScrollView scrollView;
@@ -71,6 +58,7 @@ public class FullscreenActivity extends AppCompatActivity {
         show = findViewById(R.id.show);
         scrollView = findViewById(R.id.scroll);
         path = getIntent().getStringExtra("path");
+        hdpath = getIntent().getStringExtra("hdpath");
         String desc = getIntent().getStringExtra("desc");
         name = getIntent().getStringExtra("name");
         Glide.with(this)
@@ -166,7 +154,8 @@ public class FullscreenActivity extends AppCompatActivity {
                 Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
             if (CheckingConnection.isConnected(this)) {
                 Toast.makeText(this, R.string.download, Toast.LENGTH_SHORT).show();
-                new DownloadImage(getApplication(), path, name).execute();
+                String p = hdpath == null ? path : hdpath;
+                new DownloadImage(getApplication(), p, name).execute();
             } else {
                 Toast.makeText(this, "No Internet Connection", Toast.LENGTH_LONG).show();
             }
@@ -184,7 +173,8 @@ public class FullscreenActivity extends AppCompatActivity {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 if (CheckingConnection.isConnected(this)) {
                     Toast.makeText(this, R.string.download, Toast.LENGTH_SHORT).show();
-                    new DownloadImage(getApplication(), path, name).execute();
+                    String p = hdpath == null ? path : hdpath;
+                    new DownloadImage(getApplication(), p, name).execute();
                 } else {
                     Toast.makeText(this, "No Internet Connection", Toast.LENGTH_LONG).show();
                 }

@@ -51,4 +51,7 @@ public class ImageItemRepository {
         return this.imageItems;
     }
 
+    public ImageItem getLastImage() {
+        return imageItemDao.getLastImage();
+    }
 }

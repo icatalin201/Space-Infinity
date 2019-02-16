@@ -1,6 +1,5 @@
 package space.infinity.app.view.activity;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.AnimationUtils;
@@ -18,31 +17,19 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import space.infinity.app.R;
 import space.infinity.app.model.entity.LaunchRocket;
-import space.infinity.app.model.entity.LaunchRocketsResponse;
-import space.infinity.app.model.network.Client;
-import space.infinity.app.model.network.Service;
-import space.infinity.app.util.Constants;
+import space.infinity.app.model.repository.RocketsRepository;
 import space.infinity.app.viewmodel.adapters.RocketAdapter;
 
-public class RocketsActivity extends AppCompatActivity {
+public class RocketsActivity extends AppCompatActivity implements RocketsRepository.RocketCallback {
 
     private LoadingDots progressBar;
     private RecyclerView recyclerView;
-    private ActivityHelper activityHelper;
     private RocketAdapter rocketAdapter;
     private CoordinatorLayout coordinatorLayout;
-
-    private boolean pagesOver = false;
-    private int offset = 0;
-    private boolean loading = true;
-    private int previousTotal = 0;
+    private RocketsRepository rocketsRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +43,7 @@ public class RocketsActivity extends AppCompatActivity {
             actionBar.setHomeAsUpIndicator(R.drawable.ic_baseline_keyboard_backspace_24px);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+        rocketsRepository = new RocketsRepository(this);
         coordinatorLayout = findViewById(R.id.coordinator);
         progressBar = findViewById(R.id.progress_bar);
         recyclerView = findViewById(R.id.recycler);
@@ -67,20 +55,18 @@ public class RocketsActivity extends AppCompatActivity {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setLayoutAnimation(AnimationUtils
                 .loadLayoutAnimation(this, R.anim.layout_animation_down));
-        activityHelper = new ActivityHelper(this);
-        activityHelper.onStart();
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                activityHelper.handleScroll(gridLayoutManager);
+                rocketsRepository.handleScroll(gridLayoutManager);
             }
         });
+        rocketsRepository.start();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        activityHelper.onDestroy();
     }
 
     @Override
@@ -89,81 +75,34 @@ public class RocketsActivity extends AppCompatActivity {
         return super.onSupportNavigateUp();
     }
 
-    private class ActivityHelper
-            extends space.infinity.app.model.entity.ActivityHelper {
+    @Override
+    public void onSuccess(List<LaunchRocket> rocketList) {
+        rocketAdapter.add(rocketList);
+        progressBar.setVisibility(View.GONE);
+        recyclerView.setAlpha(1.0f);
+        recyclerView.setVisibility(View.VISIBLE);
+    }
 
-        ActivityHelper(Context context) {
-            super(context);
-        }
-
-        void handleScroll(LinearLayoutManager linearLayoutManager) {
-            int visibleItemCount = linearLayoutManager.getChildCount();
-            int totalItemCount = linearLayoutManager.getItemCount();
-            int firstVisibleItem = linearLayoutManager.findFirstVisibleItemPosition();
-            if (loading) {
-                if (totalItemCount > previousTotal) {
-                    loading = false;
-                    previousTotal = totalItemCount;
-                }
-            }
-            int visibleThreshold = 5;
-            if (!loading && (totalItemCount - visibleItemCount) <=
-                    (firstVisibleItem + visibleThreshold)) {
-                onStart();
-                loading = true;
-            }
-        }
-
-        @Override
-        public void onStart() {
-            if (pagesOver) return;
-            progressBar.setVisibility(View.VISIBLE);
-            recyclerView.setAlpha(0.3f);
-            Call<LaunchRocketsResponse> call = Client
-                    .getRetrofitClient(Constants.LAUNCH_LIBRARY_API)
-                    .create(Service.class).getRockets(offset, 50);
-            call.enqueue(new Callback<LaunchRocketsResponse>() {
-                @Override
-                public void onResponse(Call<LaunchRocketsResponse> call,
-                                       Response<LaunchRocketsResponse> response) {
-                    if (response.body() != null) {
-                        List<LaunchRocket> rockets = response.body().getRockets();
-                        rocketAdapter.add(rockets);
-                        offset += 50;
+    @Override
+    public void onFailure(String message) {
+        progressBar.setVisibility(View.GONE);
+        recyclerView.setAlpha(1.0f);
+        recyclerView.setVisibility(View.VISIBLE);
+        Snackbar snackbar = Snackbar
+                .make(coordinatorLayout, "Unexpected error has occured.",
+                        Snackbar.LENGTH_LONG)
+                .setAction("Retry", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        recreate();
                     }
-                    else {
-                        pagesOver = true;
-                    }
-                    showLayout();
-                }
+                });
+        snackbar.setActionTextColor(getResources().getColor(R.color.primaryTextColor));
+        snackbar.show();
+    }
 
-                @Override
-                public void onFailure(Call<LaunchRocketsResponse> call, Throwable t) {
-                    t.printStackTrace();
-                    showLayout();
-                    Snackbar snackbar = Snackbar
-                            .make(coordinatorLayout, "Unexpected error has occured.",
-                                    Snackbar.LENGTH_LONG)
-                            .setAction("Retry", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    recreate();
-                                }
-                            });
-                    snackbar.setActionTextColor(getResources().getColor(R.color.primaryTextColor));
-                    snackbar.show();
-                }
-            });
-        }
+    @Override
+    public void onLoading() {
 
-        @Override
-        public void onDestroy() { }
-
-        @Override
-        public void showLayout() {
-            progressBar.setVisibility(View.GONE);
-            recyclerView.setAlpha(1.0f);
-            recyclerView.setVisibility(View.VISIBLE);
-        }
     }
 }

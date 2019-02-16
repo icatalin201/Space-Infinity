@@ -4,9 +4,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/share_fact"
-        android:title="@string/share"
-        android:icon="@drawable/ic_baseline_share_24px"
+        android:id="@+id/filter"
+        android:title="@string/filter"
+        android:icon="@drawable/ic_baseline_filter_list_24px"
         app:showAsAction="always"/>
 
 </menu>
