@@ -82,7 +82,10 @@
 
             <ImageButton
                 android:id="@+id/favorite"
-                android:padding="10dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
                 android:contentDescription="@string/favs"
                 android:src="@drawable/ic_baseline_favorite_border_24px"
                 android:background="?attr/selectableItemBackgroundBorderless"
@@ -91,7 +94,10 @@
 
             <ImageButton
                 android:id="@+id/share"
-                android:padding="10dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
                 android:contentDescription="@string/share"
                 android:tint="@color/colorAccent"
                 android:src="@drawable/ic_baseline_share_24px"

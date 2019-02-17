@@ -16,6 +16,9 @@ public class SpaceFact {
     @ColumnInfo(name = "is_favorite")
     private boolean isFavorite;
 
+    @ColumnInfo(name = "number")
+    private long number;
+
     public SpaceFact() { }
 
     public long getId() {
@@ -40,5 +43,13 @@ public class SpaceFact {
 
     public void setFavorite(boolean favorite) {
         isFavorite = favorite;
+    }
+
+    public long getNumber() {
+        return number;
+    }
+
+    public void setNumber(long number) {
+        this.number = number;
     }
 }

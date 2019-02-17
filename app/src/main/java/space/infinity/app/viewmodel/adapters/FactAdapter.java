@@ -58,7 +58,7 @@ public class FactAdapter extends ListAdapter<SpaceFact, FactAdapter.FactViewHold
 //
 //        holder.cardView.getLayoutParams().width = width * 2 / 3;
         SpaceFact spaceFact = getSpaceFactAt(position);
-        holder.number.setText(String.format("Space fact #%s", spaceFact.getId()));
+        holder.number.setText(String.format("Space fact #%s", spaceFact.getNumber()));
         holder.text.setText(spaceFact.getName());
         if (spaceFact.isFavorite()) {
             holder.favorite.setImageResource(R.drawable.ic_baseline_favorite_24px);

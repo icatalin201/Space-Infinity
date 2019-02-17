@@ -268,6 +268,7 @@ public class DownloadService extends IntentService {
                 SpaceFact spaceFact = new SpaceFact();
                 spaceFact.setName(jsonObject1.getString("name"));
                 spaceFact.setFavorite(false);
+                spaceFact.setNumber(i + 1);
                 spaceFactDao.insert(spaceFact);
             }
         } catch (JSONException e) {
