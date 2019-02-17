@@ -4,9 +4,4 @@
 /.gradle
 /gradle
 /captures
-
 app/release/
-
-*.gradle
-
-*.properties
