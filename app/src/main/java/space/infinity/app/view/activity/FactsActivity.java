@@ -3,6 +3,7 @@ package space.infinity.app.view.activity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.AnimationUtils;
+import android.widget.RelativeLayout;
 
 import com.eyalbira.loadingdots.LoadingDots;
 
@@ -28,8 +29,8 @@ import space.infinity.app.viewmodel.adapters.FactAdapter;
 public class FactsActivity extends AppCompatActivity implements OnItemClickListener {
 
     private LoadingDots progressBar;
-    private RecyclerView recyclerView;
     private FactAdapter factAdapter;
+    private RecyclerView recyclerView;
     private SpaceFactViewModel spaceFactViewModel;
 
     @Override
@@ -47,27 +48,36 @@ public class FactsActivity extends AppCompatActivity implements OnItemClickListe
         factAdapter = new FactAdapter(this);
         recyclerView = findViewById(R.id.recycler);
         recyclerView.setAdapter(factAdapter);
-        recyclerView.setHasFixedSize(false);
-        SnapHelper snapHelper = new PagerSnapHelper();
-        snapHelper.attachToRecyclerView(recyclerView);
+        recyclerView.setHasFixedSize(true);
+//        SnapHelper snapHelper = new PagerSnapHelper();
+//        snapHelper.attachToRecyclerView(recyclerView);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setLayoutAnimation(AnimationUtils
                 .loadLayoutAnimation(this, R.anim.layout_animation_down));
         recyclerView.setLayoutManager(new LinearLayoutManager(this,
-                RecyclerView.HORIZONTAL, false));
+                RecyclerView.VERTICAL, false));
         progressBar = findViewById(R.id.progress_bar);
         spaceFactViewModel = ViewModelProviders.of(this)
                 .get(SpaceFactViewModel.class);
         spaceFactViewModel.getSpaceFacts().observe(this, new Observer<List<SpaceFact>>() {
             @Override
             public void onChanged(List<SpaceFact> spaceFacts) {
-                Collections.shuffle(spaceFacts);
                 factAdapter.submitList(spaceFacts);
                 progressBar.setVisibility(View.GONE);
                 recyclerView.setVisibility(View.VISIBLE);
             }
         });
     }
+
+//    public void next(View view) {
+//        int position = recyclerView.getVerticalScrollbarPosition();
+//        recyclerView.scrollToPosition(position + 1);
+//    }
+//
+//    public void prev(View view) {
+//        int position = recyclerView.getVerticalScrollbarPosition();
+//        recyclerView.scrollToPosition(position - 1);
+//    }
 
     @Override
     protected void onDestroy() {

@@ -3,10 +3,10 @@
 
     <item android:drawable="@color/colorPrimary" />
     <item
-        android:width="100dp"
-        android:height="100dp"
+        android:width="90dp"
+        android:height="90dp"
         android:gravity="center">
-        <bitmap android:src="@mipmap/ic_launcher" />
+        <bitmap android:src="@drawable/web_hi_res_512" />
     </item>
 
 </layer-list>

@@ -40,8 +40,8 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import space.infinity.app.R;
-import space.infinity.app.util.CheckingConnection;
 import space.infinity.app.model.repository.ISSRepository;
+import space.infinity.app.util.CheckingConnection;
 import space.infinity.app.util.Helper;
 import space.infinity.app.viewmodel.adapters.ISSCrewAdapter;
 

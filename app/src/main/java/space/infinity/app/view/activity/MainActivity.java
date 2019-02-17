@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements ApodRepository.Ap
     private ImageView spacexImage;
     private ImageItem imageItem;
     private CoordinatorLayout coordinatorLayout;
+    private Toast toast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements ApodRepository.Ap
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         pressed = false;
+        toast = Toast.makeText(this, R.string.exit, Toast.LENGTH_SHORT);
         spacexImage = findViewById(R.id.spacex_roadster);
         mainLayout = findViewById(R.id.scrollView);
         mProgressBar = findViewById(R.id.progress_bar);
@@ -181,11 +183,12 @@ public class MainActivity extends AppCompatActivity implements ApodRepository.Ap
 
     @Override
     public void onBackPressed(){
-        if (pressed){
+        if (pressed) {
+            toast.cancel();
             super.onBackPressed();
         }
         else {
-            Toast.makeText(this, R.string.exit, Toast.LENGTH_SHORT).show();
+            toast.show();
             pressed = true;
         }
     }

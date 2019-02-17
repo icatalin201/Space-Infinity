@@ -1,6 +1,7 @@
 package space.infinity.app.viewmodel.adapters;
 
 import android.content.Intent;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,17 +20,17 @@ import space.infinity.app.util.OnItemClickListener;
 public class FactAdapter extends ListAdapter<SpaceFact, FactAdapter.FactViewHolder> {
 
     private static final DiffUtil.ItemCallback<SpaceFact> DIFF_CALLBACK =
-            new DiffUtil.ItemCallback<SpaceFact>() {
-                @Override
-                public boolean areItemsTheSame(SpaceFact oldItem, SpaceFact newItem) {
-                    return oldItem.getId() == newItem.getId();
-                }
+        new DiffUtil.ItemCallback<SpaceFact>() {
+            @Override
+            public boolean areItemsTheSame(SpaceFact oldItem, SpaceFact newItem) {
+                return oldItem.getId() == newItem.getId();
+            }
 
-                @Override
-                public boolean areContentsTheSame(SpaceFact oldItem, SpaceFact newItem) {
-                    return oldItem.getName().equals(newItem.getName());
-                }
-            };
+            @Override
+            public boolean areContentsTheSame(SpaceFact oldItem, SpaceFact newItem) {
+                return oldItem.getName().equals(newItem.getName());
+            }
+        };
 
     private OnItemClickListener onItemClickListener;
 
@@ -51,6 +53,10 @@ public class FactAdapter extends ListAdapter<SpaceFact, FactAdapter.FactViewHold
 
     @Override
     public void onBindViewHolder(@NonNull FactViewHolder holder, int position) {
+//        DisplayMetrics metrics = holder.itemView.getContext().getResources().getDisplayMetrics();
+//        int width = metrics.widthPixels;
+//
+//        holder.cardView.getLayoutParams().width = width * 2 / 3;
         SpaceFact spaceFact = getSpaceFactAt(position);
         holder.number.setText(String.format("Space fact #%s", spaceFact.getId()));
         holder.text.setText(spaceFact.getName());
@@ -61,16 +67,18 @@ public class FactAdapter extends ListAdapter<SpaceFact, FactAdapter.FactViewHold
         }
     }
 
-    public class FactViewHolder extends RecyclerView.ViewHolder {
+    class FactViewHolder extends RecyclerView.ViewHolder {
 
+        private CardView cardView;
         private TextView number;
         private TextView text;
         private ImageButton favorite;
         private ImageButton share;
 
-        public FactViewHolder(@NonNull View itemView) {
+        FactViewHolder(@NonNull View itemView) {
             super(itemView);
             number = itemView.findViewById(R.id.number);
+            cardView = itemView.findViewById(R.id.card);
             text = itemView.findViewById(R.id.text);
             favorite = itemView.findViewById(R.id.favorite);
             share = itemView.findViewById(R.id.share);
