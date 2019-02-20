@@ -38,4 +38,9 @@ public class Constants {
     public final static String ROCKET = "rocket";
     public final static String LAUNCH = "launch";
     public final static String LAUNCH_SITE = "launch_site";
+
+    public static final String DATE_FORMAT_1 = "yyyy-MM-dd";
+    public static final String DATE_TIME_FORMAT_1 = "dd MMMM yyyy HH:mm:ss";
+    public static final String DATE_FORMAT_WITHOUT_YEAR_1 = "dd MMMM";
+    public static final String HOUR_FORMAT_1 = "HH:mm";
 }

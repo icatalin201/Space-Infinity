@@ -18,7 +18,6 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.eyalbira.loadingdots.LoadingDots;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.analytics.FirebaseAnalytics;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -47,13 +46,10 @@ public class MainActivity extends AppCompatActivity implements ApodRepository.Ap
     private CoordinatorLayout coordinatorLayout;
     private Toast toast;
 
-    private FirebaseAnalytics firebaseAnalytics;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        firebaseAnalytics = FirebaseAnalytics.getInstance(this);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         pressed = false;
@@ -68,15 +64,8 @@ public class MainActivity extends AppCompatActivity implements ApodRepository.Ap
         apodRepository.loadData();
     }
 
-    private void logEvent(String item) {
-        Bundle bundle = new Bundle();
-        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, item);
-        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.VIEW_ITEM, bundle);
-    }
-
     public void goEncyclopedia(View view) {
         startActivity(new Intent(this, EncyclopediasActivity.class));
-        logEvent("encyclopedia");
     }
 
     public void goSpaceXRoadster(View view) {
@@ -84,52 +73,42 @@ public class MainActivity extends AppCompatActivity implements ApodRepository.Ap
         ActivityOptionsCompat activityOptionsCompat = ActivityOptionsCompat
                 .makeSceneTransitionAnimation(this, spacexImage, "image");
         startActivity(intent, activityOptionsCompat.toBundle());
-        logEvent("space_x");
     }
 
     public void goVoyager(View view) {
         startActivity(new Intent(this, VoyagerActivity.class));
-        logEvent("voyager");
     }
 
     public void goNewsFeed(View view) {
         startActivity(new Intent(this, NewsFeedActivity.class));
-        logEvent("news_feed");
     }
 
     public void goRockets(View view) {
         startActivity(new Intent(this, RocketsActivity.class));
-        logEvent("rockets");
     }
 
     public void goAstronauts(View view) {
         startActivity(new Intent(this, AstronautsActivity.class));
-        logEvent("astronauts");
     }
 
     public void goLaunchSites(View view) {
         startActivity(new Intent(this, LaunchSitesActivity.class));
-        logEvent("launch_sites");
     }
 
     public void goFutureLaunches(View view) {
         startActivity(new Intent(this, RocketLaunchesActivity.class));
-        logEvent("future_launches");
     }
 
     public void goFacts(View view) {
         startActivity(new Intent(this, FactsActivity.class));
-        logEvent("space_facts");
     }
 
     public void goGallery(View view) {
         startActivity(new Intent(this, GalleryActivity.class));
-        logEvent("gallery");
     }
 
     public void goIss(View view) {
         startActivity(new Intent(this, IssActivity.class));
-        logEvent("iss");
     }
 
     public void goApod(View view) {
@@ -138,7 +117,6 @@ public class MainActivity extends AppCompatActivity implements ApodRepository.Ap
             intent.putExtra(Constants.IMAGE, imageItem);
         }
         startActivity(intent);
-        logEvent("apod");
     }
 
     @Override
@@ -170,21 +148,17 @@ public class MainActivity extends AppCompatActivity implements ApodRepository.Ap
         startActivity(app);
     }
 
-    private void follow() {
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(Uri.parse("https://twitter.com/icatalin201"));
-        startActivity(intent);
-    }
+//    private void follow() {
+//        Intent intent = new Intent(Intent.ACTION_VIEW);
+//        intent.setData(Uri.parse("https://twitter.com/icatalin201"));
+//        startActivity(intent);
+//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.share:
                 share();
-                return true;
-
-            case R.id.follow:
-                follow();
                 return true;
 
             case R.id.rate:

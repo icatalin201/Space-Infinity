@@ -19,9 +19,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import space.infinity.app.R;
 import space.infinity.app.model.entity.Launch;
-import space.infinity.app.model.entity.LaunchAgency;
 import space.infinity.app.model.entity.LaunchLocation;
-import space.infinity.app.model.entity.LaunchPad;
 import space.infinity.app.model.entity.LaunchRocket;
 import space.infinity.app.util.Constants;
 import space.infinity.app.view.activity.LaunchActivity;
@@ -62,14 +60,9 @@ public class RocketLaunchesAdapter
         LaunchRocket launchRocket = launch.getRocket();
         LaunchLocation launchLocation = launch.getLocation();
         String image = launchRocket.getImageURL();
-        String agency = "";
+        String agency = launch.getLsp().getName();
         String location = "";
         if (launchLocation.getPads() != null && launchLocation.getPads().size() > 0) {
-            LaunchPad launchPad = launchLocation.getPads().get(0);
-            if (launchPad.getAgencies() != null && launchPad.getAgencies().size() > 0) {
-                LaunchAgency launchAgency = launchLocation.getPads().get(0).getAgencies().get(0);
-                agency = launchAgency.getName();
-            }
             location = launchLocation.getPads().get(0).getName();
         }
         Glide.with(context)

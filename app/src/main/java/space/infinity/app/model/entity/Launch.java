@@ -23,6 +23,7 @@ public class Launch implements Parcelable {
     private LaunchLocation location;
     private LaunchRocket rocket;
     private List<LaunchMission> missions;
+    private LaunchSpaceProvider lsp;
 
     public Launch() { }
 
@@ -59,6 +60,7 @@ public class Launch implements Parcelable {
         location = in.readParcelable(LaunchLocation.class.getClassLoader());
         rocket = in.readParcelable(LaunchRocket.class.getClassLoader());
         missions = in.createTypedArrayList(LaunchMission.CREATOR);
+        lsp = in.readParcelable(LaunchSpaceProvider.class.getClassLoader());
     }
 
     @Override
@@ -99,6 +101,7 @@ public class Launch implements Parcelable {
         dest.writeParcelable(location, flags);
         dest.writeParcelable(rocket, flags);
         dest.writeTypedList(missions);
+        dest.writeParcelable(lsp, flags);
     }
 
     @Override
@@ -117,6 +120,14 @@ public class Launch implements Parcelable {
             return new Launch[size];
         }
     };
+
+    public LaunchSpaceProvider getLsp() {
+        return lsp;
+    }
+
+    public void setLsp(LaunchSpaceProvider lsp) {
+        this.lsp = lsp;
+    }
 
     public String getName() {
         return name;

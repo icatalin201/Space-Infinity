@@ -3,11 +3,9 @@ package space.infinity.app.view.activity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.AnimationUtils;
-import android.widget.RelativeLayout;
 
 import com.eyalbira.loadingdots.LoadingDots;
 
-import java.util.Collections;
 import java.util.List;
 
 import androidx.appcompat.app.ActionBar;
@@ -17,9 +15,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.SnapHelper;
 import space.infinity.app.R;
 import space.infinity.app.model.entity.SpaceFact;
 import space.infinity.app.util.OnItemClickListener;
@@ -49,8 +45,6 @@ public class FactsActivity extends AppCompatActivity implements OnItemClickListe
         recyclerView = findViewById(R.id.recycler);
         recyclerView.setAdapter(factAdapter);
         recyclerView.setHasFixedSize(true);
-//        SnapHelper snapHelper = new PagerSnapHelper();
-//        snapHelper.attachToRecyclerView(recyclerView);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setLayoutAnimation(AnimationUtils
                 .loadLayoutAnimation(this, R.anim.layout_animation_down));
@@ -68,16 +62,6 @@ public class FactsActivity extends AppCompatActivity implements OnItemClickListe
             }
         });
     }
-
-//    public void next(View view) {
-//        int position = recyclerView.getVerticalScrollbarPosition();
-//        recyclerView.scrollToPosition(position + 1);
-//    }
-//
-//    public void prev(View view) {
-//        int position = recyclerView.getVerticalScrollbarPosition();
-//        recyclerView.scrollToPosition(position - 1);
-//    }
 
     @Override
     protected void onDestroy() {

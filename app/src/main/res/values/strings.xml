@@ -3,7 +3,7 @@
     <string name="app_short">Space Infinity</string>
     <string name="app_suffix">All About Space</string>
     <string name="credits">Credits: NASA</string>
-    <string name="version">App version: 2.3.2</string>
+    <string name="version">App version: 2.3.8</string>
 
     <string name="funny">Searching for alien life…</string>
 
@@ -38,6 +38,7 @@
     <string name="payload_info">Payload Info</string>
     <string name="iss_pass_result">ISS will pass through your sky on </string>
     <string name="searchk">search ex: apollo, orion etc</string>
+    <string name="searchf">Search some facts</string>
     <string name="search_error">Insert a word for searching</string>
     <string name="favs">Favorites</string>
     <string name="planets">Planets</string>
@@ -92,4 +93,10 @@
     <string name="follow_on_twitter">Follow on Twitter</string>
     <string name="all_facts">All Space Facts</string>
     <string name="fav_facts">Favorites Space Facts</string>
+    <string name="days">days</string>
+    <string name="clock_dots">:</string>
+    <string name="hours">hours</string>
+    <string name="minutes">minutes</string>
+    <string name="seconds">seconds</string>
+    <string name="watch">Watch</string>
 </resources>

@@ -97,14 +97,20 @@ public class Helper {
 
     public static String unixToDate(Long unix_date){
         Date d = new Date(unix_date * 1000);
-        DateFormat date = new SimpleDateFormat("dd MMMM", Locale.getDefault());
-        DateFormat hour = new SimpleDateFormat("HH:mm", Locale.getDefault());
+        DateFormat date = new SimpleDateFormat(Constants.DATE_FORMAT_WITHOUT_YEAR_1, Locale.getDefault());
+        DateFormat hour = new SimpleDateFormat(Constants.HOUR_FORMAT_1, Locale.getDefault());
         return date.format(d).concat(" at ").concat(hour.format(d));
     }
 
     public static String dateToString(Calendar calendar) {
-        DateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy HH:mm:ss",
+        DateFormat dateFormat = new SimpleDateFormat(Constants.DATE_TIME_FORMAT_1,
                 Locale.getDefault());
         return dateFormat.format(calendar.getTime());
     }
+
+    public static String dateToString(Date date, String pattern) {
+        DateFormat dateFormat = new SimpleDateFormat(pattern, Locale.getDefault());
+        return dateFormat.format(date);
+    }
+
 }

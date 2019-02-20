@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 
 import com.eyalbira.loadingdots.LoadingDots;
 
@@ -48,6 +49,8 @@ public class GalaxyFragment extends Fragment implements OnItemClickListener {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setLayoutAnimation(AnimationUtils
+                .loadLayoutAnimation(getActivity(), R.anim.layout_animation_down));
         GalaxyViewModel galaxyViewModel = ViewModelProviders.of(this).get(GalaxyViewModel.class);
         galaxyViewModel.getGalaxies().observe(this, new Observer<List<Galaxy>>() {
             @Override

@@ -2,6 +2,7 @@ package space.infinity.app.view.activity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
@@ -62,6 +63,8 @@ public class RocketLaunchesActivity extends AppCompatActivity
         rocketLaunchesAdapter = new RocketLaunchesAdapter(this, new ArrayList<Launch>());
         recyclerView.setAdapter(rocketLaunchesAdapter);
         recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutAnimation(AnimationUtils
+                .loadLayoutAnimation(this, R.anim.layout_animation_down));
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -72,6 +75,7 @@ public class RocketLaunchesActivity extends AppCompatActivity
                 recyclerView.setVisibility(View.GONE);
                 rocketLaunchesAdapter.remove();
                 rocketLaunchesRepository.start(i);
+                recyclerView.scrollToPosition(0);
             }
 
             @Override
@@ -100,7 +104,6 @@ public class RocketLaunchesActivity extends AppCompatActivity
     @Override
     public void onSuccess(List<Launch> launches) {
         rocketLaunchesAdapter.add(launches);
-        recyclerView.scrollToPosition(0);
         progressBar.setVisibility(View.GONE);
         recyclerView.setAlpha(1.0f);
         recyclerView.setVisibility(View.VISIBLE);

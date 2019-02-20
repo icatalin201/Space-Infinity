@@ -1,7 +1,6 @@
 package space.infinity.app.viewmodel.adapters;
 
 import android.content.Intent;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,7 +8,6 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
@@ -53,10 +51,6 @@ public class FactAdapter extends ListAdapter<SpaceFact, FactAdapter.FactViewHold
 
     @Override
     public void onBindViewHolder(@NonNull FactViewHolder holder, int position) {
-//        DisplayMetrics metrics = holder.itemView.getContext().getResources().getDisplayMetrics();
-//        int width = metrics.widthPixels;
-//
-//        holder.cardView.getLayoutParams().width = width * 2 / 3;
         SpaceFact spaceFact = getSpaceFactAt(position);
         holder.number.setText(String.format("Space fact #%s", spaceFact.getNumber()));
         holder.text.setText(spaceFact.getName());
@@ -69,7 +63,6 @@ public class FactAdapter extends ListAdapter<SpaceFact, FactAdapter.FactViewHold
 
     class FactViewHolder extends RecyclerView.ViewHolder {
 
-        private CardView cardView;
         private TextView number;
         private TextView text;
         private ImageButton favorite;
@@ -78,7 +71,6 @@ public class FactAdapter extends ListAdapter<SpaceFact, FactAdapter.FactViewHold
         FactViewHolder(@NonNull View itemView) {
             super(itemView);
             number = itemView.findViewById(R.id.number);
-            cardView = itemView.findViewById(R.id.card);
             text = itemView.findViewById(R.id.text);
             favorite = itemView.findViewById(R.id.favorite);
             share = itemView.findViewById(R.id.share);

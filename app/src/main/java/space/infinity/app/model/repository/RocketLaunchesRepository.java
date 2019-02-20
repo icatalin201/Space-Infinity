@@ -3,6 +3,7 @@ package space.infinity.app.model.repository;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -14,6 +15,7 @@ import space.infinity.app.model.entity.LaunchResponse;
 import space.infinity.app.model.network.Client;
 import space.infinity.app.model.network.Service;
 import space.infinity.app.util.Constants;
+import space.infinity.app.util.Helper;
 
 public class RocketLaunchesRepository {
 
@@ -88,9 +90,10 @@ public class RocketLaunchesRepository {
     private void makeAllCall() {
         if (pagesOver) return;
         rocketLaunchCallback.onLoading();
+        String today = Helper.dateToString(Calendar.getInstance().getTime(), Constants.DATE_FORMAT_1);
         Call<LaunchResponse> launchResponseCall = Client.getRetrofitClient(Constants.LAUNCH_LIBRARY_API)
                 .create(Service.class).getLaunches(offset, 50, "desc",
-                        "2000-01-01", "2019-01-01");
+                        "2000-01-01", today);
         launchResponseCall.enqueue(new Callback<LaunchResponse>() {
             @Override
             public void onResponse(Call<LaunchResponse> call, Response<LaunchResponse> response) {
