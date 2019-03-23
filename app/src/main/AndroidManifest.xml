@@ -10,9 +10,9 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <supports-screens
-        android:smallScreens="true"
-        android:normalScreens="true"
         android:largeScreens="true"
+        android:normalScreens="true"
+        android:smallScreens="true"
         android:xlargeScreens="true" />
 
     <application
@@ -24,6 +24,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".view.activity.IntroActivity"></activity>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -69,16 +70,12 @@
             android:name=".view.activity.EncyclopediaActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait" />
+        <activity android:name=".view.activity.SettingsActivity" />
         <activity
             android:name=".view.activity.SearchActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait" />
         <activity android:name=".view.activity.ISSLiveStreamActivity" />
-
-        <uses-library
-            android:name="org.apache.http.legacy"
-            android:required="false" />
-
         <activity
             android:name=".view.activity.AstronautsActivity"
             android:configChanges="orientation"
@@ -118,14 +115,22 @@
             android:screenOrientation="portrait" />
         <activity android:name=".view.activity.InternalWebActivity" />
         <activity
+            android:name=".view.activity.LaunchSiteActivity"
             android:configChanges="orientation"
-            android:screenOrientation="portrait"
-            android:name=".view.activity.LaunchSiteActivity" />
-        <service
-            android:label="Notify Process"
-            android:permission="android.permission.BIND_JOB_SERVICE"
-            android:name=".util.NotificationService" />
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.MediaLinkDialog"
+            android:theme="@style/AppTheme.Dialog" />
+
         <service android:name=".util.DownloadService" />
+        <service
+            android:name=".util.NotificationService"
+            android:label="Notify Process"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
     </application>
 
 </manifest>

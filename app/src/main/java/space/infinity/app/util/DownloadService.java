@@ -105,8 +105,8 @@ public class DownloadService extends IntentService {
         handleLaunchSites(launchSites);
         handleFacts(facts);
         handleVoyagers(voyagers);
-        Helper.putInSharedPreferences(Constants.FIRST_TIME_FLAG,
-                this, Constants.FIRST_TIME_FLAG, "yes");
+        Helper.putInSharedPreferences(this, Constants.FIRST_TIME_FLAG, "no");
+        Helper.putInSharedPreferences(this, Constants.NOTIFICATION, "1 hour before launch");
         doBroadcast();
     }
 

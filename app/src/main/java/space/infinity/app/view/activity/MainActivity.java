@@ -33,8 +33,6 @@ import space.infinity.app.util.Constants;
 import space.infinity.app.util.Helper;
 import space.infinity.app.util.NotificationService;
 
-import static space.infinity.app.util.Helper.launchJob;
-
 public class MainActivity extends AppCompatActivity implements ApodRepository.ApodCallback {
 
     private LoadingDots mProgressBar;
@@ -59,7 +57,8 @@ public class MainActivity extends AppCompatActivity implements ApodRepository.Ap
         mProgressBar = findViewById(R.id.progress_bar);
         apodImage = findViewById(R.id.apod_image);
         coordinatorLayout = findViewById(R.id.coordinator);
-        launchJob(this, NotificationService.class, 43200000);
+        Helper.stopJob(this);
+        Helper.launchJob(this, NotificationService.class);
         ApodRepository apodRepository = new ApodRepository(getApplication(), this);
         apodRepository.loadData();
     }
@@ -157,6 +156,12 @@ public class MainActivity extends AppCompatActivity implements ApodRepository.Ap
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+
+//            case R.id.settings:
+//                Intent intent = new Intent(this, SettingsActivity.class);
+//                startActivity(intent);
+//                return true;
+
             case R.id.share:
                 share();
                 return true;
@@ -211,10 +216,10 @@ public class MainActivity extends AppCompatActivity implements ApodRepository.Ap
                         mainLayout.setVisibility(View.VISIBLE);
                         Helper.customAnimation(MainActivity.this, mainLayout,
                                 1000, android.R.anim.fade_in);
-                        Snackbar snackbar = Snackbar
-                                .make(coordinatorLayout, "Enjoy your Space Travel. :)",
-                                        3000);
-                        snackbar.show();
+//                        Snackbar snackbar = Snackbar
+//                                .make(coordinatorLayout, "Enjoy your Space Travel. :)",
+//                                        3000);
+//                        snackbar.show();
                     }
 
                     @Override

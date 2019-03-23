@@ -33,9 +33,8 @@ public class SplashActivity extends AppCompatActivity {
         LoadingDots loadingDots = findViewById(R.id.progress_bar);
         CoordinatorLayout coordinator = findViewById(R.id.coordinator);
         TextView funny = findViewById(R.id.funny);
-        String firstTime = Helper.getFromSharedPreferences(Constants.FIRST_TIME_FLAG,
-                this, Constants.FIRST_TIME_FLAG);
-        if (!firstTime.equals("yes")) {
+        String firstTime = Helper.getFromSharedPreferences(this, Constants.FIRST_TIME_FLAG);
+        if (!firstTime.equals("no")) {
             if (CheckingConnection.isConnected(this)) {
                 loadingDots.setVisibility(View.VISIBLE);
                 funny.setText(R.string.funny);
@@ -88,7 +87,8 @@ public class SplashActivity extends AppCompatActivity {
     private BroadcastReceiver event = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            start();
+            startActivity(new Intent(SplashActivity.this, IntroActivity.class));
+            finish();
         }
     };
 }

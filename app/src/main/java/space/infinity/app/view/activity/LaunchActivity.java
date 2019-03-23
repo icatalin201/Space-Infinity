@@ -3,6 +3,8 @@ package space.infinity.app.view.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -40,6 +42,7 @@ import space.infinity.app.model.entity.LaunchMission;
 import space.infinity.app.model.entity.LaunchPad;
 import space.infinity.app.model.entity.LaunchRocket;
 import space.infinity.app.util.Constants;
+import space.infinity.app.util.Helper;
 import space.infinity.app.viewmodel.adapters.MissionsAdapter;
 
 public class LaunchActivity extends AppCompatActivity implements OnMapReadyCallback {
@@ -81,8 +84,9 @@ public class LaunchActivity extends AppCompatActivity implements OnMapReadyCallb
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(LaunchActivity.this, InternalWebActivity.class);
-                intent.putExtra("url", launch.getVidURLs()[0]);
+                Intent intent = new Intent(LaunchActivity.this, MediaLinkDialog.class);
+                intent.putExtra("title", launch.getName());
+                intent.putExtra("urls", launch.getVidURLs());
                 startActivity(intent);
             }
         });
@@ -114,36 +118,24 @@ public class LaunchActivity extends AppCompatActivity implements OnMapReadyCallb
                 color = getColor(android.R.color.holo_green_dark);
                 long now = Calendar.getInstance().getTimeInMillis();
                 long countDown = launch.getNetstamp() * 1000 - now;
-                final Calendar calendar = Calendar.getInstance();
                 new CountDownTimer(countDown, 1000) {
                     @Override
                     public void onTick(long l) {
-                        calendar.setTimeInMillis(l);
-                        long d = calendar.get(Calendar.DAY_OF_MONTH);
-                        long h = calendar.get(Calendar.HOUR);
-                        long m = calendar.get(Calendar.MINUTE);
-                        long s = calendar.get(Calendar.SECOND);
-                        String dString, hString, mString, sString;
-                        if (d < 10) {
-                            dString = String.format("0%s", d);
-                        } else {
-                            dString = String.valueOf(d);
-                        }
-                        if (h < 10) {
-                            hString = String.format("0%s", h);
-                        } else {
-                            hString = String.valueOf(h);
-                        }
-                        if (s < 10) {
-                            sString = String.format("0%s", s);
-                        } else {
-                            sString = String.valueOf(s);
-                        }
-                        if (m < 10) {
-                            mString = String.format("0%s", m);
-                        } else {
-                            mString = String.valueOf(m);
-                        }
+                        long secondsInMilli = 1000;
+                        long minutesInMilli = secondsInMilli * 60;
+                        long hoursInMilli = minutesInMilli * 60;
+                        long daysInMilli = hoursInMilli * 24;
+                        long d = l / daysInMilli;
+                        l = l % daysInMilli;
+                        long h = l / hoursInMilli;
+                        l = l % hoursInMilli;
+                        long m = l / minutesInMilli;
+                        l = l % minutesInMilli;
+                        long s = l / secondsInMilli;
+                        String dString = Helper.formatNumber(d);
+                        String hString = Helper.formatNumber(h);
+                        String mString = Helper.formatNumber(m);
+                        String sString = Helper.formatNumber(s);
                         days.setText(dString);
                         hours.setText(hString);
                         minutes.setText(mString);

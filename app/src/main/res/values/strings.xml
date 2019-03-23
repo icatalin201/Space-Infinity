@@ -3,7 +3,7 @@
     <string name="app_short">Space Infinity</string>
     <string name="app_suffix">All About Space</string>
     <string name="credits">Credits: NASA</string>
-    <string name="version">App version: 2.3.8</string>
+    <string name="version">App version: 2.4.6</string>
 
     <string name="funny">Searching for alien life…</string>
 
@@ -99,4 +99,18 @@
     <string name="minutes">minutes</string>
     <string name="seconds">seconds</string>
     <string name="watch">Watch</string>
+    <string name="notify">Rocket Launches Notifications</string>
+    <string name="settings">Settings</string>
+    <string name="zz">00</string>
+    <string name="skip">Skip</string>
+    <string name="intro">Intro</string>
+    <string name="finish">Start</string>
+    <string name="intro1_title">Space Rocket Launches</string>
+    <string name="intro1_content">Follow and read informations about all launches</string>
+    <string name="intro2_title">ISS Live</string>
+    <string name="intro2_content">Watch ISS live position and stream</string>
+    <string name="intro3_title">Encyclopedia and Gallery</string>
+    <string name="intro3_content">Find out more about our solar system</string>
+    <string name="intro4_title">Explore</string>
+    <string name="intro4_content">Start your exploration now</string>
 </resources>

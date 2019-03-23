@@ -164,6 +164,7 @@
 
                             <TextView
                                 android:id="@+id/days"
+                                android:text="@string/zz"
                                 android:gravity="center"
                                 android:textSize="40sp"
                                 android:layout_width="match_parent"
@@ -203,6 +204,7 @@
                                 android:id="@+id/hours"
                                 android:gravity="center"
                                 android:textSize="40sp"
+                                android:text="@string/zz"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content" />
 
@@ -240,6 +242,7 @@
                                 android:id="@+id/minutes"
                                 android:gravity="center"
                                 android:textSize="40sp"
+                                android:text="@string/zz"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content" />
 
@@ -276,6 +279,7 @@
                                 android:id="@+id/seconds"
                                 android:gravity="center"
                                 android:textSize="40sp"
+                                android:text="@string/zz"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content" />
 
