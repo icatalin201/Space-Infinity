@@ -6,3 +6,5 @@
 /captures
 app/release/
 google-services\.json
+
+*.png
