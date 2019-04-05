@@ -29,7 +29,7 @@ import space.infinity.app.model.entity.Voyager;
 @Database(entities = {Galaxy.class, ImageItem.class, Moon.class,
         Planet.class, SpaceFact.class, Star.class, Astronaut.class,
         LaunchSite.class, Voyager.class},
-        version = 10, exportSchema = false)
+        version = 11, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static AppDatabase appDatabase;

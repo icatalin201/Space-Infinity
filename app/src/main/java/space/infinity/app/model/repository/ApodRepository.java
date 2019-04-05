@@ -7,8 +7,6 @@ import android.os.Looper;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import space.infinity.app.model.AppDatabase;
-import space.infinity.app.model.dao.ImageItemDao;
 import space.infinity.app.model.entity.APOD;
 import space.infinity.app.model.entity.ImageItem;
 import space.infinity.app.model.network.Client;

@@ -22,7 +22,7 @@
             app:contentScrim="@color/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <RelativeLayout
                 app:layout_collapseMode="parallax"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -34,7 +34,7 @@
                     android:layout_height="230dp"
                     android:contentDescription="@string/wiki" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            </RelativeLayout>
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"

@@ -33,8 +33,6 @@ import space.infinity.app.util.Constants;
 import space.infinity.app.util.Helper;
 import space.infinity.app.util.NotificationService;
 
-import static space.infinity.app.util.Helper.launchJob;
-
 public class MainActivity extends AppCompatActivity implements ApodRepository.ApodCallback {
 
     private LoadingDots mProgressBar;
@@ -44,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements ApodRepository.Ap
     private ImageView spacexImage;
     private ImageItem imageItem;
     private CoordinatorLayout coordinatorLayout;
+    private Toast toast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,12 +51,14 @@ public class MainActivity extends AppCompatActivity implements ApodRepository.Ap
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         pressed = false;
+        toast = Toast.makeText(this, R.string.exit, Toast.LENGTH_SHORT);
         spacexImage = findViewById(R.id.spacex_roadster);
         mainLayout = findViewById(R.id.scrollView);
         mProgressBar = findViewById(R.id.progress_bar);
         apodImage = findViewById(R.id.apod_image);
         coordinatorLayout = findViewById(R.id.coordinator);
-        launchJob(this, NotificationService.class, 43200000);
+        Helper.stopJob(this);
+        Helper.launchJob(this, NotificationService.class);
         ApodRepository apodRepository = new ApodRepository(getApplication(), this);
         apodRepository.loadData();
     }
@@ -146,21 +147,23 @@ public class MainActivity extends AppCompatActivity implements ApodRepository.Ap
         startActivity(app);
     }
 
-    private void follow() {
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(Uri.parse("https://twitter.com/icatalin201"));
-        startActivity(intent);
-    }
+//    private void follow() {
+//        Intent intent = new Intent(Intent.ACTION_VIEW);
+//        intent.setData(Uri.parse("https://twitter.com/icatalin201"));
+//        startActivity(intent);
+//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+
+//            case R.id.settings:
+//                Intent intent = new Intent(this, SettingsActivity.class);
+//                startActivity(intent);
+//                return true;
+
             case R.id.share:
                 share();
-                return true;
-
-            case R.id.follow:
-                follow();
                 return true;
 
             case R.id.rate:
@@ -181,11 +184,12 @@ public class MainActivity extends AppCompatActivity implements ApodRepository.Ap
 
     @Override
     public void onBackPressed(){
-        if (pressed){
+        if (pressed) {
+            toast.cancel();
             super.onBackPressed();
         }
         else {
-            Toast.makeText(this, R.string.exit, Toast.LENGTH_SHORT).show();
+            toast.show();
             pressed = true;
         }
     }
@@ -212,10 +216,10 @@ public class MainActivity extends AppCompatActivity implements ApodRepository.Ap
                         mainLayout.setVisibility(View.VISIBLE);
                         Helper.customAnimation(MainActivity.this, mainLayout,
                                 1000, android.R.anim.fade_in);
-                        Snackbar snackbar = Snackbar
-                                .make(coordinatorLayout, "Enjoy your Space Travel. :)",
-                                        3000);
-                        snackbar.show();
+//                        Snackbar snackbar = Snackbar
+//                                .make(coordinatorLayout, "Enjoy your Space Travel. :)",
+//                                        3000);
+//                        snackbar.show();
                     }
 
                     @Override

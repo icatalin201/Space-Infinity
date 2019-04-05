@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 
 import com.eyalbira.loadingdots.LoadingDots;
 
@@ -48,6 +49,8 @@ public class PlanetFragment extends Fragment implements OnItemClickListener {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setLayoutAnimation(AnimationUtils
+                .loadLayoutAnimation(getActivity(), R.anim.layout_animation_down));
         PlanetViewModel planetViewModel = ViewModelProviders.of(this).get(PlanetViewModel.class);
         planetViewModel.getPlanets().observe(this, new Observer<List<Planet>>() {
             @Override

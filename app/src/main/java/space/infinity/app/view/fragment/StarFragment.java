@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 
 import com.eyalbira.loadingdots.LoadingDots;
 
@@ -48,6 +49,8 @@ public class StarFragment extends Fragment implements OnItemClickListener {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setLayoutAnimation(AnimationUtils
+                .loadLayoutAnimation(getActivity(), R.anim.layout_animation_down));
         StarViewModel starViewModel = ViewModelProviders.of(this).get(StarViewModel.class);
         starViewModel.getStars().observe(this, new Observer<List<Star>>() {
             @Override

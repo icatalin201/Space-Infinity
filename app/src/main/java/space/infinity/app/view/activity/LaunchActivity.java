@@ -2,8 +2,13 @@ package space.infinity.app.view.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -18,13 +23,16 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
 import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -34,6 +42,7 @@ import space.infinity.app.model.entity.LaunchMission;
 import space.infinity.app.model.entity.LaunchPad;
 import space.infinity.app.model.entity.LaunchRocket;
 import space.infinity.app.util.Constants;
+import space.infinity.app.util.Helper;
 import space.infinity.app.viewmodel.adapters.MissionsAdapter;
 
 public class LaunchActivity extends AppCompatActivity implements OnMapReadyCallback {
@@ -46,17 +55,20 @@ public class LaunchActivity extends AppCompatActivity implements OnMapReadyCallb
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launch);
-        Launch launch = getIntent().getParcelableExtra(Constants.LAUNCH);
-        LaunchRocket rocket = launch.getRocket();
+        final Launch launch = getIntent().getParcelableExtra(Constants.LAUNCH);
+        final LaunchRocket rocket = launch.getRocket();
         launchPads = launch.getLocation().getPads();
         List<LaunchMission> launchMissionList = launch.getMissions();
         Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("");
         setSupportActionBar(toolbar);
+        getWindow().setStatusBarColor(getResources().getColor(android.R.color.transparent));
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setHomeAsUpIndicator(R.drawable.ic_baseline_keyboard_backspace_24px);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+        CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.collapsing_toolbar);
         loadingDots = findViewById(R.id.progress_bar);
         nestedScrollView = findViewById(R.id.scroll);
         TextView missionsLabel = findViewById(R.id.missions);
@@ -66,32 +78,84 @@ public class LaunchActivity extends AppCompatActivity implements OnMapReadyCallb
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         SupportMapFragment mapFragment = (SupportMapFragment)
                 getSupportFragmentManager().findFragmentById(R.id.map_view);
-        ImageView launchImage = findViewById(R.id.image);
+        ImageView launchImage = findViewById(R.id.rocket_image);
         TextView launchName = findViewById(R.id.name);
+        Button button = findViewById(R.id.watch);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(LaunchActivity.this, MediaLinkDialog.class);
+                intent.putExtra("title", launch.getName());
+                intent.putExtra("urls", launch.getVidURLs());
+                startActivity(intent);
+            }
+        });
         TextView launchStatus = findViewById(R.id.launch_status);
+        CardView statusCard = findViewById(R.id.card_status);
+        LinearLayout clockLayout = findViewById(R.id.clock);
+        View divider2 = findViewById(R.id.divider2);
+        View divider3 = findViewById(R.id.divider3);
         TextView launchDate = findViewById(R.id.date);
-        TextView launchRocketName = findViewById(R.id.rocket_name);
-        TextView launchRocketWiki = findViewById(R.id.rocket_wiki_url);
         TextView launchLocationName = findViewById(R.id.location_name);
+        final TextView days = findViewById(R.id.days);
+        final TextView hours = findViewById(R.id.hours);
+        final TextView minutes = findViewById(R.id.minutes);
+        final TextView seconds = findViewById(R.id.seconds);
         Glide.with(this)
                 .load(rocket.getImageURL())
                 .apply(RequestOptions.centerCropTransform())
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(launchImage);
-        launchName.setText(launch.getName());
         String status = "";
         int color = 0;
+        if (launch.getVidURLs().length > 0) {
+            button.setVisibility(View.VISIBLE);
+            divider3.setVisibility(View.VISIBLE);
+        }
         switch (launch.getStatus()) {
             case 1:
                 status = "Available for launch";
                 color = getColor(android.R.color.holo_green_dark);
+                long now = Calendar.getInstance().getTimeInMillis();
+                long countDown = launch.getNetstamp() * 1000 - now;
+                new CountDownTimer(countDown, 1000) {
+                    @Override
+                    public void onTick(long l) {
+                        long secondsInMilli = 1000;
+                        long minutesInMilli = secondsInMilli * 60;
+                        long hoursInMilli = minutesInMilli * 60;
+                        long daysInMilli = hoursInMilli * 24;
+                        long d = l / daysInMilli;
+                        l = l % daysInMilli;
+                        long h = l / hoursInMilli;
+                        l = l % hoursInMilli;
+                        long m = l / minutesInMilli;
+                        l = l % minutesInMilli;
+                        long s = l / secondsInMilli;
+                        String dString = Helper.formatNumber(d);
+                        String hString = Helper.formatNumber(h);
+                        String mString = Helper.formatNumber(m);
+                        String sString = Helper.formatNumber(s);
+                        days.setText(dString);
+                        hours.setText(hString);
+                        minutes.setText(mString);
+                        seconds.setText(sString);
+                    }
+
+                    @Override
+                    public void onFinish() {
+
+                    }
+                }.start();
+                clockLayout.setVisibility(View.VISIBLE);
+                divider2.setVisibility(View.VISIBLE);
                 break;
             case 2:
                 status = "Not available for launch";
                 color = getColor(android.R.color.holo_red_dark);
                 break;
             case 3:
-                status = "Launch successfully";
+                status = "Successfully launched";
                 color = getColor(android.R.color.holo_green_dark);
                 break;
             case 4:
@@ -101,16 +165,15 @@ public class LaunchActivity extends AppCompatActivity implements OnMapReadyCallb
         }
         launchStatus.setText(status);
         if (color != 0) {
-            launchStatus.setTextColor(color);
+            statusCard.setCardBackgroundColor(color);
         }
         launchDate.setText(launch.getNet());
-        launchRocketName.setText(rocket.getName());
-        launchRocketWiki.setTag(rocket.getWikiURL());
-        launchRocketWiki.setOnClickListener(new View.OnClickListener() {
+        launchName.setText(launch.getName());
+        collapsingToolbarLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(LaunchActivity.this, InternalWebActivity.class);
-                intent.putExtra("url", view.getTag().toString());
+                intent.putExtra("url", rocket.getWikiURL());
                 startActivity(intent);
             }
         });

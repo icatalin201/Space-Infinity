@@ -18,17 +18,17 @@ import space.infinity.app.util.OnItemClickListener;
 public class FactAdapter extends ListAdapter<SpaceFact, FactAdapter.FactViewHolder> {
 
     private static final DiffUtil.ItemCallback<SpaceFact> DIFF_CALLBACK =
-            new DiffUtil.ItemCallback<SpaceFact>() {
-                @Override
-                public boolean areItemsTheSame(SpaceFact oldItem, SpaceFact newItem) {
-                    return oldItem.getId() == newItem.getId();
-                }
+        new DiffUtil.ItemCallback<SpaceFact>() {
+            @Override
+            public boolean areItemsTheSame(SpaceFact oldItem, SpaceFact newItem) {
+                return oldItem.getId() == newItem.getId();
+            }
 
-                @Override
-                public boolean areContentsTheSame(SpaceFact oldItem, SpaceFact newItem) {
-                    return oldItem.getName().equals(newItem.getName());
-                }
-            };
+            @Override
+            public boolean areContentsTheSame(SpaceFact oldItem, SpaceFact newItem) {
+                return oldItem.getName().equals(newItem.getName());
+            }
+        };
 
     private OnItemClickListener onItemClickListener;
 
@@ -52,7 +52,7 @@ public class FactAdapter extends ListAdapter<SpaceFact, FactAdapter.FactViewHold
     @Override
     public void onBindViewHolder(@NonNull FactViewHolder holder, int position) {
         SpaceFact spaceFact = getSpaceFactAt(position);
-        holder.number.setText(String.format("Space fact #%s", spaceFact.getId()));
+        holder.number.setText(String.format("Space fact #%s", spaceFact.getNumber()));
         holder.text.setText(spaceFact.getName());
         if (spaceFact.isFavorite()) {
             holder.favorite.setImageResource(R.drawable.ic_baseline_favorite_24px);
@@ -61,14 +61,14 @@ public class FactAdapter extends ListAdapter<SpaceFact, FactAdapter.FactViewHold
         }
     }
 
-    public class FactViewHolder extends RecyclerView.ViewHolder {
+    class FactViewHolder extends RecyclerView.ViewHolder {
 
         private TextView number;
         private TextView text;
         private ImageButton favorite;
         private ImageButton share;
 
-        public FactViewHolder(@NonNull View itemView) {
+        FactViewHolder(@NonNull View itemView) {
             super(itemView);
             number = itemView.findViewById(R.id.number);
             text = itemView.findViewById(R.id.text);

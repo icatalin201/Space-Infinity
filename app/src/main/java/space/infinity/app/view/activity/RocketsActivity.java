@@ -103,6 +103,7 @@ public class RocketsActivity extends AppCompatActivity implements RocketsReposit
 
     @Override
     public void onLoading() {
-
+        progressBar.setVisibility(View.VISIBLE);
+        recyclerView.setAlpha(0.3f);
     }
 }

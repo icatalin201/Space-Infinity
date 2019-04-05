@@ -38,6 +38,11 @@
         android:layout_marginTop="?attr/actionBarSize"
         android:id="@+id/recycler"
         android:visibility="gone"
+        app:fastScrollEnabled="true"
+        app:fastScrollHorizontalThumbDrawable="@drawable/thumb_drawable"
+        app:fastScrollHorizontalTrackDrawable="@drawable/line_drawable"
+        app:fastScrollVerticalThumbDrawable="@drawable/thumb_drawable"
+        app:fastScrollVerticalTrackDrawable="@drawable/line_drawable"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 

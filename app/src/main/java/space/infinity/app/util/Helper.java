@@ -1,9 +1,12 @@
 package space.infinity.app.util;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Environment;
@@ -30,19 +33,34 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class Helper {
 
-    public static void launchJob(Context context, Class<?> cls, long millis) {
+    public static void launchJob(Context context, Class<?> cls) {
         ComponentName serviceComponent = new ComponentName(context, cls);
         JobInfo.Builder builder = new JobInfo.Builder(0, serviceComponent);
+        long millis = 1000 * 60 * 60 * 3;
         builder.setMinimumLatency(millis);
-        Object obj = context.getSystemService(Context.JOB_SCHEDULER_SERVICE);
-        JobScheduler jobScheduler = (JobScheduler) obj;
+        JobScheduler jobScheduler = (JobScheduler) context.getSystemService(Context.JOB_SCHEDULER_SERVICE);
         if (jobScheduler != null) jobScheduler.schedule(builder.build());
     }
 
     public static void stopJob(Context context) {
-        Object obj = context.getSystemService(Context.JOB_SCHEDULER_SERVICE);
-        JobScheduler jobScheduler = (JobScheduler) obj;
+        JobScheduler jobScheduler = (JobScheduler) context.getSystemService(Context.JOB_SCHEDULER_SERVICE);
         if (jobScheduler != null) jobScheduler.cancelAll();
+    }
+
+    public static void startAlarmManager(Context context, Calendar calendar, Class cls) {
+        Intent alarmIntent = new Intent(context, cls);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, alarmIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        manager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                AlarmManager.INTERVAL_DAY, pendingIntent);
+    }
+
+    public static void stopAlarmManager(Context context, Class cls) {
+        Intent alarmIntent = new Intent(context, cls);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, alarmIntent, 0);
+        AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        manager.cancel(pendingIntent);
     }
 
     public static File saveImageToGallery(Bitmap bitmap, String title){
@@ -72,15 +90,17 @@ public class Helper {
         return outFile;
     }
 
-    public static void putInSharedPreferences(String pref_name, Context context, String key, String value) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(pref_name, MODE_PRIVATE);
+    public static void putInSharedPreferences(Context context, String key, String value) {
+        SharedPreferences sharedPreferences = context
+                .getSharedPreferences(Constants.SPACE_INFINITY, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(key, value);
         editor.apply();
     }
 
-    public static String getFromSharedPreferences(String pref_name, Context context, String key) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(pref_name, MODE_PRIVATE);
+    public static String getFromSharedPreferences(Context context, String key) {
+        SharedPreferences sharedPreferences = context
+                .getSharedPreferences(Constants.SPACE_INFINITY, MODE_PRIVATE);
         return sharedPreferences.getString(key, "");
     }
 
@@ -97,14 +117,30 @@ public class Helper {
 
     public static String unixToDate(Long unix_date){
         Date d = new Date(unix_date * 1000);
-        DateFormat date = new SimpleDateFormat("dd MMMM", Locale.getDefault());
-        DateFormat hour = new SimpleDateFormat("HH:mm", Locale.getDefault());
+        DateFormat date = new SimpleDateFormat(Constants.DATE_FORMAT_WITHOUT_YEAR_1, Locale.getDefault());
+        DateFormat hour = new SimpleDateFormat(Constants.HOUR_FORMAT_1, Locale.getDefault());
         return date.format(d).concat(" at ").concat(hour.format(d));
     }
 
     public static String dateToString(Calendar calendar) {
-        DateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy HH:mm:ss",
+        DateFormat dateFormat = new SimpleDateFormat(Constants.DATE_TIME_FORMAT_1,
                 Locale.getDefault());
         return dateFormat.format(calendar.getTime());
     }
+
+    public static String dateToString(Date date, String pattern) {
+        DateFormat dateFormat = new SimpleDateFormat(pattern, Locale.getDefault());
+        return dateFormat.format(date);
+    }
+
+    public static String formatNumber(long number) {
+        String numberStr;
+        if (number < 10) {
+            numberStr = String.format("0%s", number);
+        } else {
+            numberStr = String.valueOf(number);
+        }
+        return numberStr;
+    }
+
 }

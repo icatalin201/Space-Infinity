@@ -34,6 +34,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
+        <View
+            android:background="@color/smokerWhite"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"/>
+
         <TextView
             android:id="@+id/description"
             android:paddingTop="4dp"
@@ -43,6 +48,11 @@
             android:textColor="@color/colorAccent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+
+        <View
+            android:background="@color/smokerWhite"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"/>
 
         <TextView
             android:id="@+id/payloads"
