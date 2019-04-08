@@ -20,3 +20,7 @@ Space Infinity is an educational app for space enthusiasts.
 - Internet Connection.
 - Access to local storage.
 - Access to location.
+
+## License
+Space Infinity is licensed under the [GPL-3.0](https://github.com/icatalin201/Space-Infinity/blob/master/LICENSE) license.
+
